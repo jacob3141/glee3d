@@ -32,12 +32,12 @@ GameScene::GameScene(Glee3D::Display *display)
     : Glee3D::Scene() {
 
     Glee3D::SkyBox *skyBox = new Glee3D::SkyBox();
-    skyBox->loadTexture(Glee3D::SkyBox::BackX, "../../galaxy/galaxy-X.tga", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontX, "../../galaxy/galaxy+X.tga", display);
-    skyBox->loadTexture(Glee3D::SkyBox::BackY, "../../galaxy/galaxy-Y.tga", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontY, "../../galaxy/galaxy+Y.tga", display);
-    skyBox->loadTexture(Glee3D::SkyBox::BackZ, "../../galaxy/galaxy-Z.tga", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../galaxy/galaxy+Z.tga", display);
+    skyBox->loadTexture(Glee3D::SkyBox::BackX, "../../galaxy/galaxy-X.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::FrontX, "../../galaxy/galaxy+X.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::BackY, "../../galaxy/galaxy-Y.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::FrontY, "../../galaxy/galaxy+Y.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::BackZ, "../../galaxy/galaxy-Z.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../galaxy/galaxy+Z.png", display);
     setSkyBox(skyBox);
 
     _light = new Glee3D::LightSource();

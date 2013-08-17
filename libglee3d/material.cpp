@@ -21,6 +21,8 @@
 #include "display.h"
 #include "material.h"
 
+#include <iostream>
+
 #include <QGLWidget>
 
 namespace Glee3D {
@@ -116,7 +118,9 @@ namespace Glee3D {
     void Material::loadTexture(QString fileName, Display& display) {
         _hasTexture = true;
         display.makeCurrent();
-        _texture.load(fileName);
+        if(!_texture.load(fileName)) {
+            std::cout << "Error loading texture: " << fileName.toStdString() << std::endl;
+        }
         _glTexture = display.bindTexture(_texture);
     }
 }
