@@ -32,13 +32,13 @@ MainWindow::MainWindow(QWidget *parent)
     _gameScene = new GameScene(_display);
     _display->setScene(_gameScene);
 
-//    Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
+ //   Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
 //    _display->appendEffect(bloomEffect);
 
     setCentralWidget(_display);
 
     resize(800, 600);
-    //showFullScreen();
+    showFullScreen();
     connect(_display, SIGNAL(framesPerSecond(int)), this, SLOT(showFramesPerSecond(int)));
 }
 

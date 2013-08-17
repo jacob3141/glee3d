@@ -17,7 +17,7 @@ TEMPLATE = app
 TARGET = laser-client
 CONFIG += debug_and_release
 
-QT += opengl phonon
+QT += opengl
 
 CONFIG(release, debug|release) {
     DESTDIR =       bin/release

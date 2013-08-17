@@ -27,10 +27,6 @@
 #include "cylinder.h"
 #include <QList>
 
-
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
-
 class GameScene : public Glee3D::Scene {
     Q_OBJECT
 public:
@@ -48,10 +44,6 @@ private slots:
 private:
     void shoot();
 
-    Phonon::MediaObject *_backgroundMusicMediaObject;
-    Phonon::MediaObject *_selectSoundMediaObject;
-    Phonon::AudioOutput *_audioOutput;
-    Phonon::AudioOutput *_audioOutput2;
     Glee3D::LightSource *_light;
     Glee3D::Cylinder *_ship;
     Glee3D::LightSource *_redLight;

@@ -23,7 +23,7 @@
 
 #include "display.h"
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include <QTimer>
 
 #include "gamescene.h"

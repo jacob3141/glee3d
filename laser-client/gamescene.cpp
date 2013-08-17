@@ -40,14 +40,6 @@ GameScene::GameScene(Glee3D::Display *display)
     skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../galaxy/galaxy+Z.tga", display);
     setSkyBox(skyBox);
 
-    for(int i = 0; i < 1000; i++) {
-        Glee3D::Particle *p = new Glee3D::Particle(Glee3D::Particle::Grain);
-        p->setPosition(Glee3D::RealVector3D((rand() % 100 - 50.0),
-                                            (rand() % 100 - 50.0),
-                                            (rand() % 100 - 50.0)));
-        insertParticle(p);
-    }
-
     _light = new Glee3D::LightSource();
     _light->setPosition(Glee3D::RealVector3D(2.0, 2.0, 3.0));
     _light->setAmbientLight(Glee3D::RgbaColor(0.0, 0.0, 0.0, 0.0));
@@ -85,23 +77,6 @@ GameScene::GameScene(Glee3D::Display *display)
         insertObject(a);
     }
 
-    _backgroundMusicMediaObject = new Phonon::MediaObject(this);
-    _selectSoundMediaObject = new Phonon::MediaObject(this);
-
-    _audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-    _audioOutput->setVolume(0.5);
-
-    _audioOutput2 = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-    _audioOutput2->setVolume(0.3);
-
-    Phonon::createPath(_backgroundMusicMediaObject, _audioOutput);
-    Phonon::createPath(_selectSoundMediaObject, _audioOutput2);
-
-    _backgroundMusicMediaObject->setCurrentSource(QString("../../music/DST-Cyberium.oga"));
-    _backgroundMusicMediaObject->play();
-
-    _selectSoundMediaObject->setCurrentSource(QString("../../music/button-3.oga"));
-
     connect(&_redLightBlinkTimer, SIGNAL(timeout()), this, SLOT(blinkRedLight()));
     _redLightBlinkTimer.setSingleShot(false);
     _redLightBlinkTimer.setInterval(1000);
@@ -122,8 +97,6 @@ void GameScene::select(Glee3D::RealLine3D line) {
     }
 
     if(somethingSelected) {
-        _selectSoundMediaObject->stop();
-        _selectSoundMediaObject->play();
     }
 }
 
@@ -143,14 +116,6 @@ void GameScene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activ
     foreach(Glee3D::Object *o, _objects) {
         //o->rotate(o->spin());
         o->move(o->front() * o->velocity());
-    }
-
-    QSet<Glee3D::Particle*> ps = particles();
-    foreach(Glee3D::Particle *p, ps) {
-        Glee3D::RealVector3D distance =_ship->position() - p->position();
-        if(distance.length() > 50.0) {
-            p->move(distance * 2.0);
-        }
     }
 
     for(int i = 0; i < _missiles.size();) {
