@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,27 +18,32 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef GAMESCENE_H
-#define GAMESCENE_H
+#ifndef TERRAIN_H
+#define TERRAIN_H
 
-#include "display.h"
-#include "scene.h"
-#include "cube.h"
-#include "cylinder.h"
-#include <QList>
+// Own includes
+#include "object.h"
 
-class GameScene : public Glee3D::Scene {
-    Q_OBJECT
+// Qt includes
+#include <QString>
+
+namespace Glee3D {
+/**
+  * @class Terrain
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 18.08.2013
+  */
+class Terrain : public Object {
 public:
-    GameScene(Glee3D::Display *display);
+    explicit Terrain(Entity *parent = 0);
+    virtual ~Terrain();
 
-    void select(Glee3D::RealLine3D line);
-    void drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to);
-    void endDrag();
+    void generateFromHeightmap(QString fileName);
 
-    void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
+protected:
 
-private:
 };
 
-#endif // GAMESCENE_H
+} // namespace Glee3D
+
+#endif // TERRAIN_H

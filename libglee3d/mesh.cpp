@@ -58,7 +58,7 @@ CompiledMesh *Mesh::compile() {
     compiledMesh->_collisionRadius = maxDistance;
 
     // Compute surface normals.
-    RealVector3D surfaceNormals[_triangleCount];
+    RealVector3D *surfaceNormals = new RealVector3D[_triangleCount];
     for(int i = 0; i < _triangleCount; i++) {
         int i1 = _triangles[i]._indices[0];
         int i2 = _triangles[i]._indices[1];
@@ -82,6 +82,7 @@ CompiledMesh *Mesh::compile() {
         }
         vertexJointNormal[i] = cumulatedJointNormal.normalize();
     }
+    delete[] surfaceNormals;
 
     int i;
     for(i = 0; i < _triangleCount; i++) {
@@ -107,7 +108,7 @@ CompiledMesh *Mesh::compile() {
         compiledMesh->_texCoords[i * 6 + 5] = _textureCoordinates[i3]._y;
 
         compiledMesh->_normals[i * 9 + 0] = vertexJointNormal[i1]._x;
-        compiledMesh->_normals[i * 9 + 1] =-vertexJointNormal[i1]._y;
+        compiledMesh->_normals[i * 9 + 1] = vertexJointNormal[i1]._y;
         compiledMesh->_normals[i * 9 + 2] = vertexJointNormal[i1]._z;
         compiledMesh->_normals[i * 9 + 3] = vertexJointNormal[i2]._x;
         compiledMesh->_normals[i * 9 + 4] = vertexJointNormal[i2]._y;

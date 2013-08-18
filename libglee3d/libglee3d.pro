@@ -62,7 +62,8 @@ HEADERS += \
     matrixstate.h \
     material.h \
     mesh.h \
-    objloader.h
+    objloader.h \
+    terrain.h
 
 SOURCES += \
     camera.cpp \
@@ -80,6 +81,7 @@ SOURCES += \
     matrixstate.cpp \
     material.cpp \
     mesh.cpp \
-    objloader.cpp
+    objloader.cpp \
+    terrain.cpp
 
 RESOURCES +=

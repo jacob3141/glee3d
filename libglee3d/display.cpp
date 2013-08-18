@@ -199,23 +199,6 @@ namespace Glee3D {
                     object->applyModelView();
                     object->render();
                 }
-
-                cameraMatrixState.load();
-                glDisable(GL_LIGHTING);
-                glDisable(GL_TEXTURE_2D);
-                glBegin(GL_LINES);
-                glColor3f(0.0, 1.0, 0.0);
-                for(int zz = -80; zz <= 80; zz++) {
-                    glVertex3i(-80, 0, zz);
-                    glVertex3i( 80, 0, zz);
-                }
-                for(int zz = -80; zz <= 80; zz++) {
-                    glVertex3i(zz, 0, -80);
-                    glVertex3i(zz, 0,  80);
-                }
-                glEnd();
-                glEnable(GL_LIGHTING);
-                glEnable(GL_TEXTURE_2D);
             }
             _scene->unlockScene();
         }
