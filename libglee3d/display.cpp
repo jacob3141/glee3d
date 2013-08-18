@@ -185,26 +185,6 @@ namespace Glee3D {
                 foreach(LightSource* lightSource, lightSources) {
                     lightSource->activate(GL_LIGHT0 + i);
                     i++;
-#ifdef DEBUG
-                    glDisable(GL_LIGHTING);
-                    glDisable(GL_TEXTURE_2D);
-                    glPointSize(5.0);
-                    glBegin(GL_POINTS);
-                    glColor3d(1.0, 1.0, 0.0);
-                    glVertex3d(lightSource->position()._x,
-                               lightSource->position()._y,
-                               lightSource->position()._z);
-                    glEnd();
-                    renderText(lightSource->position()._x,
-                               lightSource->position()._y,
-                               lightSource->position()._z,
-                               QString("Light Source [%1/%2/%3]")
-                               .arg(lightSource->position()._x)
-                               .arg(lightSource->position()._y)
-                               .arg(lightSource->position()._z));
-                    glEnable(GL_LIGHTING);
-                    glEnable(GL_TEXTURE_2D);
-#endif
                     if(i > 7) {
                         i = 7;
                         // TODO: Decide which light sources to use in order
@@ -241,51 +221,6 @@ namespace Glee3D {
                     cameraMatrixState.load();
                     object->applyModelView();
                     object->render();
-#ifdef DEBUG
-                    if(object->selected()) {
-                        glDisable(GL_LIGHTING);
-                        glDisable(GL_TEXTURE_2D);
-
-                        glBegin(GL_LINES);
-                        glColor3f(1.0, 0.0, 0.0);
-                        glVertex3d(0.0, 0.0, 0.0);
-                        glVertex3d(0.0, 0.0, 0.5);
-
-                        glColor3f(0.0, 1.0, 0.0);
-                        glVertex3d(0.0, 0.0, 0.0);
-                        glVertex3d(0.0, 0.5, 0.0);
-
-                        glColor3f(0.0, 0.0, 1.0);
-                        glVertex3d(0.0, 0.0, 0.0);
-                        glVertex3d(0.5, 0.0, 0.0);
-                        glEnd();
-
-                        glColor3f(1.0, 0.0, 0.0);
-                        renderText(0.0, 0.0, 0.5, "z");
-
-                        glColor3f(0.0, 1.0, 0.0);
-                        renderText(0.0, 0.5, 0.0, "y");
-
-                        glColor3f(0.0, 0.0, 1.0);
-                        renderText(0.5, 0.0, 0.0, "x");
-                    }
-
-                    if(object->selected()) {
-                        glColor3f(1.0, 1.0, 1.0);
-                        renderText(object->position()._x,
-                                   object->position()._y,
-                                   object->position()._z,
-                                   QString("%4 [%1/%2/%3] Speed: %5")
-                                   .arg(object->position()._x)
-                                   .arg(object->position()._y)
-                                   .arg(object->position()._z)
-                                   .arg(object->name())
-                                   .arg(object->velocity()));
-
-                        glEnable(GL_LIGHTING);
-                        glEnable(GL_TEXTURE_2D);
-                    }
-#endif
                 }
             }
             _scene->unlockScene();

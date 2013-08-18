@@ -23,8 +23,6 @@
 #include "vector2d.h"
 #include "rgbacolor.h"
 #include "skybox.h"
-#include "laserbeam.h"
-#include "asteroid.h"
 
 #include <QApplication>
 
@@ -32,12 +30,12 @@ GameScene::GameScene(Glee3D::Display *display)
     : Glee3D::Scene() {
 
     Glee3D::SkyBox *skyBox = new Glee3D::SkyBox();
-    skyBox->loadTexture(Glee3D::SkyBox::BackX, "../../galaxy/galaxy-X.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontX, "../../galaxy/galaxy+X.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::BackY, "../../galaxy/galaxy-Y.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontY, "../../galaxy/galaxy+Y.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::BackZ, "../../galaxy/galaxy-Z.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../galaxy/galaxy+Z.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::BackX, "../../skybox/sky/xneg.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::FrontX, "../../skybox/sky/xpos.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::BackY, "../../skybox/sky/yneg.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::FrontY, "../../skybox/sky/ypos.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::BackZ, "../../skybox/sky/zneg.png", display);
+    skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../skybox/sky/zpos.png", display);
     setSkyBox(skyBox);
 
     _light = new Glee3D::LightSource();
@@ -48,12 +46,7 @@ GameScene::GameScene(Glee3D::Display *display)
     _light->setLightSourceType(Glee3D::LightSource::Spotlight);
     _light->setSpotCutoff(10.0);
     _light->setSpotExponent(0.0);
-
     insertLightSource(_light);
-    _redLight = new Glee3D::LightSource();
-    _redLight->setAmbientLight(Glee3D::RgbaColor(0.0, 0.0, 0.0, 0.0));
-    _redLight->setSpecularLight(Glee3D::RgbaColor(1.0, 0.0, 0.0, 1.0));
-    _redLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 0.0, 0.0, 1.0));
 
     _ship = new Glee3D::Cylinder();
     _ship->generate(0.5, 0.2, 128);
@@ -63,24 +56,6 @@ GameScene::GameScene(Glee3D::Display *display)
     _ship->setName("Player Ship");
 
     insertObject(_ship);
-
-    for(int i = 0; i < 10; i++) {
-        Asteroid *a = new Asteroid();
-        a->generate(40.0 + rand() % 10, 0.1 * (double)(rand() % 10 + 10) + 0.5, 64);
-        a->setPosition(Glee3D::RealVector3D((rand() % 50 - 25.0)*100, (rand() % 50 - 20)*100, (rand() % 50 - 25.0)*100));
-        a->rotate(Glee3D::RealVector3D(90, 180, 90));
-        a->setSpin(Glee3D::RealVector3D(rand() % 3,rand() % 3,rand() % 3));
-        a->setVelocity(1.0 + rand() % 20);
-        a->setMaterial(new Glee3D::ChromeMaterial());
-        a->material()->setAmbientReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
-        a->material()->loadTexture("../../textures/galvanized.png", *display);
-        insertObject(a);
-    }
-
-    connect(&_redLightBlinkTimer, SIGNAL(timeout()), this, SLOT(blinkRedLight()));
-    _redLightBlinkTimer.setSingleShot(false);
-    _redLightBlinkTimer.setInterval(1000);
-    _redLightBlinkTimer.start();
 }
 
 void GameScene::select(Glee3D::RealLine3D line) {
@@ -118,17 +93,6 @@ void GameScene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activ
         o->move(o->front() * o->velocity());
     }
 
-    for(int i = 0; i < _missiles.size();) {
-        Glee3D::Object *m = _missiles[i];
-        m->moveForward(m->velocity());
-        if((m->position() - _ship->position()).length() > 1000.0) {
-            _missiles.removeAll(m);
-            removeObject(m);
-            delete m;
-        } else {
-            i++;
-        }
-    }
 
     if(keyStatusMap[Qt::Key_Space]) {
         if(_ship->velocity() < 20.0)
@@ -158,10 +122,6 @@ void GameScene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activ
         _ship->rotate(Glee3D::RealVector3D(0.0, 0.0, manoeuvrability * 2.0));
     }
 
-    if(keyStatusMap[Qt::Key_F]) {
-        shoot();
-    }
-
     Glee3D::RealVector3D cameraDestination = _ship->position() - _ship->front() * 3.0;
     activeCamera->setPosition(cameraDestination * 0.7 + activeCamera->position() * 0.3);
     activeCamera->setUp(_ship->up() * 0.2 + activeCamera->up() * 0.8);
@@ -169,28 +129,4 @@ void GameScene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activ
 
     _light->setPosition(_ship->position());
     _light->setSpotDirecton(_ship->front());
-
-    _redLight->setPosition(_ship->position() - _ship->front() * 2);
-}
-
-void GameScene::shoot() {
-    Glee3D::RealVector3D side = _ship->up().crossProduct(_ship->front());
-
-    LaserBeam *b = new LaserBeam();
-    b->setPosition(_ship->position() + side * 0.3);
-    b->setRotation(_ship->rotation());
-    b->setVelocity(_ship->velocity() + 5.0);
-    _missiles.append(b);
-    insertObject(b);
-
-    b = new LaserBeam();
-    b->setPosition(_ship->position() - side * 0.3);
-    b->setRotation(_ship->rotation());
-    b->setVelocity(_ship->velocity() + 5.0);
-    _missiles.append(b);
-    insertObject(b);
-}
-
-void GameScene::blinkRedLight() {
-    _redLight->switchOnOff();
 }

@@ -50,13 +50,9 @@ win32 {
 
 HEADERS += \
     mainwindow.h \
-    gamescene.h \
-    laserbeam.h \
-    asteroid.h
+    gamescene.h
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    gamescene.cpp \
-    laserbeam.cpp \
-    asteroid.cpp
+    gamescene.cpp

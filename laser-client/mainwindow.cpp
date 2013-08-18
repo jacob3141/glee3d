@@ -32,13 +32,13 @@ MainWindow::MainWindow(QWidget *parent)
     _gameScene = new GameScene(_display);
     _display->setScene(_gameScene);
 
- //   Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
-//    _display->appendEffect(bloomEffect);
+    //Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
+    //_display->appendEffect(bloomEffect);
 
     setCentralWidget(_display);
 
-    resize(800, 600);
-    showFullScreen();
+    resize(1024, 768);
+    //showFullScreen();
     connect(_display, SIGNAL(framesPerSecond(int)), this, SLOT(showFramesPerSecond(int)));
 }
 
@@ -46,5 +46,5 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::showFramesPerSecond(int fps) {
-    setWindowTitle(QString("L453R (%1 fps)").arg(fps));
+    setWindowTitle(QString("Glee3D Client, %1 fps").arg(fps));
 }

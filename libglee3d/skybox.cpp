@@ -61,9 +61,9 @@ namespace Glee3D {
         };
 
         const GLfloat textureCoordinatesBackX[] = {
-            1.0f, 0.0f,
-            1.0f, 1.0f,
             0.0f, 1.0f,
+            1.0f, 1.0f,
+            1.0f, 0.0f,
             0.0f, 0.0f
         };
 
@@ -82,10 +82,10 @@ namespace Glee3D {
         };
 
         const GLfloat textureCoordinatesFrontX[] = {
+            1.0f, 0.0f,
             0.0f, 0.0f,
             0.0f, 1.0f,
-            1.0f, 1.0f,
-            1.0f, 0.0f
+            1.0f, 1.0f
         };
 
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -125,10 +125,10 @@ namespace Glee3D {
         };
 
         const GLfloat textureCoordinatesFrontY[] = {
-            0.0f, 1.0f,
             1.0f, 1.0f,
             1.0f, 0.0f,
-            0.0f, 0.0f
+            0.0f, 0.0f,
+            0.0f, 1.0f
         };
 
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -146,10 +146,10 @@ namespace Glee3D {
         };
 
         const GLfloat textureCoordinatesBackZ[] = {
-            1.0f, 0.0f,
-            1.0f, 1.0f,
+            0.0f, 0.0f,
             0.0f, 1.0f,
-            0.0f, 0.0f
+            1.0f, 1.0f,
+            1.0f, 0.0f
         };
 
         glEnableClientState(GL_VERTEX_ARRAY);

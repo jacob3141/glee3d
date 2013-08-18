@@ -38,17 +38,10 @@ public:
 
     void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
 
-private slots:
-    void blinkRedLight();
-
 private:
-    void shoot();
 
     Glee3D::LightSource *_light;
     Glee3D::Cylinder *_ship;
-    Glee3D::LightSource *_redLight;
-    QList<Glee3D::Object*> _missiles;
-    QTimer _redLightBlinkTimer;
 };
 
 #endif // GAMESCENE_H

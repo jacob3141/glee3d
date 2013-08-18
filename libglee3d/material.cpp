@@ -122,5 +122,7 @@ namespace Glee3D {
             std::cout << "Error loading texture: " << fileName.toStdString() << std::endl;
         }
         _glTexture = display.bindTexture(_texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     }
 }
