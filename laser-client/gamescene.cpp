@@ -19,10 +19,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "gamescene.h"
-#include "particle.h"
 #include "vector2d.h"
 #include "rgbacolor.h"
 #include "skybox.h"
+#include "cube.h"
 
 #include <QApplication>
 
@@ -37,6 +37,13 @@ GameScene::GameScene(Glee3D::Display *display)
     skyBox->loadTexture(Glee3D::SkyBox::BackZ, "../../skybox/sky/zneg.png", display);
     skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../skybox/sky/zpos.png", display);
     setSkyBox(skyBox);
+
+    Glee3D::LightSource *globalLight = new Glee3D::LightSource();
+    globalLight->setPosition(Glee3D::RealVector3D(20.0, 20.0, 30.0));
+    globalLight->setAmbientLight(Glee3D::RgbaColor(4.0, 4.0, 4.0, 0.0));
+    globalLight->setSpecularLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    globalLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    insertLightSource(globalLight);
 
     _light = new Glee3D::LightSource();
     _light->setPosition(Glee3D::RealVector3D(2.0, 2.0, 3.0));
@@ -56,6 +63,17 @@ GameScene::GameScene(Glee3D::Display *display)
     _ship->setName("Player Ship");
 
     insertObject(_ship);
+
+    for(int kk = -80; kk <= 80; kk += 20) {
+        for(int ll = -80; ll <= 80; ll += 20) {
+            Glee3D::Cube *cube = new Glee3D::Cube();
+            cube->generate(10.0);
+            cube->setMaterial(new Glee3D::CopperMaterial());
+            cube->material()->loadTexture("../../textures/chrome.png", *display);
+            cube->setPosition(Glee3D::RealVector3D((float)kk, 5.0, (float)ll));
+            insertObject(cube);
+        }
+    }
 }
 
 void GameScene::select(Glee3D::RealLine3D line) {

@@ -192,29 +192,6 @@ namespace Glee3D {
                     }
                 }
 
-                // Render particles.
-                glDisable(GL_LIGHTING);
-                glDisable(GL_TEXTURE_2D);
-                glPointSize(1.0);
-                QSet<Particle*> particles = _scene->particles();
-                foreach(Particle *particle, particles) {
-                    switch(particle->type()) {
-                        default:
-                        case Particle::Grain:
-                            glBegin(GL_POINTS);
-                            double d = (_activeCamera->position() - particle->position()).length();
-
-                            glColor3d(qMin(20.0 / d, 1.0), qMin(20.0 / d, 1.0), qMin(20.0 / d, 1.0));
-                            glVertex3d(particle->position()._x,
-                                       particle->position()._y,
-                                       particle->position()._z);
-                            glEnd();
-                        break;
-                    }
-                }
-                glEnable(GL_LIGHTING);
-                glEnable(GL_TEXTURE_2D);
-
                 // Render objects.
                 QSet<Object*> objects = _scene->objects();
                 foreach(Object *object, objects) {
@@ -222,6 +199,23 @@ namespace Glee3D {
                     object->applyModelView();
                     object->render();
                 }
+
+                cameraMatrixState.load();
+                glDisable(GL_LIGHTING);
+                glDisable(GL_TEXTURE_2D);
+                glBegin(GL_LINES);
+                glColor3f(0.0, 1.0, 0.0);
+                for(int zz = -80; zz <= 80; zz++) {
+                    glVertex3i(-80, 0, zz);
+                    glVertex3i( 80, 0, zz);
+                }
+                for(int zz = -80; zz <= 80; zz++) {
+                    glVertex3i(zz, 0, -80);
+                    glVertex3i(zz, 0,  80);
+                }
+                glEnd();
+                glEnable(GL_LIGHTING);
+                glEnable(GL_TEXTURE_2D);
             }
             _scene->unlockScene();
         }

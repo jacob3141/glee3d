@@ -136,12 +136,25 @@ void FrameBuffer::copy(int width, int height) {
     glDisable(GL_DEPTH_TEST);
     glColor3f(1.0, 1.0, 1.0);
 
-    glBegin(GL_QUADS);
-        glTexCoord2i(0, 0); glVertex2i(0, 0);
-        glTexCoord2i(1, 0); glVertex2i(_width, 0);
-        glTexCoord2i(1, 1); glVertex2i(_width, _height);
-        glTexCoord2i(0, 1); glVertex2i(0, _height);
-    glEnd();
+    const GLfloat vertexData[] = {
+        0, 0,
+        _width, 0,
+        _width, _height,
+        0, _height
+    };
+
+    const GLfloat textureCoordinates[] = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertexData);
+    glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates);
+    glDrawArrays(GL_QUADS, 0, 4);
 }
 
 void FrameBuffer::clear() {

@@ -54,6 +54,15 @@ namespace Glee3D {
         _mesh->setTriangle(10, Triangle(1, 4, 0));
         _mesh->setTriangle(11, Triangle(5, 4, 1));
 
+        _mesh->setTextureCoordinates(0, RealVector2D(-1.0, -1.0));
+        _mesh->setTextureCoordinates(1, RealVector2D( 1.0, -1.0));
+        _mesh->setTextureCoordinates(2, RealVector2D( 1.0,  1.0));
+        _mesh->setTextureCoordinates(3, RealVector2D(-1.0,  1.0));
+        _mesh->setTextureCoordinates(4, RealVector2D(-1.0, -1.0));
+        _mesh->setTextureCoordinates(5, RealVector2D( 1.0, -1.0));
+        _mesh->setTextureCoordinates(6, RealVector2D(-1.0, -1.0));
+        _mesh->setTextureCoordinates(7, RealVector2D(-1.0,  1.0));
+
         compile();
     }
 }

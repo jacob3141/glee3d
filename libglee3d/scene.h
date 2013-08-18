@@ -23,7 +23,6 @@
 
 // Own includes
 #include "object.h"
-#include "particle.h"
 #include "camera.h"
 #include "lightsource.h"
 #include "vector3d.h"
@@ -74,12 +73,6 @@ public:
     void removeObject(Object *object);
 
     /**
-      * Inserts a particle into the scene.
-      * @param particle Particle that shall be inserted.
-      */
-    void insertParticle(Particle *particle);
-
-    /**
       * Inserts a light source into the scene.
       * @param lightSource Light source that shall be inserted.
       */
@@ -98,9 +91,6 @@ public:
 
     /** @returns All objects in this scene. */
     QSet<Object*> objects();
-
-    /** @returns All particles in this scene. */
-    QSet<Particle*> particles();
 
     /** @returns All light sources in this scene. */
     QSet<LightSource*> lightSources();
@@ -125,7 +115,6 @@ public:
 protected:
     SkyBox *_skyBox;
     QSet<Object*> _objects;
-    QSet<Particle*> _particles;
     QSet<LightSource*> _lightSources;
 
 private:

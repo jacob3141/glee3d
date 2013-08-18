@@ -55,7 +55,6 @@ HEADERS += \
     vector2d.h \
     cylinder.h \
     skybox.h \
-    particle.h \
     program.h \
     effect.h \
     bloomeffect.h \
@@ -75,7 +74,6 @@ SOURCES += \
     scene.cpp \
     cylinder.cpp \
     skybox.cpp \
-    particle.cpp \
     program.cpp \
     bloomeffect.cpp \
     framebuffer.cpp \

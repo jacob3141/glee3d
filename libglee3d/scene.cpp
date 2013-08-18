@@ -52,12 +52,6 @@ namespace Glee3D {
         }
     }
 
-    void Scene::insertParticle(Particle *particle) {
-        if(particle) {
-            _particles.insert(particle);
-        }
-    }
-
     void Scene::insertLightSource(LightSource *lightSource) {
         if(lightSource) {
             _lightSources.insert(lightSource);
@@ -74,10 +68,6 @@ namespace Glee3D {
 
     QSet<Object*> Scene::objects() {
         return _objects;
-    }
-
-    QSet<Particle*> Scene::particles() {
-        return _particles;
     }
 
     QSet<LightSource*> Scene::lightSources() {

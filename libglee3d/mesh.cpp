@@ -89,15 +89,15 @@ CompiledMesh *Mesh::compile() {
         int i2 = _triangles[i]._indices[1];
         int i3 = _triangles[i]._indices[2];
 
-        compiledMesh->_vertices[i * 9 + 0] = -_vertices[i1]._x;
-        compiledMesh->_vertices[i * 9 + 1] = -_vertices[i1]._y;
-        compiledMesh->_vertices[i * 9 + 2] = -_vertices[i1]._z;
-        compiledMesh->_vertices[i * 9 + 3] = -_vertices[i2]._x;
-        compiledMesh->_vertices[i * 9 + 4] = -_vertices[i2]._y;
-        compiledMesh->_vertices[i * 9 + 5] = -_vertices[i2]._z;
-        compiledMesh->_vertices[i * 9 + 6] = -_vertices[i3]._x;
-        compiledMesh->_vertices[i * 9 + 7] = -_vertices[i3]._y;
-        compiledMesh->_vertices[i * 9 + 8] = -_vertices[i3]._z;
+        compiledMesh->_vertices[i * 9 + 0] = _vertices[i1]._x;
+        compiledMesh->_vertices[i * 9 + 1] = _vertices[i1]._y;
+        compiledMesh->_vertices[i * 9 + 2] = _vertices[i1]._z;
+        compiledMesh->_vertices[i * 9 + 3] = _vertices[i2]._x;
+        compiledMesh->_vertices[i * 9 + 4] = _vertices[i2]._y;
+        compiledMesh->_vertices[i * 9 + 5] = _vertices[i2]._z;
+        compiledMesh->_vertices[i * 9 + 6] = _vertices[i3]._x;
+        compiledMesh->_vertices[i * 9 + 7] = _vertices[i3]._y;
+        compiledMesh->_vertices[i * 9 + 8] = _vertices[i3]._z;
 
         compiledMesh->_texCoords[i * 6 + 0] = _textureCoordinates[i1]._x;
         compiledMesh->_texCoords[i * 6 + 1] = _textureCoordinates[i1]._y;

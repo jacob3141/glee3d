@@ -66,6 +66,9 @@ namespace Glee3D {
         glMaterialfv(GL_FRONT, GL_EMISSION, emission);
 
         if(_hasTexture) {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
             glBindTexture(GL_TEXTURE_2D, _glTexture);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -121,8 +124,8 @@ namespace Glee3D {
         if(!_texture.load(fileName)) {
             std::cout << "Error loading texture: " << fileName.toStdString() << std::endl;
         }
-        _glTexture = display.bindTexture(_texture);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        _glTexture = display.bindTexture(_texture);
     }
 }
