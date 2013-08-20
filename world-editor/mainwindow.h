@@ -18,34 +18,31 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "bloomeffect.h"
-#include "mainwindow.h"
-#include "cube.h"
-#include <math.h>
-#include "framebuffer.h"
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent) {
-    _display = new Glee3D::Display(this);
-    _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 10.0, -10.0));
-    _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
+#include "display.h"
 
-    _gameScene = new GameScene(_display);
-    _display->setScene(_gameScene);
+#include <QMainWindow>
+#include <QTimer>
 
-    //Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
-    //_display->appendEffect(bloomEffect);
+#include "gamescene.h"
 
-    setCentralWidget(_display);
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
-    resize(1024, 768);
-    //showFullScreen();
-    connect(_display, SIGNAL(framesPerSecond(int)), this, SLOT(showFramesPerSecond(int)));
-}
+public:
+    MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
-MainWindow::~MainWindow() {
-}
+public slots:
+    void showFramesPerSecond(int fps);
 
-void MainWindow::showFramesPerSecond(int fps) {
-    setWindowTitle(QString("Glee3D Client, %1 fps").arg(fps));
-}
+
+private:
+    Glee3D::Display *_display;
+    GameScene *_gameScene;
+};
+
+#endif // MAINWINDOW_H

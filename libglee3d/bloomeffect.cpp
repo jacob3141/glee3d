@@ -54,77 +54,77 @@ void BloomEffect::initialize() {
     _passA = new FrameBuffer*[_filterDepth];
     _passB = new FrameBuffer*[_filterDepth];
 
-    _blitProgram.compile(GLSL(
-        void main(void)
-        {
-            gl_TexCoord[0] = gl_MultiTexCoord0;
-            gl_Position    = ftransform();
-        }
-    ), Program::Vertex);
+    _blitProgram.compile(
+        "void main(void)"
+        "{"
+        "    gl_TexCoord[0] = gl_MultiTexCoord0;"
+        "    gl_Position    = ftransform();"
+        "}"
+    , Program::Vertex);
 
-    _blitProgram.compile(GLSL(
-        uniform sampler2D source;
-        uniform vec4 bkgd;
-        void main(void)
-        {
-            vec4 t = texture2D(source, gl_TexCoord[0].st);
-            gl_FragColor = t + bkgd;
-        }
-    ), Program::Fragment);
+    _blitProgram.compile(
+        "uniform sampler2D source;"
+        "uniform vec4 bkgd;"
+        "void main(void)"
+        "{"
+        "    vec4 t = texture2D(source, gl_TexCoord[0].st);"
+        "    gl_FragColor = t + bkgd;"
+        "}"
+    , Program::Fragment);
     _blitProgram.link();
 
-    _combineProgram.compile(GLSL(
-        void main(void)
-        {
-            gl_TexCoord[0] = gl_MultiTexCoord0;
-            gl_Position    = ftransform();
-        }
-    ), Program::Vertex);
+    _combineProgram.compile(
+        "void main(void)"
+        "{"
+        "    gl_TexCoord[0] = gl_MultiTexCoord0;"
+        "    gl_Position    = ftransform();"
+        "}"
+    , Program::Vertex);
 
-    _combineProgram.compile(GLSL(
-        uniform sampler2D Pass0;
-        uniform sampler2D Pass1;
-        uniform sampler2D Pass2;
-        uniform sampler2D Pass3;
-        uniform vec4 bkgd;
-        void main(void)
-        {
-            vec4 t0 = texture2D(Pass0, gl_TexCoord[0].st);
-            vec4 t1 = texture2D(Pass1, gl_TexCoord[0].st);
-            vec4 t2 = texture2D(Pass2, gl_TexCoord[0].st);
-            vec4 t3 = texture2D(Pass3, gl_TexCoord[0].st);
-            gl_FragColor = t0 + t1 + t2 + t3 + bkgd;
-        }
-    ), Program::Fragment);
+    _combineProgram.compile(
+         "uniform sampler2D Pass0;\n"
+         "uniform sampler2D Pass1;\n"
+         "uniform sampler2D Pass2;\n"
+         "uniform sampler2D Pass3;\n"
+         "uniform vec4 bkgd;\n"
+         "void main(void)\n"
+         "{\n"
+         "    vec4 t0 = texture2D(Pass0, gl_TexCoord[0].st);\n"
+         "    vec4 t1 = texture2D(Pass1, gl_TexCoord[0].st);\n"
+         "    vec4 t2 = texture2D(Pass2, gl_TexCoord[0].st);\n"
+         "    vec4 t3 = texture2D(Pass3, gl_TexCoord[0].st);\n"
+         "    gl_FragColor = t0 + t1 + t2 + t3 + bkgd;\n"
+         "}\n"
+    , Program::Fragment);
 
     _combineProgram.link();
 
-    _filterProgram.compile(GLSL(
-        void main(void)
-        {
-            gl_TexCoord[0] = gl_MultiTexCoord0;
-            gl_Position    = ftransform();
-        }
-    ), Program::Vertex);
+//    _filterProgram.compile(GLSL(
+//        void main(void)
+//        {
+//            gl_TexCoord[0] = gl_MultiTexCoord0;
+//            gl_Position    = ftransform();
+//        }
+//    ), Program::Vertex);
 
-    _filterProgram.compile(GLSL(
-        uniform sampler2D source;
-        uniform float coefficients[5];
-        uniform vec2 offsets[5];
-        void main(void)
-        {
-            float d = 0.1;
-            vec4 c = vec4(0, 0, 0, 0);
-            vec2 tc = gl_TexCoord[0].st;
-            c += coefficients[0] * texture2D(source, tc + offsets[0]);
-            c += coefficients[1] * texture2D(source, tc + offsets[1]);
-            c += coefficients[2] * texture2D(source, tc + offsets[2]);
-            c += coefficients[3] * texture2D(source, tc + offsets[3]);
-            c += coefficients[4] * texture2D(source, tc + offsets[4]);
-            gl_FragColor = c;
-        }
-    ), Program::Fragment);
-    _filterProgram.link();
+//    _filterProgram.compile(GLSL(
+//        uniform sampler2D source;
+//        uniform float coefficients[5];
+//        uniform vec2 offsets[5];
+//        void main(void)
+//        {
+//            float d = 0.1;
+//            vec4 c = vec4(0, 0, 0, 0);
+//            vec2 tc = gl_TexCoord[0].st;
+//            c += coefficients[0] * texture2D(source, tc + offsets[0]);
+//            c += coefficients[1] * texture2D(source, tc + offsets[1]);
+//            c += coefficients[2] * texture2D(source, tc + offsets[2]);
+//            c += coefficients[3] * texture2D(source, tc + offsets[3]);
+//            c += coefficients[4] * texture2D(source, tc + offsets[4]);
+//            gl_FragColor = c;
+//        }
+//    ), Program::Fragment);
+//    _filterProgram.link();
 
 
     GLsizei width = BUFFER_WIDTH;

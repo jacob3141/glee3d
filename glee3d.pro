@@ -15,4 +15,5 @@
 
 TEMPLATE = subdirs
 SUBDIRS = libglee3d \
-          laser-client
+          laser-client \
+	  world-editor

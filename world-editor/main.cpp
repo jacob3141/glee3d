@@ -18,34 +18,15 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "bloomeffect.h"
+#include <QApplication>
 #include "mainwindow.h"
-#include "cube.h"
-#include <math.h>
-#include "framebuffer.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent) {
-    _display = new Glee3D::Display(this);
-    _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 10.0, -10.0));
-    _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    a.setApplicationName("LaserClient");
+    MainWindow w;
+    w.show();
 
-    _gameScene = new GameScene(_display);
-    _display->setScene(_gameScene);
-
-    //Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
-    //_display->appendEffect(bloomEffect);
-
-    setCentralWidget(_display);
-
-    resize(1024, 768);
-    //showFullScreen();
-    connect(_display, SIGNAL(framesPerSecond(int)), this, SLOT(showFramesPerSecond(int)));
-}
-
-MainWindow::~MainWindow() {
-}
-
-void MainWindow::showFramesPerSecond(int fps) {
-    setWindowTitle(QString("Glee3D Client, %1 fps").arg(fps));
+    return a.exec();
 }

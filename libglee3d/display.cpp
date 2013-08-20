@@ -202,6 +202,7 @@ namespace Glee3D {
             }
             _scene->unlockScene();
         }
+
         _frameBuffer->release();
 
         foreach(Effect *effect, _effects) {
