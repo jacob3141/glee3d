@@ -50,9 +50,9 @@ win32 {
 
 HEADERS += \
     mainwindow.h \
-    gamescene.h
+    scene.h
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    gamescene.cpp
+    scene.cpp

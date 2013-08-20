@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,43 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_BLOOMEFFECT_H
+#define G3D_BLOOMEFFECT_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+// Own includes
+#include "g3d_program.h"
+#include "g3d_effect.h"
 
-    return a.exec();
+typedef enum {HORIZONTAL, VERTICAL} Direction;
+
+namespace Glee3D {
+
+/**
+  * @class BloomEffect
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
+  * Implements a post render bloom effect.
+  */
+class BloomEffect : public Effect {
+public:
+    BloomEffect();
+    ~BloomEffect();
+
+    void blur(FrameBuffer **from, FrameBuffer **to, Direction dir);
+    void initialize();
+    void apply(FrameBuffer *frameBuffer);
+
+private:
+    Program _blitProgram;
+    Program _combineProgram;
+    Program _filterProgram;
+    int _filterDepth;
+    int _kernelSize;
+    float *_filterKernel;
+    FrameBuffer **_passA;
+    FrameBuffer **_passB;
+};
+
 }
+
+#endif // G3D_BLOOMEFFECT_H

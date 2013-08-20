@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,23 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#include "g3d_entity.h"
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+namespace Glee3D {
+    Entity::Entity(Entity *parent) {
+        _parent = parent;
+        _position = RealVector3D(0.0, 0.0, 0.0);
+    }
 
-    return a.exec();
+    RealVector3D Entity::position() {
+        return _position;
+    }
+
+    void Entity::setPosition(RealVector3D position) {
+        _position = position;
+    }
+
+    void Entity::move(RealVector3D delta) {
+        _position += delta;
+    }
 }

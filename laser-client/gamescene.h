@@ -21,10 +21,10 @@
 #ifndef GAMESCENE_H
 #define GAMESCENE_H
 
-#include "display.h"
-#include "scene.h"
-#include "cube.h"
-#include "cylinder.h"
+#include "g3d_display.h"
+#include "g3d_scene.h"
+#include "g3d_cube.h"
+#include "g3d_cylinder.h"
 #include <QList>
 
 class GameScene : public Glee3D::Scene {

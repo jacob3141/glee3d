@@ -21,12 +21,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "display.h"
+#include "g3d_display.h"
 
 #include <QMainWindow>
 #include <QTimer>
 
-#include "gamescene.h"
+#include "scene.h"
 
 class MainWindow : public QMainWindow
 {
@@ -42,7 +42,7 @@ public slots:
 
 private:
     Glee3D::Display *_display;
-    GameScene *_gameScene;
+    Scene *_scene;
 };
 
 #endif // MAINWINDOW_H

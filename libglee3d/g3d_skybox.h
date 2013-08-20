@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,66 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_SKYBOX_H
+#define G3D_SKYBOX_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+// Own includes
+#include "g3d_object.h"
+#include "g3d_material.h"
 
-    return a.exec();
-}
+// Qt includes
+#include <QMap>
+
+namespace Glee3D {
+
+class Display;
+class Camera;
+/**
+  * @class SkyBox
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
+  * Defines a skybox.
+  */
+class SkyBox : public Object {
+public:
+    /**
+      * @enum Plane
+      * Enumeration for all skybox planes.
+      */
+    enum Plane {
+        BackX,
+        FrontX,
+        BackY,
+        FrontY,
+        BackZ,
+        FrontZ
+    };
+
+    /**
+      * Creates a new skybox.
+      */
+    SkyBox();
+
+    /**
+      * Loads a texture for a specific plane.
+      * NOTE: Usually the Surface class should be used, but in this case
+      * we can optimize performance by just ignoring using a texture and
+      * not defining material properties.
+      * @param plane Plane for which the texture shall be loaded.
+      * @param fileName File name of the texture image.
+      * @param display The current display.
+      */
+    void loadTexture(Plane plane, QString fileName, Display *display);
+
+    /**
+      * Renders the skybox.
+      */
+    void render();
+
+private:
+    QMap<Plane, Material*> _materials;
+};
+
+} // namespace Glee3D
+
+#endif // G3D_SKYBOX_H

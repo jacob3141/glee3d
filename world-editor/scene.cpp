@@ -18,7 +18,10 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "gamescene.h"
+
+#include "scene.h"
+
+#include "g3d_scene.h"
 #include "g3d_vector2d.h"
 #include "g3d_rgbacolor.h"
 #include "g3d_skybox.h"
@@ -27,7 +30,7 @@
 
 #include <QApplication>
 
-GameScene::GameScene(Glee3D::Display *display)
+Scene::Scene(Glee3D::Display *display)
     : Glee3D::Scene() {
 
     Glee3D::SkyBox *skyBox = new Glee3D::SkyBox();
@@ -60,7 +63,7 @@ GameScene::GameScene(Glee3D::Display *display)
     insertObject(terrain);
 }
 
-void GameScene::select(Glee3D::RealLine3D line) {
+void Scene::select(Glee3D::RealLine3D line) {
     Q_UNUSED(line);
 //    bool somethingSelected = false;
 //    foreach(Glee3D::Object *o, _objects) {
@@ -78,15 +81,15 @@ void GameScene::select(Glee3D::RealLine3D line) {
 //    }
 }
 
-void GameScene::drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to) {
+void Scene::drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to) {
     Q_UNUSED(from);
     Q_UNUSED(to);
 }
 
-void GameScene::endDrag() {
+void Scene::endDrag() {
 }
 
-void GameScene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera) {
+void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera) {
     if(keyStatusMap[Qt::Key_Escape]) {
         QApplication::quit();
     }

@@ -21,7 +21,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "display.h"
+#include "g3d_display.h"
 
 #include <QMainWindow>
 #include <QTimer>

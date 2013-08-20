@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,56 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_MATRIXSTATE_H
+#define G3D_MATRIXSTATE_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+namespace Glee3D {
 
-    return a.exec();
-}
+struct Matrix {
+    double _data[16];
+};
+
+/**
+  * @class MatrixState
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
+  * Helper class for saving and loading matrix states. The usual
+  * calls to glPush and glPopMatrix are not portable and not very
+  * flexible.
+  */
+class MatrixState {
+public:
+    enum MatrixType {
+        Modelview   = 1 << 0,
+        Projection  = 1 << 1,
+        Texture     = 1 << 2,
+        Color       = 1 << 3
+    };
+
+    MatrixState();
+    MatrixState(const MatrixState &other);
+    ~MatrixState();
+
+    void save(int matrixType = Modelview | Projection | Texture | Color);
+    void load(int matrixType = Modelview | Projection | Texture | Color);
+
+    void setModelviewMatrix(Matrix matrix);
+    void setProjectionMatrix(Matrix matrix);
+    void setTextureMatrix(Matrix matrix);
+    void setColorMatrix(Matrix matrix);
+
+    Matrix modelviewMatrix();
+    Matrix projectionMatrix();
+    Matrix textureMatrix();
+    Matrix colorMatrix();
+
+private:
+    Matrix _modelviewMatrix;
+    Matrix _projectionMatrix;
+    Matrix _textureMatrix;
+    Matrix _colorMatrix;
+};
+
+} // namespace Glee3D
+
+#endif // G3D_MATRIXSTATE_H

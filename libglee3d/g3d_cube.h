@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,26 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_CUBE_H
+#define G3D_CUBE_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+// Own includes
+#include "g3d_object.h"
 
-    return a.exec();
-}
+namespace Glee3D {
+/**
+  * @class Cube
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
+  */
+class Cube : public Object {
+public:
+    Cube(Entity *parent = 0);
+    virtual ~Cube();
+
+    void generate(double edgeLength, double scaleX = 1.0, double scaleY = 1.0, double scaleZ = 1.0);
+};
+
+} // namespace Glee3D
+
+#endif // G3D_CUBE_H

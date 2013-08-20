@@ -41,47 +41,47 @@ CONFIG(debug, debug|release) {
 }
 
 HEADERS += \
-    camera.h \
-    configuration.h \
-    cube.h \
-    display.h \
-    entity.h \
-    lightsource.h \
-    object.h \
-    rgbacolor.h \
-    scene.h \
-    vector3d.h \
-    vector4d.h \
-    vector2d.h \
-    cylinder.h \
-    skybox.h \
-    program.h \
-    effect.h \
-    bloomeffect.h \
-    framebuffer.h \
-    matrixstate.h \
-    material.h \
-    mesh.h \
-    objloader.h \
-    terrain.h
+    g3d_bloomeffect.h \
+    g3d_camera.h \
+    g3d_configuration.h \
+    g3d_cube.h \
+    g3d_cylinder.h \
+    g3d_display.h \
+    g3d_effect.h \
+    g3d_entity.h \
+    g3d_framebuffer.h \
+    g3d_lightsource.h \
+    g3d_material.h \
+    g3d_matrixstate.h \
+    g3d_mesh.h \
+    g3d_object.h \
+    g3d_objloader.h \
+    g3d_program.h \
+    g3d_rgbacolor.h \
+    g3d_scene.h \
+    g3d_skybox.h \
+    g3d_terrain.h \
+    g3d_vector2d.h \
+    g3d_vector3d.h \
+    g3d_vector4d.h
 
 SOURCES += \
-    camera.cpp \
-    cube.cpp \
-    display.cpp \
-    entity.cpp \
-    lightsource.cpp \
-    object.cpp \
-    scene.cpp \
-    cylinder.cpp \
-    skybox.cpp \
-    program.cpp \
-    bloomeffect.cpp \
-    framebuffer.cpp \
-    matrixstate.cpp \
-    material.cpp \
-    mesh.cpp \
-    objloader.cpp \
-    terrain.cpp
+    g3d_bloomeffect.cpp \
+    g3d_camera.cpp \
+    g3d_cube.cpp \
+    g3d_cylinder.cpp \
+    g3d_display.cpp \
+    g3d_entity.cpp \
+    g3d_framebuffer.cpp \
+    g3d_lightsource.cpp \
+    g3d_material.cpp \
+    g3d_matrixstate.cpp \
+    g3d_mesh.cpp \
+    g3d_object.cpp \
+    g3d_objloader.cpp \
+    g3d_program.cpp \
+    g3d_scene.cpp \
+    g3d_skybox.cpp \
+    g3d_terrain.cpp
 
 RESOURCES +=

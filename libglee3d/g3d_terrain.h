@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,31 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_TERRAIN_H
+#define G3D_TERRAIN_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+// Own includes
+#include "g3d_object.h"
 
-    return a.exec();
-}
+// Qt includes
+#include <QString>
+
+namespace Glee3D {
+    /**
+      * @class Terrain
+      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+      * @date 18.08.2013
+      */
+    class Terrain : public Object {
+    public:
+        explicit Terrain(Entity *parent = 0);
+        virtual ~Terrain();
+
+        void generateFromHeightmap(QString fileName);
+
+    protected:
+
+    };
+} // namespace Glee3D
+
+#endif // G3D_TERRAIN_H

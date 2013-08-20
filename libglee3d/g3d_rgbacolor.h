@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,39 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_RGBACOLOR_H
+#define G3D_RGBACOLOR_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+namespace Glee3D {
+/**
+  * @struct RgbaColor
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
+  * Defines a color after the rgba color model.
+  */
+struct RgbaColor {
+    /** Initialization of color struct. */
+    RgbaColor() {
+        _red = 0.0;
+        _green = 0.0;
+        _blue = 0.0;
+        _alpha = 1.0;
+    }
 
-    return a.exec();
-}
+    /** Initialization of color struct. */
+    RgbaColor(float red, float green, float blue, float alpha) {
+        _red = red;
+        _green = green;
+        _blue = blue;
+        _alpha = alpha;
+    }
+
+    float _red;
+    float _green;
+    float _blue;
+    float _alpha;
+};
+
+} // namespace Glee3D
+
+#endif // G3D_RGBACOLOR_H

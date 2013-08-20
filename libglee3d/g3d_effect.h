@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,38 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_EFFECT_H
+#define G3D_EFFECT_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+// Own includes
+#include "g3d_framebuffer.h"
 
-    return a.exec();
-}
+// Qt includes
+#include <QImage>
+#include <QGLWidget>
+
+namespace Glee3D {
+
+/**
+  * @class
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
+  */
+class Effect {
+public:
+    Effect() { }
+    virtual ~Effect() { }
+
+    /**
+      * @note Post-render effects need framebuffer objects, which can only be
+      * created when a valid rendering context is available. That's why we
+      * cannot initialize the effect in the constructor, but we have to rely
+      * on the framework that it calls the initialize method whenever it's
+      * appropriate.
+      */
+    virtual void initialize() = 0;
+    virtual void apply(FrameBuffer *frameBuffer) = 0;
+};
+
+} // namespace Glee3D
+#endif // G3D_EFFECT_H

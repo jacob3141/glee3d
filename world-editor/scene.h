@@ -18,15 +18,28 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef SCENE_H
+#define SCENE_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+#include "g3d_display.h"
+#include "g3d_scene.h"
+#include "g3d_cube.h"
+#include "g3d_cylinder.h"
 
-    return a.exec();
-}
+#include <QList>
+
+class Scene : public Glee3D::Scene {
+    Q_OBJECT
+public:
+    Scene(Glee3D::Display *display);
+
+    void select(Glee3D::RealLine3D line);
+    void drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to);
+    void endDrag();
+
+    void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
+
+private:
+};
+
+#endif // SCENE_H

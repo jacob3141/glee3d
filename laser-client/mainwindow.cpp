@@ -18,11 +18,11 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "bloomeffect.h"
+#include "g3d_bloomeffect.h"
 #include "mainwindow.h"
-#include "cube.h"
+#include "g3d_cube.h"
 #include <math.h>
-#include "framebuffer.h"
+#include "g3d_framebuffer.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent) {

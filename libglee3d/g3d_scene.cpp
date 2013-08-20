@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -19,14 +19,58 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <QApplication>
-#include "mainwindow.h"
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+#include "g3d_scene.h"
 
-    return a.exec();
+namespace Glee3D {
+    Scene::Scene(QObject *parent)
+        : QObject(parent) {
+        _sceneLock = new QSemaphore(1);
+        _skyBox = 0;
+    }
+
+    Scene::~Scene() {
+    }
+
+    void Scene::setSkyBox(SkyBox *skyBox) {
+        _skyBox = skyBox;
+    }
+
+    SkyBox *Scene::skyBox() {
+        return _skyBox;
+    }
+
+    void Scene::insertObject(Object *object) {
+        if(object) {
+            _objects.insert(object);
+        }
+    }
+
+    void Scene::removeObject(Object *object) {
+        if(object) {
+            _objects.remove(object);
+        }
+    }
+
+    void Scene::insertLightSource(LightSource *lightSource) {
+        if(lightSource) {
+            _lightSources.insert(lightSource);
+        }
+    }
+
+    void Scene::lockScene() {
+        _sceneLock->acquire();
+    }
+
+    void Scene::unlockScene() {
+        _sceneLock->release();
+    }
+
+    QSet<Object*> Scene::objects() {
+        return _objects;
+    }
+
+    QSet<LightSource*> Scene::lightSources() {
+        return _lightSources;
+    }
 }

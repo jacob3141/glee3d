@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,15 +18,32 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <QApplication>
-#include "mainwindow.h"
+#ifndef G3D_OBJLOADER_H
+#define G3D_OBJLOADER_H
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+// Own includes
+#include "g3d_mesh.h"
 
-    return a.exec();
-}
+// Qt includes
+#include <QString>
+
+namespace Glee3D {
+
+/**
+  * @class ObjLoader
+  * @author Jacob Dawid
+  * @date 09.12.2012
+  * Loader for Wavefront *.obj-files.
+  */
+class ObjLoader {
+public:
+    ObjLoader();
+
+    QList<Mesh*> readObjFile(QString fileName);
+private:
+
+};
+
+} // namespace Glee3D
+
+#endif // G3D_OBJLOADER_H
