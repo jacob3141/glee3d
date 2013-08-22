@@ -54,7 +54,7 @@ GameScene::GameScene(Glee3D::Display *display)
     insertObject(cube);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
-    terrain->generateFromHeightmap("../../heightmaps/heightmap.png");
+    terrain->generate("../../heightmaps/heightmap.png");
     terrain->setMaterial(new Glee3D::ChromeMaterial());
     terrain->material()->loadTexture("../../textures/galvanized.png", *display);
     insertObject(terrain);

@@ -135,6 +135,7 @@ namespace Glee3D {
 
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_LIGHTING);
+        glEnable(GL_SMOOTH);
         glClearColor(0.0,0.0,0.0,1.0);
         glShadeModel(GL_SMOOTH);
         glEnable(GL_CULL_FACE);
@@ -154,7 +155,7 @@ namespace Glee3D {
     }
 
     void Display::resizeGL(int w, int h) {
-        std::cout << "Resizing to " << w << "x" << h << std::endl;
+        //std::cout << "Resizing to " << w << "x" << h << std::endl;
         glViewport(0, 0, (GLint)w, (GLint)h);
         if(_activeCamera) {
             _activeCamera->setAspectRatio(w, h);
@@ -165,6 +166,7 @@ namespace Glee3D {
     }
 
     void Display::paintGL() {
+        makeCurrent();
         _frameBuffer->clear();
         if(_scene) {
             _scene->lockScene();
@@ -215,7 +217,7 @@ namespace Glee3D {
 
     void Display::refresh() {
         _framesPerSecondCounter++;
-        updateGL();
+        QMetaObject::invokeMethod(this, "updateGL");
     }
 
     void Display::processLogic() {

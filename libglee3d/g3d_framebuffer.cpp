@@ -84,7 +84,7 @@ FrameBuffer::FrameBuffer(int width, int height, int properties) {
 
     GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
     if (status == GL_FRAMEBUFFER_COMPLETE) {
-        std::cout << "Successfully created framebuffer." << std::endl;
+        //std::cout << "Successfully created framebuffer." << std::endl;
     } else {
         char enums[][20] = {
             "attachment",         // GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT........... All framebuffer attachment points are 'framebuffer attachment complete'.

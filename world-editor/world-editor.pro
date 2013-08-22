@@ -49,10 +49,13 @@ win32 {
 }
 
 HEADERS += \
-    mainwindow.h \
-    scene.h
+    scene.h \
+    worldeditor.h
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    scene.cpp
+    scene.cpp \
+    worldeditor.cpp
+
+FORMS += \
+    worldeditor.ui

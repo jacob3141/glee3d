@@ -19,14 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <QApplication>
-#include "mainwindow.h"
+#include "worldeditor.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     a.setApplicationName("Glee3D World Editor");
-    MainWindow w;
-    w.show();
+    WorldEditor worldEditor;
+    worldEditor.show();
 
     return a.exec();
 }

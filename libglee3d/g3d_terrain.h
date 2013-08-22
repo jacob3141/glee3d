@@ -26,6 +26,7 @@
 
 // Qt includes
 #include <QString>
+#include <QMap>
 
 namespace Glee3D {
     /**
@@ -35,13 +36,49 @@ namespace Glee3D {
       */
     class Terrain : public Object {
     public:
+        enum Encoding {
+            RedComponent,
+            GreenComponent,
+            BlueComponent
+        };
+
+        enum Result {
+            Ok,
+            FileLoadError,
+            InvalidImageSize
+        };
+
         explicit Terrain(Entity *parent = 0);
         virtual ~Terrain();
 
-        void generateFromHeightmap(QString fileName);
+        Result generate(QString fileName,
+                        Encoding heightEncoding = RedComponent,
+                        Encoding textureEncoding = GreenComponent);
+        Result generate(QImage image,
+                        Encoding heightEncoding = RedComponent,
+                        Encoding textureEncoding = GreenComponent);
+
+        void setTilingOffset(float tilingOffset);
+
+        int width();
+        int height();
+
+        void render();
+
 
     protected:
 
+    private:
+        void allocateMemory();
+        void freeMemory();
+
+        float *_terrain;
+        float *_normals;
+        float *_vertexNormals;
+        int *_tileIDs;
+        float _tilingOffset;
+        int _width;
+        int _height;
     };
 } // namespace Glee3D
 

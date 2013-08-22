@@ -18,34 +18,33 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "g3d_bloomeffect.h"
-#include "mainwindow.h"
-#include "g3d_cube.h"
-#include <math.h>
-#include "g3d_framebuffer.h"
+#ifndef WORLDEDITOR_H
+#define WORLDEDITOR_H
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent) {
-    _display = new Glee3D::Display(this);
-    _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 10.0, -10.0));
-    _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
+#include "g3d_display.h"
 
-    _scene = new Scene(_display);
-    _display->setScene(_scene);
+#include "scene.h"
 
-    //Glee3D::BloomEffect *bloomEffect = new Glee3D::BloomEffect();
-    //_display->appendEffect(bloomEffect);
+#include <QMainWindow>
 
-    setCentralWidget(_display);
-
-    resize(1024, 768);
-    //showFullScreen();
-    connect(_display, SIGNAL(framesPerSecond(int)), this, SLOT(showFramesPerSecond(int)));
+namespace Ui {
+class WorldEditor;
 }
 
-MainWindow::~MainWindow() {
-}
+class WorldEditor : public QMainWindow
+{
+    Q_OBJECT
+    
+public:
+    explicit WorldEditor(QWidget *parent = 0);
+    ~WorldEditor();
+    
+private:
+    Ui::WorldEditor *ui;
 
-void MainWindow::showFramesPerSecond(int fps) {
-    setWindowTitle(QString("Glee3D World Editor, %1 fps").arg(fps));
-}
+    Glee3D::Display *_display;
+    Glee3D::Display *_topDownViewDisplay;
+    Scene *_scene;
+};
+
+#endif // WORLDEDITOR_H

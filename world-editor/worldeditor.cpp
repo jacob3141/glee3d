@@ -18,31 +18,29 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "worldeditor.h"
+#include "ui_worldeditor.h"
 
-#include "g3d_display.h"
+#include <QMdiSubWindow>
 
-#include <QMainWindow>
-#include <QTimer>
-
-#include "scene.h"
-
-class MainWindow : public QMainWindow
+WorldEditor::WorldEditor(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::WorldEditor)
 {
-    Q_OBJECT
-
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
-public slots:
-    void showFramesPerSecond(int fps);
+    ui->setupUi(this);
 
 
-private:
-    Glee3D::Display *_display;
-    Scene *_scene;
-};
+    _display = new Glee3D::Display;
+    _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 500.0, -10.0));
+    _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
 
-#endif // MAINWINDOW_H
+    _scene = new Scene(_display);
+    _display->setScene(_scene);
+
+    setCentralWidget(_display);
+}
+
+WorldEditor::~WorldEditor()
+{
+    delete ui;
+}
