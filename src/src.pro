@@ -22,20 +22,20 @@ QT += opengl
 DEFINES += GL_GLEXT_PROTOTYPES
 
 CONFIG(release, debug|release) {
-    DESTDIR =       bin/release
-    OBJECTS_DIR =   bin/release/obj
-    MOC_DIR =       bin/release/moc
-    RCC_DIR =       bin/release/rcc
-    UI_DIR =        bin/release/ui
+    DESTDIR =       ../bin/release
+    OBJECTS_DIR =   ../bin/release/obj
+    MOC_DIR =       ../bin/release/moc
+    RCC_DIR =       ../bin/release/rcc
+    UI_DIR =        ../bin/release/ui
     INCLUDEPATH += .
 }
 
 CONFIG(debug, debug|release) {
-    DESTDIR =       bin/debug
-    OBJECTS_DIR =   bin/debug/obj
-    MOC_DIR =       bin/debug/moc
-    RCC_DIR =       bin/debug/rcc
-    UI_DIR =        bin/debug/ui
+    DESTDIR =       ../bin/debug
+    OBJECTS_DIR =   ../bin/debug/obj
+    MOC_DIR =       ../bin/debug/moc
+    RCC_DIR =       ../bin/debug/rcc
+    UI_DIR =        ../bin/debug/ui
     INCLUDEPATH += .
     DEFINES += DEBUG
 }
@@ -84,4 +84,3 @@ SOURCES += \
     g3d_skybox.cpp \
     g3d_terrain.cpp
 
-RESOURCES +=

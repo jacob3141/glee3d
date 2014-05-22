@@ -25,8 +25,8 @@ CONFIG(release, debug|release) {
     MOC_DIR =       bin/release/moc
     RCC_DIR =       bin/release/rcc
     UI_DIR =        bin/release/ui
-    INCLUDEPATH += . ../libglee3d
-    LIBS += -L../libglee3d/bin/release -lglee3d
+    INCLUDEPATH += . ../../src
+    LIBS += -L../../bin/release -lglee3d
 }
 
 CONFIG(debug, debug|release) {
@@ -35,8 +35,8 @@ CONFIG(debug, debug|release) {
     MOC_DIR =       bin/debug/moc
     RCC_DIR =       bin/debug/rcc
     UI_DIR =        bin/debug/ui
-    INCLUDEPATH += . ../libglee3d
-    LIBS += -L../libglee3d/bin/debug -lglee3d
+    INCLUDEPATH += . ../../src
+    LIBS += -L../../bin/debug -lglee3d
     DEFINES += DEBUG
 }
 

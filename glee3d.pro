@@ -14,6 +14,5 @@
 #    along with glee3d.  If not, see <http://www.gnu.org/licenses/>.
 
 TEMPLATE = subdirs
-SUBDIRS = libglee3d \
-          laser-client \
-	  world-editor
+SUBDIRS = src \
+	  examples/world-editor
