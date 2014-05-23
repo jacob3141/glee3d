@@ -51,13 +51,16 @@ Scene::Scene()
     globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
     insertLightSource(globalLight);
 
-
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->generate("../../heightmaps/heightmap.png");
     terrain->setMaterial(new Glee3D::ChromeMaterial());
     terrain->material()->setTextureId("terrain");
     terrain->setTilingOffset(0.5);
     insertObject(terrain);
+
+    QJsonDocument d;
+    d.setObject(terrain->serialize());
+    qDebug() << d.toJson();
 }
 
 void Scene::select(Glee3D::RealLine3D line) {

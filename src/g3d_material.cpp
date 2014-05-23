@@ -26,11 +26,9 @@
 // Qt includes
 #include <QGLWidget>
 
-// Standard includes
-#include <iostream>
-
 namespace Glee3D {
-    Material::Material() {
+    Material::Material()
+        : Serializable() {
         _textureId          = "";
         _ambientReflection  = RgbaColor();
         _diffuseReflection  = RgbaColor();
@@ -119,4 +117,69 @@ namespace Glee3D {
         _textureId = textureId;
     }
 
+    QString Material::className() {
+        return "Material";
+    }
+
+    QJsonObject Material::serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+
+        jsonObject["ambientReflection"]     = _ambientReflection.serialize();
+        jsonObject["diffuseReflection"]     = _diffuseReflection.serialize();
+        jsonObject["specularReflection"]    = _specularReflection.serialize();
+        jsonObject["shininess"]             = _shininess;
+        jsonObject["emission"]              = _emission.serialize();
+        jsonObject["textureId"]             = _textureId;
+        return jsonObject;
+    }
+
+    bool Material::deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("ambientReflection")
+        && jsonObject.contains("diffuseReflection")
+        && jsonObject.contains("specularReflection")
+        && jsonObject.contains("shininess")
+        && jsonObject.contains("emission")
+        && jsonObject.contains("textureId")) {
+            if(jsonObject["class"] == className()) {
+                if(!_ambientReflection.deserialize(jsonObject.value("ambientReflection").toObject())) {
+                    _deserializationError = _ambientReflection.deserializationError();
+                    return false;
+                }
+
+                if(!_diffuseReflection.deserialize(jsonObject.value("diffuseReflection").toObject())) {
+                    _deserializationError = _diffuseReflection.deserializationError();
+                    return false;
+                }
+
+                if(!_specularReflection.deserialize(jsonObject.value("specularReflection").toObject())) {
+                    _deserializationError = _specularReflection.deserializationError();
+                    return false;
+                }
+
+                _shininess = (float)jsonObject["shininess"].toDouble();
+
+                if(!_emission.deserialize(jsonObject.value("emission").toObject())) {
+                    _deserializationError = _emission.deserializationError();
+                    return false;
+                }
+
+                _textureId = jsonObject["textureId"].toString();
+
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
+    }
 } // namespace Glee3D

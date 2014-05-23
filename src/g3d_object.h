@@ -26,10 +26,10 @@
 #include "g3d_material.h"
 #include "g3d_vector2d.h"
 #include "g3d_mesh.h"
+#include "g3d_serializable.h"
 
 // Qt includes
 #include <QHash>
-#include <QGLWidget>
 
 namespace Glee3D {
 
@@ -39,7 +39,7 @@ namespace Glee3D {
   * @date 02.12.2012
   * Represents an object in the virtual space.
   */
-class Object : public Entity {
+class Object : public Entity, public Serializable {
 public:
     /** Creates a new object for the virtual 3D space. */
     Object(Entity *parent = 0);
@@ -148,6 +148,15 @@ public:
     bool collides(const RealLine3D& line);
 
     virtual void compile();
+
+    /** @overload */
+    QString className();
+
+    /** @overload */
+    QJsonObject serialize();
+
+    /** @overload */
+    bool deserialize(QJsonObject jsonObject);
 
 protected:
     QString _name;

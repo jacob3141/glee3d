@@ -23,22 +23,19 @@
 
 // Own includes
 #include "g3d_rgbacolor.h"
+#include "g3d_serializable.h"
 
 // Qt includes
 #include <QString>
-#include <QImage>
-#include <QGLWidget>
 
 namespace Glee3D {
-class Display;
-
     /**
       * @class Material
       * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
       * @date 02.12.2012
       * Defines a material.
       */
-    class Material {
+    class Material : public Serializable {
     public:
         /** Creates a new material. */
         Material();
@@ -99,6 +96,15 @@ class Display;
          * @param textureId
          */
         void setTextureId(QString textureId);
+
+        /** @overload */
+        QString className();
+
+        /** @overload */
+        QJsonObject serialize();
+
+        /** @overload */
+        bool deserialize(QJsonObject jsonObject);
 
     protected:
         RgbaColor _ambientReflection;

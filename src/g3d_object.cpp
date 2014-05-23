@@ -30,7 +30,8 @@
 
 namespace Glee3D {
     Object::Object(Entity *parent)
-        : Entity(parent) {
+        : Entity(parent),
+          Serializable() {
         _mesh = 0;
         _compiledMesh = 0;
         _selected = false;
@@ -233,6 +234,90 @@ namespace Glee3D {
 
         if(_mesh) {
             _compiledMesh = _mesh->compile();
+        }
+    }
+
+    QString Object::className() {
+        return "Object";
+    }
+
+    QJsonObject Object::serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+
+        jsonObject["name"]      = _name;
+        jsonObject["selected"]  = _selected;
+        jsonObject["visible"]   = _visible;
+        if(_mesh) {
+            jsonObject["mesh"]      = _mesh->serialize();
+        }
+        if(_material) {
+            jsonObject["material"]  = _material->serialize();
+        }
+        jsonObject["rotation"]  = _rotation.serialize();
+        jsonObject["spin"]      = _spin.serialize();
+        jsonObject["velocity"]  = _velocity;
+
+        return jsonObject;
+    }
+
+    bool Object::deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("name")
+        && jsonObject.contains("selected")
+        && jsonObject.contains("visible")
+        && jsonObject.contains("rotation")
+        && jsonObject.contains("spin")
+        && jsonObject.contains("velocity")) {
+            if(jsonObject["class"] == className()) {
+                _name       = jsonObject["name"].toString();
+                _selected   = jsonObject["selected"].toBool();
+                _visible    = jsonObject["visible"].toBool();
+
+                if(jsonObject.contains("mesh")) {
+                    if(_mesh) {
+                        delete _mesh;
+                    }
+                    _mesh = new Mesh();
+                    if(!_mesh->deserialize(jsonObject["mesh"].toObject())) {
+                        _deserializationError = _mesh->deserializationError();
+                        return false;
+                    }
+                }
+
+                if(jsonObject.contains("material")) {
+                    _material = new Material();
+                    if(!_material->deserialize(jsonObject["material"].toObject())) {
+                        _deserializationError = _material->deserializationError();
+                        return false;
+                    }
+                }
+
+                if(!_rotation.deserialize(jsonObject["rotation"].toObject())) {
+                    _deserializationError = _rotation.deserializationError();
+                    return false;
+                }
+
+                if(!_spin.deserialize(jsonObject["spin"].toObject())) {
+                    _deserializationError = _spin.deserializationError();
+                    return false;
+                }
+
+                _velocity = jsonObject["velocity"].toDouble();
+
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
         }
     }
 } // namespace Glee3D
