@@ -21,6 +21,10 @@
 #ifndef G3D_VECTOR4D_H
 #define G3D_VECTOR4D_H
 
+// Own includes
+#include "g3d_configuration.h"
+#include "g3d_serializable.h"
+
 // C++ includes
 #include <math.h>
 
@@ -31,8 +35,8 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
-template <typename Type>
-class Vector4D {
+template <typename NumberType>
+class Vector4D : public Serializable {
 public:
     Vector4D() {
         _x = 0.0;
@@ -41,24 +45,24 @@ public:
         _w = 0.0;
     }
 
-    Vector4D(Type x, Type y, Type z, Type w) {
+    Vector4D(NumberType x, NumberType y, NumberType z, NumberType w) {
         _x = x;
         _y = y;
         _z = z;
         _w = w;
     }
 
-    Type _x;
-    Type _y;
-    Type _z;
-    Type _w;
+    NumberType _x;
+    NumberType _y;
+    NumberType _z;
+    NumberType _w;
 
-    Type length() const {
+    NumberType length() const {
         return sqrt(_x * _x + _y * _y + _z *_z + _w * _w);
     }
 
     Vector4D& normalize() {
-        Type _length = length();
+        NumberType _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
@@ -79,7 +83,7 @@ public:
       return *this;
     }
 
-    Vector4D operator* (Type scalar) const {
+    Vector4D operator* (NumberType scalar) const {
         Vector4D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
@@ -129,6 +133,47 @@ public:
         _z -= other._z;
         _w -= other._w;
         return *this;
+    }
+
+    QString className() {
+        return "Vector4D";
+    }
+
+    QJsonObject serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+        jsonObject["x"] = (double)_x;
+        jsonObject["y"] = (double)_y;
+        jsonObject["z"] = (double)_z;
+        jsonObject["w"] = (double)_w;
+        return jsonObject;
+    }
+
+    bool deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("x")
+        && jsonObject.contains("y")
+        && jsonObject.contains("z")
+        && jsonObject.contains("w")) {
+            if(jsonObject["class"] == className()) {
+                _x = (NumberType)jsonObject["x"].toDouble();
+                _y = (NumberType)jsonObject["y"].toDouble();
+                _z = (NumberType)jsonObject["z"].toDouble();
+                _w = (NumberType)jsonObject["w"].toDouble();
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
     }
 };
 

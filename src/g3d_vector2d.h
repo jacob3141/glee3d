@@ -23,6 +23,7 @@
 
 // Own includes
 #include "g3d_configuration.h"
+#include "g3d_serializable.h"
 
 // C++ includes
 #include <math.h>
@@ -34,28 +35,28 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
-template <typename Type>
-class Vector2D {
+template <typename NumberType>
+class Vector2D : public Serializable {
 public:
     Vector2D() {
         _x = 0.0;
         _y = 0.0;
     }
 
-    Vector2D(Type x, Type y) {
+    Vector2D(NumberType x, NumberType y) {
         _x = x;
         _y = y;
     }
 
-    Type _x;
-    Type _y;
+    NumberType _x;
+    NumberType _y;
 
-    Type length() const {
+    NumberType length() const {
         return sqrt(_x * _x + _y * _y);
     }
 
     Vector2D& normalize() {
-        Type _length = length();
+        NumberType _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
@@ -83,14 +84,14 @@ public:
       return *this;
     }
 
-    Vector2D operator* (Type scalar) const {
+    Vector2D operator* (NumberType scalar) const {
         Vector2D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
         return result;
     }
 
-    Vector2D operator/ (Type scalar) const {
+    Vector2D operator/ (NumberType scalar) const {
         Vector2D result;
         result._x = this->_x / scalar;
         result._y = this->_y / scalar;
@@ -132,6 +133,41 @@ public:
 
     bool operator== (const Vector2D& other) {
         return (_x == other._x) && (_y == other._y);
+    }
+
+    QString className() {
+        return "Vector2D";
+    }
+
+    QJsonObject serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+        jsonObject["x"] = (double)_x;
+        jsonObject["y"] = (double)_y;
+        return jsonObject;
+    }
+
+    bool deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("x")
+        && jsonObject.contains("y")) {
+            if(jsonObject["class"] == className()) {
+                _x = (NumberType)jsonObject["x"].toDouble();
+                _y = (NumberType)jsonObject["y"].toDouble();
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
     }
 };
 

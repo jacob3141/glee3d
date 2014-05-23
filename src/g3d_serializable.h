@@ -21,11 +21,31 @@
 #ifndef G3D_SERIALIZABLE_H
 #define G3D_SERIALIZABLE_H
 
-namespace Glee3D {
+// Qt includes
+#include <QJsonObject>
 
+namespace Glee3D {
     class Serializable {
     public:
-        Serializable();
+        enum DeserializationError {
+            NoError,
+            NoClassSpecified,
+            WrongClass,
+            MissingElements
+        };
+
+        virtual ~Serializable() { }
+
+        DeserializationError deserializationError() {
+            return _deserializationError;
+        }
+
+        virtual QString className() = 0;
+        virtual QJsonObject serialize() = 0;
+        virtual bool deserialize(QJsonObject json) = 0;
+
+    protected:
+        DeserializationError _deserializationError;
     };
 
 } // namespace Glee3D

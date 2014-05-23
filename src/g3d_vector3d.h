@@ -23,6 +23,10 @@
 
 // Own includes
 #include "g3d_configuration.h"
+#include "g3d_serializable.h"
+
+// Qt includes
+#include <QDebug>
 
 // C++ includes
 #include <math.h>
@@ -34,8 +38,8 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
-template <typename Type>
-class Vector3D {
+template <typename NumberType>
+class Vector3D : public Serializable {
 public:
     Vector3D() {
         _x = 0.0;
@@ -43,22 +47,22 @@ public:
         _z = 0.0;
     }
 
-    Vector3D(Type x, Type y, Type z) {
+    Vector3D(NumberType x, NumberType y, NumberType z) {
         _x = x;
         _y = y;
         _z = z;
     }
 
-    Type _x;
-    Type _y;
-    Type _z;
+    NumberType _x;
+    NumberType _y;
+    NumberType _z;
 
-    Type length() const {
+    NumberType length() const {
         return sqrt(_x * _x + _y * _y + _z *_z);
     }
 
     Vector3D& normalize() {
-        Type _length = length();
+        NumberType _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
@@ -75,7 +79,7 @@ public:
         return result;
     }
 
-    Type scalarProduct(const Vector3D& other) const {
+    NumberType scalarProduct(const Vector3D& other) const {
         return this->_x * other._x + this->_y * other._y + this->_z * other._z;
     }
 
@@ -88,7 +92,7 @@ public:
       return *this;
     }
 
-    Vector3D operator* (Type scalar) const {
+    Vector3D operator* (NumberType scalar) const {
         Vector3D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
@@ -132,6 +136,44 @@ public:
         _y -= other._y;
         _z -= other._z;
         return *this;
+    }
+
+    QString className() {
+        return "Vector3D";
+    }
+
+    QJsonObject serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+        jsonObject["x"] = (double)_x;
+        jsonObject["y"] = (double)_y;
+        jsonObject["z"] = (double)_z;
+        return jsonObject;
+    }
+
+    bool deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("x")
+        && jsonObject.contains("y")
+        && jsonObject.contains("z")) {
+            if(jsonObject["class"] == className()) {
+                _x = (NumberType)jsonObject["x"].toDouble();
+                _y = (NumberType)jsonObject["y"].toDouble();
+                _z = (NumberType)jsonObject["z"].toDouble();
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
     }
 };
 
