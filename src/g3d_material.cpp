@@ -21,6 +21,7 @@
 // Own includes
 #include "g3d_display.h"
 #include "g3d_material.h"
+#include "g3d_texturestore.h"
 
 // Qt includes
 #include <QGLWidget>
@@ -30,8 +31,7 @@
 
 namespace Glee3D {
     Material::Material() {
-        _glTexture          = 0;
-        _hasTexture         = false;
+        _textureId          = "";
         _ambientReflection  = RgbaColor();
         _diffuseReflection  = RgbaColor();
         _specularReflection = RgbaColor();
@@ -68,17 +68,7 @@ namespace Glee3D {
                     _emission._alpha };
         glMaterialfv(GL_FRONT, GL_EMISSION, emission);
 
-        if(_hasTexture) {
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            glBindTexture(GL_TEXTURE_2D, _glTexture);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-        } else {
-            glBindTexture(GL_TEXTURE_2D, GL_NONE);
-        }
+        TextureStore::instance().activateTexture(_textureId);
     }
 
     RgbaColor Material::ambientReflection() {
@@ -101,6 +91,10 @@ namespace Glee3D {
         return _emission;
     }
 
+    QString Material::textureId() {
+        return _textureId;
+    }
+
     void Material::setAmbientReflection(RgbaColor ambientReflection) {
         _ambientReflection = ambientReflection;
     }
@@ -121,14 +115,8 @@ namespace Glee3D {
         _emission = emission;
     }
 
-    void Material::loadTexture(QString fileName, Display& display) {
-        _hasTexture = true;
-        display.makeCurrent();
-        if(!_texture.load(fileName)) {
-            std::cout << "Error loading texture: " << fileName.toStdString() << std::endl;
-        }
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        _glTexture = display.bindTexture(_texture);
+    void Material::setTextureId(QString textureId) {
+        _textureId = textureId;
     }
-}
+
+} // namespace Glee3D

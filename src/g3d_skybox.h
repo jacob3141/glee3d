@@ -30,8 +30,6 @@
 
 namespace Glee3D {
 
-class Display;
-class Camera;
 /**
   * @class SkyBox
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
@@ -67,7 +65,7 @@ public:
       * @param fileName File name of the texture image.
       * @param display The current display.
       */
-    void loadTexture(Plane plane, QString fileName, Display *display);
+    void setTexture(Plane plane, QString textureId);
 
     /**
       * Renders the skybox.

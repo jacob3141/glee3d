@@ -18,9 +18,12 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_skybox.h"
-#include "g3d_camera.h"
+//#include "g3d_camera.h"
 #include "g3d_scene.h"
+
+// GL utilities includes
 #include "GL/glu.h"
 
 namespace Glee3D {
@@ -28,12 +31,12 @@ namespace Glee3D {
         : Object() {
     }
 
-    void SkyBox::loadTexture(Plane plane, QString fileName, Display *display) {
+    void SkyBox::setTexture(Plane plane, QString textureId) {
         Material *material = new Material();
         material->setAmbientReflection(RgbaColor(1.0, 1.0, 1.0, 1.0));
         material->setDiffuseReflection(RgbaColor(0.0, 0.0, 0.0, 1.0));
         material->setSpecularReflection(RgbaColor(0.0, 0.0, 0.0, 1.0));
-        material->loadTexture(fileName, *display);
+        material->setTextureId(textureId);
         Material *existingSurface = _materials.value(plane, 0);
         if(existingSurface)
             delete existingSurface;
@@ -41,7 +44,6 @@ namespace Glee3D {
     }
 
     void SkyBox::render() {
-
         glPushAttrib(GL_ENABLE_BIT);
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_DEPTH_TEST);

@@ -18,56 +18,51 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_MATRIXSTATE_H
-#define G3D_MATRIXSTATE_H
+#ifndef G3D_TEXTURESTORE_H
+#define G3D_TEXTURESTORE_H
+
+// Own includes
+#include "g3d_display.h"
+
+// Qt includes
+#include <QString>
+#include <QImage>
+#include <QMap>
 
 namespace Glee3D {
 
-    struct Matrix {
-        double _data[16];
+class TextureStore {
+public:
+    struct LoadedTexture {
+        QImage _image;
+        int _glHandle;
     };
+
+    static TextureStore& instance() {
+        static TextureStore textureStore;
+        return textureStore;
+    }
 
     /**
-      * @class MatrixState
-      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-      * @date 02.12.2012
-      * Helper class for saving and loading matrix states. The usual
-      * calls to glPush and glPopMatrix are not portable and not very
-      * flexible.
+      * Loads a texture.
+      * @param fileName File name of the texture.
+      * @param display Current display.
       */
-    class MatrixState {
-    public:
-        enum MatrixType {
-            Modelview   = 1 << 0,
-            Projection  = 1 << 1,
-            Texture     = 1 << 2,
-            Color       = 1 << 3
-        };
+    bool loadTexture(Display& display, QString fileName, QString textureId);
 
-        MatrixState();
-        MatrixState(const MatrixState &other);
-        ~MatrixState();
+    /**
+     * Activates the specified texture for rendering.
+     * @brief activateTexture
+     * @param textureId
+     */
+    void activateTexture(QString textureId);
 
-        void save(int matrixType = Modelview | Projection | Texture | Color);
-        void load(int matrixType = Modelview | Projection | Texture | Color);
+private:
+    TextureStore();
 
-        void setModelviewMatrix(Matrix matrix);
-        void setProjectionMatrix(Matrix matrix);
-        void setTextureMatrix(Matrix matrix);
-        void setColorMatrix(Matrix matrix);
-
-        Matrix modelviewMatrix();
-        Matrix projectionMatrix();
-        Matrix textureMatrix();
-        Matrix colorMatrix();
-
-    private:
-        Matrix _modelviewMatrix;
-        Matrix _projectionMatrix;
-        Matrix _textureMatrix;
-        Matrix _colorMatrix;
-    };
+    QMap<QString, LoadedTexture> _loadedTextures;
+};
 
 } // namespace Glee3D
 
-#endif // G3D_MATRIXSTATE_H
+#endif // G3D_TEXTURESTORE_H

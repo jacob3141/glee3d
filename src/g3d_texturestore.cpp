@@ -18,56 +18,36 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_MATRIXSTATE_H
-#define G3D_MATRIXSTATE_H
+// Own includes
+#include "g3d_texturestore.h"
 
 namespace Glee3D {
 
-    struct Matrix {
-        double _data[16];
-    };
+    TextureStore::TextureStore() {
+    }
 
-    /**
-      * @class MatrixState
-      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-      * @date 02.12.2012
-      * Helper class for saving and loading matrix states. The usual
-      * calls to glPush and glPopMatrix are not portable and not very
-      * flexible.
-      */
-    class MatrixState {
-    public:
-        enum MatrixType {
-            Modelview   = 1 << 0,
-            Projection  = 1 << 1,
-            Texture     = 1 << 2,
-            Color       = 1 << 3
-        };
+    bool TextureStore::loadTexture(Display& display, QString fileName, QString textureId) {
+        LoadedTexture loadedTexture;
+        display.makeCurrent();
+        if(loadedTexture._image.load(fileName)) {
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            loadedTexture._glHandle = display.bindTexture(loadedTexture._image);
+            _loadedTextures[textureId] = loadedTexture;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        MatrixState();
-        MatrixState(const MatrixState &other);
-        ~MatrixState();
-
-        void save(int matrixType = Modelview | Projection | Texture | Color);
-        void load(int matrixType = Modelview | Projection | Texture | Color);
-
-        void setModelviewMatrix(Matrix matrix);
-        void setProjectionMatrix(Matrix matrix);
-        void setTextureMatrix(Matrix matrix);
-        void setColorMatrix(Matrix matrix);
-
-        Matrix modelviewMatrix();
-        Matrix projectionMatrix();
-        Matrix textureMatrix();
-        Matrix colorMatrix();
-
-    private:
-        Matrix _modelviewMatrix;
-        Matrix _projectionMatrix;
-        Matrix _textureMatrix;
-        Matrix _colorMatrix;
-    };
-
+    void TextureStore::activateTexture(QString textureId) {
+        if(!textureId.isEmpty()
+        && _loadedTextures.contains(textureId)) {
+            glBindTexture(GL_TEXTURE_2D, _loadedTextures[textureId]._glHandle);
+        } else {
+            glBindTexture(GL_TEXTURE_2D, GL_NONE);
+        }
+    }
 } // namespace Glee3D
-
-#endif // G3D_MATRIXSTATE_H

@@ -31,7 +31,7 @@
 class Scene : public Glee3D::Scene {
     Q_OBJECT
 public:
-    Scene(Glee3D::Display *display);
+    Scene();
 
     void select(Glee3D::RealLine3D line);
     void drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to);

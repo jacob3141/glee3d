@@ -21,6 +21,8 @@
 #include "worldeditor.h"
 #include "ui_worldeditor.h"
 
+#include "g3d_texturestore.h"
+
 #include <QMdiSubWindow>
 
 WorldEditor::WorldEditor(QWidget *parent) :
@@ -33,7 +35,16 @@ WorldEditor::WorldEditor(QWidget *parent) :
     _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 500.0, -10.0));
     _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
 
-    _scene = new Scene(_display);
+    Glee3D::TextureStore& textureStore = Glee3D::TextureStore::instance();
+    textureStore.loadTexture(*_display, "../../skybox/sky/xneg.png", "skybox-xneg");
+    textureStore.loadTexture(*_display, "../../skybox/sky/xpos.png", "skybox-xpos");
+    textureStore.loadTexture(*_display, "../../skybox/sky/yneg.png", "skybox-yneg");
+    textureStore.loadTexture(*_display, "../../skybox/sky/ypos.png", "skybox-ypos");
+    textureStore.loadTexture(*_display, "../../skybox/sky/zneg.png", "skybox-zneg");
+    textureStore.loadTexture(*_display, "../../skybox/sky/zpos.png", "skybox-zpos");
+    textureStore.loadTexture(*_display, "../../textures/terraintiles.png", "terrain");
+
+    _scene = new Scene();
     _display->setScene(_scene);
 
     setCentralWidget(_display);

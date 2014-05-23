@@ -27,20 +27,21 @@
 #include "g3d_skybox.h"
 #include "g3d_cube.h"
 #include "g3d_terrain.h"
+#include "g3d_texturestore.h"
 
 #include <QApplication>
 #include <QJsonDocument>
 
-Scene::Scene(Glee3D::Display *display)
+Scene::Scene()
     : Glee3D::Scene() {
 
     Glee3D::SkyBox *skyBox = new Glee3D::SkyBox();
-    skyBox->loadTexture(Glee3D::SkyBox::BackX, "../../skybox/sky/xneg.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontX, "../../skybox/sky/xpos.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::BackY, "../../skybox/sky/yneg.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontY, "../../skybox/sky/ypos.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::BackZ, "../../skybox/sky/zneg.png", display);
-    skyBox->loadTexture(Glee3D::SkyBox::FrontZ, "../../skybox/sky/zpos.png", display);
+    skyBox->setTexture(Glee3D::SkyBox::BackX,  "skybox-xneg");
+    skyBox->setTexture(Glee3D::SkyBox::FrontX, "skybox-xpos");
+    skyBox->setTexture(Glee3D::SkyBox::BackY,  "skybox-yneg");
+    skyBox->setTexture(Glee3D::SkyBox::FrontY, "skybox-ypos");
+    skyBox->setTexture(Glee3D::SkyBox::BackZ,  "skybox-zneg");
+    skyBox->setTexture(Glee3D::SkyBox::FrontZ, "skybox-zpos");
     setSkyBox(skyBox);
 
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
@@ -50,17 +51,11 @@ Scene::Scene(Glee3D::Display *display)
     globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
     insertLightSource(globalLight);
 
-    Glee3D::Cube *cube = new Glee3D::Cube();
-    cube->generate(10.0);
-    cube->setMaterial(new Glee3D::PearlMaterial());
-    cube->material()->loadTexture("../../textures/chrome.png", *display);
-    cube->setPosition(Glee3D::RealVector3D(0.0, 50.0, 0.0));
-    insertObject(cube);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->generate("../../heightmaps/heightmap.png");
     terrain->setMaterial(new Glee3D::ChromeMaterial());
-    terrain->material()->loadTexture("../../textures/terraintiles.png", *display);
+    terrain->material()->setTextureId("terrain");
     terrain->setTilingOffset(0.5);
     insertObject(terrain);
 }
