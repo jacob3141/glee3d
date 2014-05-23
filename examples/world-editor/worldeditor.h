@@ -39,6 +39,9 @@ public:
     explicit WorldEditor(QWidget *parent = 0);
     ~WorldEditor();
     
+public slots:
+    void updateFps(int fps);
+
 private:
     Ui::WorldEditor *ui;
 
