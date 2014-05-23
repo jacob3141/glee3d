@@ -18,12 +18,17 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_bloomeffect.h"
 #include "g3d_matrixstate.h"
-#include <cstdio>
+
+// GL extension wrangler includes
 #include "GL/glew.h"
+
+// Standard includes
 #include <iostream>
 #include <math.h>
+#include <cstdio>
 
 #define BUFFER_WIDTH  128
 #define BUFFER_HEIGHT 128

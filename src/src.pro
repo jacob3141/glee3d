@@ -63,7 +63,8 @@ HEADERS += \
     g3d_terrain.h \
     g3d_vector2d.h \
     g3d_vector3d.h \
-    g3d_vector4d.h
+    g3d_vector4d.h \
+    g3d_serializable.h
 
 SOURCES += \
     g3d_bloomeffect.cpp \
@@ -82,5 +83,6 @@ SOURCES += \
     g3d_program.cpp \
     g3d_scene.cpp \
     g3d_skybox.cpp \
-    g3d_terrain.cpp
+    g3d_terrain.cpp \
+    g3d_serializable.cpp
 

@@ -221,4 +221,4 @@ namespace Glee3D {
             delete[] _normals;
         }
     }
-}
+} // namespace Glee3D

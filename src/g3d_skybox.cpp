@@ -54,10 +54,10 @@ namespace Glee3D {
 
         _materials[BackX]->activate();
         const GLfloat vertexDataBackX[] = {
-            -k,  k, -k,
-            -k,  k,  k,
-            -k, -k,  k,
-            -k, -k, -k,
+            (float)-k, (float) k, (float)-k,
+            (float)-k, (float) k, (float) k,
+            (float)-k, (float)-k, (float) k,
+            (float)-k, (float)-k, (float)-k,
         };
 
         const GLfloat textureCoordinatesBackX[] = {
@@ -75,10 +75,10 @@ namespace Glee3D {
 
         _materials[FrontX]->activate();
         const GLfloat vertexDataFrontX[] = {
-            k, -k, -k,
-            k, -k,  k,
-            k,  k,  k,
-            k,  k, -k
+            (float) k, (float)-k, (float)-k,
+            (float) k, (float)-k, (float) k,
+            (float) k, (float) k, (float) k,
+            (float) k, (float) k, (float)-k
         };
 
         const GLfloat textureCoordinatesFrontX[] = {
@@ -97,10 +97,10 @@ namespace Glee3D {
 
         _materials[BackY]->activate();
         const GLfloat vertexDataBackY[] = {
-             k, -k, -k,
-             k, -k,  k,
-            -k, -k,  k,
-            -k, -k, -k
+            (float) k, (float)-k, (float)-k,
+            (float) k, (float)-k, (float) k,
+            (float)-k, (float)-k, (float) k,
+            (float)-k, (float)-k, (float)-k
         };
 
         const GLfloat textureCoordinatesBackY[] = {
@@ -118,10 +118,10 @@ namespace Glee3D {
 
         _materials[FrontY]->activate();
         const GLfloat vertexDataFrontY[] = {
-             k,  k, -k,
-             k,  k,  k,
-            -k,  k,  k,
-            -k,  k, -k
+            (float) k, (float) k, (float)-k,
+            (float) k, (float) k, (float) k,
+            (float)-k, (float) k, (float) k,
+            (float)-k, (float) k, (float)-k
         };
 
         const GLfloat textureCoordinatesFrontY[] = {
@@ -139,10 +139,10 @@ namespace Glee3D {
 
         _materials[BackZ]->activate();
         const GLfloat vertexDataBackZ[] = {
-             k, -k, -k,
-             k,  k, -k,
-            -k,  k, -k,
-            -k, -k, -k
+            (float) k, (float)-k, (float)-k,
+            (float) k, (float) k, (float)-k,
+            (float)-k, (float) k, (float)-k,
+            (float)-k, (float)-k, (float)-k
         };
 
         const GLfloat textureCoordinatesBackZ[] = {
@@ -160,10 +160,10 @@ namespace Glee3D {
 
         _materials[FrontZ]->activate();
         const GLfloat vertexDataFrontZ[] = {
-            -k, -k,  k,
-            -k,  k,  k,
-             k,  k,  k,
-             k, -k,  k
+            (float)-k, (float)-k, (float) k,
+            (float)-k, (float) k, (float) k,
+            (float) k, (float) k, (float) k,
+            (float) k, (float)-k, (float) k
         };
 
         const GLfloat textureCoordinatesFrontZ[] = {
@@ -186,4 +186,4 @@ namespace Glee3D {
         glPopMatrix();
     }
 
-}
+} // namespace Glee3D

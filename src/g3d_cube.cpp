@@ -18,6 +18,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_cube.h"
 
 namespace Glee3D {
@@ -65,4 +66,4 @@ namespace Glee3D {
 
         compile();
     }
-}
+} // namespace Glee3D

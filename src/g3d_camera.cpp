@@ -18,8 +18,13 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_camera.h"
+
+// Qt includes
 #include <QGLWidget>
+
+// GL utilities includes
 #include "GL/glu.h"
 
 namespace Glee3D {
@@ -95,4 +100,4 @@ namespace Glee3D {
         _position += direction * units;
         _lookAt += direction * units;
     }
-}
+} // namespace Glee3D

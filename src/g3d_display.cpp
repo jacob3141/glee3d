@@ -18,11 +18,15 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_display.h"
-#include "GL/glu.h"
 #include "g3d_skybox.h"
 #include "g3d_matrixstate.h"
 
+// GL utilities includes
+#include "GL/glu.h"
+
+// Standard includes
 #include <iostream>
 
 namespace Glee3D {
@@ -298,4 +302,4 @@ namespace Glee3D {
     void Display::keyReleaseEvent(QKeyEvent *keyEvent) {
         _keyStatusMap[keyEvent->key()] = false;
     }
-}
+} // namespace Glee3D

@@ -73,4 +73,4 @@ namespace Glee3D {
     QSet<LightSource*> Scene::lightSources() {
         return _lightSources;
     }
-}
+} // namespace Glee3D

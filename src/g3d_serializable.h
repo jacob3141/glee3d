@@ -18,24 +18,16 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-// Own includes
-#include "g3d_entity.h"
+#ifndef G3D_SERIALIZABLE_H
+#define G3D_SERIALIZABLE_H
 
 namespace Glee3D {
-    Entity::Entity(Entity *parent) {
-        _parent = parent;
-        _position = RealVector3D(0.0, 0.0, 0.0);
-    }
 
-    RealVector3D Entity::position() {
-        return _position;
-    }
+    class Serializable {
+    public:
+        Serializable();
+    };
 
-    void Entity::setPosition(RealVector3D position) {
-        _position = position;
-    }
-
-    void Entity::move(RealVector3D delta) {
-        _position += delta;
-    }
 } // namespace Glee3D
+
+#endif // G3D_SERIALIZABLE_H

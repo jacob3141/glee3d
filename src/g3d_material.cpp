@@ -18,12 +18,15 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_display.h"
 #include "g3d_material.h"
 
-#include <iostream>
-
+// Qt includes
 #include <QGLWidget>
+
+// Standard includes
+#include <iostream>
 
 namespace Glee3D {
     Material::Material() {

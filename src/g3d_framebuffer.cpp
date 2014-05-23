@@ -18,7 +18,10 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_framebuffer.h"
+
+// Standard includes
 #include <iostream>
 
 namespace Glee3D {
@@ -138,9 +141,9 @@ void FrameBuffer::copy(int width, int height) {
 
     const GLfloat vertexData[] = {
         0, 0,
-        _width, 0,
-        _width, _height,
-        0, _height
+        (GLfloat)_width, 0,
+        (GLfloat)_width, (GLfloat)_height,
+        0, (GLfloat)_height
     };
 
     const GLfloat textureCoordinates[] = {

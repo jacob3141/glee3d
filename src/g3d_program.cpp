@@ -18,10 +18,15 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_program.h"
+
+// Qt includes
 #include <QFile>
-#include <iostream>
 #include <QResource>
+
+// Standard includes
+#include <iostream>
 
 namespace Glee3D {
 

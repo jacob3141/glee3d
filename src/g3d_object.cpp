@@ -235,4 +235,4 @@ namespace Glee3D {
             _compiledMesh = _mesh->compile();
         }
     }
-}
+} // namespace Glee3D

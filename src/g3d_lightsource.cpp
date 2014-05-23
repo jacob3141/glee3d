@@ -18,6 +18,7 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Own includes
 #include "g3d_lightsource.h"
 
 namespace Glee3D {
@@ -61,10 +62,10 @@ namespace Glee3D {
                                     _specularLight._alpha };
         glLightfv(glLight, GL_SPECULAR, specularLight);
 
-        GLfloat position[] = { _position._x,
-                               _position._y,
-                               _position._z,
-                               1.0 };
+        GLfloat position[] = { (GLfloat)_position._x,
+                               (GLfloat)_position._y,
+                               (GLfloat)_position._z,
+                               1.0f };
         glLightfv(glLight, GL_POSITION, position);
 
         switch(_lightSourceType) {
@@ -72,7 +73,10 @@ namespace Glee3D {
             } break;
 
             case Spotlight: {
-                GLfloat spotDirection[] = { _spotDirection._x, _spotDirection._y, _spotDirection._z , 0.0 };
+                GLfloat spotDirection[] = { (GLfloat)_spotDirection._x,
+                                            (GLfloat)_spotDirection._y,
+                                            (GLfloat)_spotDirection._z,
+                                            0.0f };
                 glLightfv(glLight, GL_SPOT_DIRECTION, spotDirection);
                 glLightf(glLight, GL_SPOT_CUTOFF, _spotCutoff);
                 glLightf(glLight, GL_SPOT_EXPONENT, _spotExponent);
@@ -137,4 +141,4 @@ namespace Glee3D {
     RgbaColor LightSource::specularLight() {
         return _specularLight;
     }
-}
+} // namespace Glee3D
