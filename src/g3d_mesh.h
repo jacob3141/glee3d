@@ -24,9 +24,11 @@
 // Own includes
 #include "g3d_vector2d.h"
 #include "g3d_vector3d.h"
+#include "g3d_serializable.h"
 
 // Qt includes
 #include <QGLWidget>
+#include <QJsonArray>
 
 namespace Glee3D {
 
@@ -91,7 +93,7 @@ private:
     double _collisionRadius;
 };
 
-struct Triangle {
+struct Triangle : public Serializable {
     Triangle() {
         _indices[0] = 0;
         _indices[1] = 0;
@@ -104,6 +106,44 @@ struct Triangle {
         _indices[2] = i3;
     }
 
+    QString className() {
+        return "Triangle";
+    }
+
+    QJsonObject serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+        jsonObject["indices_0"] = _indices[0];
+        jsonObject["indices_1"] = _indices[1];
+        jsonObject["indices_2"] = _indices[2];
+        return jsonObject;
+    }
+
+    bool deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("indices_0")
+        && jsonObject.contains("indices_1")
+        && jsonObject.contains("indices_2")) {
+            if(jsonObject["class"] == className()) {
+                _indices[0] = jsonObject["indices_0"].toInt();
+                _indices[1] = jsonObject["indices_1"].toInt();
+                _indices[2] = jsonObject["indices_2"].toInt();
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
+    }
+
     int _indices[3];
 };
 
@@ -113,8 +153,13 @@ struct Triangle {
   * @date 09.12.2012
   * Defines a mesh.
   */
-class Mesh {
+class Mesh : public Serializable {
 public:
+    /**
+      * Creates a new mesh.
+      */
+    Mesh();
+
     /**
       * Creates a new mesh.
       * @param vertexCount The number of vertices.
@@ -124,6 +169,12 @@ public:
 
     /** Destructor. */
     ~Mesh();
+
+    /** Creates a new mesh.
+      * @param vertexCount The number of vertices.
+      * @param triangleCount The number triangles.
+      */
+    void create(int vertexCount, int triangleCount);
 
     /**
       * Compiles the mesh into a ready-to-render version.
@@ -161,7 +212,19 @@ public:
     /** @returns the texture coordinates of the specified index. */
     RealVector2D textureCoordinates(int index);
 
+    /** @overload */
+    QString className();
+
+    /** @overload */
+    QJsonObject serialize();
+
+    /** @overload */
+    bool deserialize(QJsonObject jsonObject);
+
 private:
+    void allocateMemory();
+    void freeMemory();
+
     int _vertexCount;
     int _triangleCount;
 

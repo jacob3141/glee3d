@@ -22,27 +22,33 @@
 #include "g3d_mesh.h"
 
 namespace Glee3D {
+    Mesh::Mesh()
+        : Serializable() {
+        _vertices = 0;
+        _triangles = 0;
+        _textureCoordinates = 0;
 
-    Mesh::Mesh(int vertexCount, int triangleCount) {
-        _vertexCount = vertexCount;
-        _vertices = new RealVector3D[vertexCount];
-        _textureCoordinates = new RealVector2D[vertexCount];
+        _vertexCount = 0;
+        _triangleCount = 0;
+    }
 
-        _triangleCount = triangleCount;
-        _triangles = new Triangle[triangleCount];
+    Mesh::Mesh(int vertexCount, int triangleCount)
+        : Serializable() {
+        _vertices = 0;
+        _triangles = 0;
+        _textureCoordinates = 0;
 
-        int i;
-        for(i = 0; i < _triangleCount; i++) {
-            _triangles[i]._indices[0] = 0;
-            _triangles[i]._indices[1] = 0;
-            _triangles[i]._indices[2] = 0;
-        }
+        create(vertexCount, triangleCount);
     }
 
     Mesh::~Mesh() {
-        delete[] _vertices;
-        delete[] _triangles;
-        delete[] _textureCoordinates;
+        freeMemory();
+    }
+
+    void Mesh::create(int vertexCount, int triangleCount) {
+        _vertexCount = vertexCount;
+        _triangleCount = triangleCount;
+        allocateMemory();
     }
 
     CompiledMesh *Mesh::compile() {
@@ -143,6 +149,118 @@ namespace Glee3D {
 
     RealVector2D Mesh::textureCoordinates(int index) {
         return _textureCoordinates[index];
+    }
+
+    QString Mesh::className() {
+        return "Mesh";
+    }
+
+    QJsonObject Mesh::serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+
+        QJsonArray verticesArray, textureCoordinatesArray, trianglesArray;
+        for(int i = 0; i < _vertexCount; i++) {
+            verticesArray.append(_vertices[i].serialize());
+        }
+
+        for(int i = 0; i < _vertexCount; i++) {
+            textureCoordinatesArray.append(_textureCoordinates[i].serialize());
+        }
+
+        for(int i = 0; i < _triangleCount; i++) {
+            trianglesArray.append(_triangles[i].serialize());
+        }
+
+        jsonObject["vertices"] = verticesArray;
+        jsonObject["textureCoordinates"] = textureCoordinatesArray;
+        jsonObject["triangles"] = trianglesArray;
+        return jsonObject;
+    }
+
+    bool Mesh::deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("vertices")
+        && jsonObject.contains("texturesCoordinates")
+        && jsonObject.contains("triangles")) {
+            if(jsonObject["class"] == className()) {
+                if(jsonObject["vertices"].type() != QJsonValue::Array
+                || jsonObject["texturesCoordinates"].type() != QJsonValue::Array
+                || jsonObject["triangles"].type() != QJsonValue::Array) {
+                    _deserializationError = Serializable::MissingElements;
+                    return false;
+                }
+
+                QJsonArray verticesArray = jsonObject["vertices"].toArray();
+                QJsonArray textureCoordinatesArray = jsonObject["textureCoordinates"].toArray();
+                QJsonArray trianglesArray = jsonObject["triangles"].toArray();
+
+                if(verticesArray.count() != textureCoordinatesArray.count()) {
+                    _deserializationError = Serializable::MissingElements;
+                    return false;
+                }
+
+                create(verticesArray.count(), trianglesArray.count());
+
+                for(int i = 0; i < _vertexCount; i++) {
+                    if(!_vertices[i].deserialize(verticesArray[i].toObject())) {
+                        _deserializationError = _vertices[i].deserializationError();
+                        return false;
+                    }
+                }
+
+                for(int i = 0; i < _vertexCount; i++) {
+                    if(!_textureCoordinates[i].deserialize(textureCoordinatesArray[i].toObject())) {
+                        _deserializationError = _textureCoordinates[i].deserializationError();
+                        return false;
+                    }
+                }
+
+                for(int i = 0; i < _triangleCount; i++) {
+                    if(!_triangles[i].deserialize(trianglesArray[i].toObject())) {
+                        _deserializationError = _triangles[i].deserializationError();
+                        return false;
+                    }
+                }
+
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
+    }
+
+    void Mesh::allocateMemory() {
+        freeMemory();
+        _vertices = new RealVector3D[_vertexCount];
+        _textureCoordinates = new RealVector2D[_vertexCount];
+        _triangles = new Triangle[_triangleCount];
+
+        int i;
+        for(i = 0; i < _triangleCount; i++) {
+            _triangles[i]._indices[0] = 0;
+            _triangles[i]._indices[1] = 0;
+            _triangles[i]._indices[2] = 0;
+        }
+    }
+
+    void Mesh::freeMemory() {
+        if(_vertices) delete[] _vertices;
+        if(_triangles) delete[] _triangles;
+        if(_textureCoordinates) delete[] _textureCoordinates;
+
+        _vertices = 0;
+        _triangles = 0;
+        _textureCoordinates = 0;
     }
 
 } // namespace Glee3D
