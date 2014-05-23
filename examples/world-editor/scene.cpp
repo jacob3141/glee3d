@@ -29,6 +29,7 @@
 #include "g3d_terrain.h"
 
 #include <QApplication>
+#include <QJsonDocument>
 
 Scene::Scene(Glee3D::Display *display)
     : Glee3D::Scene() {

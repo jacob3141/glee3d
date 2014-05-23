@@ -182,15 +182,58 @@ public:
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
-template <typename Type>
-class Line3D {
+template <typename NumberType>
+class Line3D : public Serializable {
 public:
-    Vector3D<Type> point(Type alpha) const {
+    Vector3D<NumberType> point(NumberType alpha) const {
         return _positionVector + _directionVector * alpha;
     }
 
-    Vector3D<Type> _positionVector;
-    Vector3D<Type> _directionVector;
+    QString className() {
+        return "Line3D";
+    }
+
+    QJsonObject serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+        jsonObject["positionVector"] = _positionVector.serialize();
+        jsonObject["directionVector"] = _directionVector.serialize();
+        return jsonObject;
+    }
+
+    bool deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("positionVector")
+        && jsonObject.contains("directionVector")) {
+            if(jsonObject["class"] == className()) {
+                if(!_positionVector.deserialize(jsonObject.value("positionVector").toObject())) {
+                    _deserializationError = _positionVector.deserializationError();
+                    return false;
+                }
+
+                if(!_directionVector.deserialize(jsonObject.value("directionVector").toObject())) {
+                    _deserializationError = _directionVector.deserializationError();
+                    return false;
+                }
+
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
+    }
+
+    Vector3D<NumberType> _positionVector;
+    Vector3D<NumberType> _directionVector;
 };
 
 /**
@@ -198,17 +241,17 @@ public:
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
-template <typename Type>
-class Plane3D {
+template <typename NumberType>
+class Plane3D : public Serializable {
 public:
     enum ConstructionMode {
         ThreeVectors,
         PositionAndDirectionVectors
     };
 
-    Plane3D(Vector3D<Type> v1,
-            Vector3D<Type> v2,
-            Vector3D<Type> v3,
+    Plane3D(Vector3D<NumberType> v1,
+            Vector3D<NumberType> v2,
+            Vector3D<NumberType> v3,
             ConstructionMode constructionMode = ThreeVectors) {
         switch(constructionMode) {
         case ThreeVectors:
@@ -224,24 +267,73 @@ public:
         }
     }
 
-    Vector3D<Type> point(Type alpha, Type beta) {
+    Vector3D<NumberType> point(NumberType alpha, NumberType beta) {
         return _positionVector + _directionVector1 * alpha + _directionVector2 * beta;
     }
 
-    Vector3D<Type> intersection(Line3D<Type> line) {
-        Vector3D<Type> planeNormal = _directionVector1.crossProduct(_directionVector2);
-        Type numerator = planeNormal.scalarProduct(_positionVector) - planeNormal.scalarProduct(line._positionVector);
-        Type denominator = planeNormal.scalarProduct(line._directionVector);
+    Vector3D<NumberType> intersection(Line3D<NumberType> line) {
+        Vector3D<NumberType> planeNormal = _directionVector1.crossProduct(_directionVector2);
+        NumberType numerator = planeNormal.scalarProduct(_positionVector) - planeNormal.scalarProduct(line._positionVector);
+        NumberType denominator = planeNormal.scalarProduct(line._directionVector);
         if(denominator != 0.0) {
-            Type alpha = numerator / denominator;
+            NumberType alpha = numerator / denominator;
             return line.point(alpha);
         }
-        return Vector3D<Type>();
+        return Vector3D<NumberType>();
     }
 
-    Vector3D<Type> _positionVector;
-    Vector3D<Type> _directionVector1;
-    Vector3D<Type> _directionVector2;
+    QString className() {
+        return "Plane3D";
+    }
+
+    QJsonObject serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+        jsonObject["positionVector"] = _positionVector.serialize();
+        jsonObject["directionVector1"] = _directionVector1.serialize();
+        jsonObject["directionVector2"] = _directionVector2.serialize();
+        return jsonObject;
+    }
+
+    bool deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("positionVector")
+        && jsonObject.contains("directionVector")) {
+            if(jsonObject["class"] == className()) {
+                if(!_positionVector.deserialize(jsonObject.value("positionVector").toObject())) {
+                    _deserializationError = _positionVector.deserializationError();
+                    return false;
+                }
+
+                if(!_directionVector1.deserialize(jsonObject.value("directionVector1").toObject())) {
+                    _deserializationError = _directionVector1.deserializationError();
+                    return false;
+                }
+
+                if(!_directionVector2.deserialize(jsonObject.value("directionVector2").toObject())) {
+                    _deserializationError = _directionVector2.deserializationError();
+                    return false;
+                }
+
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
+    }
+
+    Vector3D<NumberType> _positionVector;
+    Vector3D<NumberType> _directionVector1;
+    Vector3D<NumberType> _directionVector2;
 };
 
 typedef Vector3D<FLOATING_POINT_FORMAT> RealVector3D;
