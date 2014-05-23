@@ -24,6 +24,7 @@
 // Own includes
 #include "g3d_entity.h"
 #include "g3d_rgbacolor.h"
+#include "g3d_serializable.h"
 
 // Qt includes
 #include <QGLWidget>
@@ -35,7 +36,7 @@ namespace Glee3D {
   * @date 02.12.2012
   * Represents a light source in the virtual environment.
   */
-class LightSource : public Entity {
+class LightSource : public Entity, public Serializable {
 public:
     enum LightSourceType {
         Punctual,
@@ -137,6 +138,15 @@ public:
 
     /** @returns Color of the specular light. */
     RgbaColor specularLight();
+
+    /** @overload */
+    QString className();
+
+    /** @overload */
+    QJsonObject serialize();
+
+    /** @overload */
+    bool deserialize(QJsonObject jsonObject);
 
 private:
     bool _switchedOn;

@@ -141,4 +141,87 @@ namespace Glee3D {
     RgbaColor LightSource::specularLight() {
         return _specularLight;
     }
+
+    QString LightSource::className() {
+        return "LightSource";
+    }
+
+    QJsonObject LightSource::serialize() {
+        QJsonObject jsonObject;
+        jsonObject["class"] = className();
+
+        jsonObject["switchedOn"] = _switchedOn;
+        jsonObject["ambientLight"] = _ambientLight.serialize();
+        jsonObject["diffuseLight"] = _diffuseLight.serialize();
+        jsonObject["specularLight"] = _specularLight.serialize();
+        jsonObject["spotDirection"] = _spotDirection.serialize();
+        jsonObject["spotCutoff"] = _spotCutoff;
+        jsonObject["spotExponent"] = _spotExponent;
+
+        switch(_lightSourceType) {
+        case Spotlight: jsonObject["lightSourceType"] = QString("Spotlight"); break;
+        case Punctual: jsonObject["lightSourceType"] = QString("Punctual"); break;
+        }
+
+        return jsonObject;
+    }
+
+    bool LightSource::deserialize(QJsonObject jsonObject) {
+        if(!jsonObject.contains("class")) {
+            _deserializationError = Serializable::NoClassSpecified;
+            return false;
+        }
+
+        if(jsonObject.contains("switchedOn")
+        && jsonObject.contains("ambientLight")
+        && jsonObject.contains("diffuseLight")
+        && jsonObject.contains("specularLight")
+        && jsonObject.contains("spotDirection")
+        && jsonObject.contains("spotCutoff")
+        && jsonObject.contains("spotExponent")
+        && jsonObject.contains("lightSourceType")) {
+            if(jsonObject["class"] == className()) {
+                _switchedOn = jsonObject["switchedOn"].toBool();
+
+                if(!_ambientLight.deserialize(jsonObject.value("ambientLight").toObject())) {
+                    _deserializationError = _ambientLight.deserializationError();
+                    return false;
+                }
+
+                if(!_diffuseLight.deserialize(jsonObject.value("diffuseLight").toObject())) {
+                    _deserializationError = _diffuseLight.deserializationError();
+                    return false;
+                }
+
+                if(!_specularLight.deserialize(jsonObject.value("specularLight").toObject())) {
+                    _deserializationError = _specularLight.deserializationError();
+                    return false;
+                }
+
+                if(!_spotDirection.deserialize(jsonObject.value("spotDirection").toObject())) {
+                    _deserializationError = _spotDirection.deserializationError();
+                    return false;
+                }
+
+                _spotCutoff = jsonObject["spotCutoff"].toDouble();
+                _spotExponent = jsonObject["spotExponent"].toDouble();
+
+                QString lightSourceType = jsonObject["lightSourceType"].toString();
+                if(lightSourceType == "Punctual") {
+                    _lightSourceType = Punctual;
+                } else if (lightSourceType == "Spotlight") {
+                    _lightSourceType = Spotlight;
+                }
+
+                _deserializationError = Serializable::NoError;
+                return true;
+            } else {
+                _deserializationError = Serializable::WrongClass;
+                return false;
+            }
+        } else {
+            _deserializationError = Serializable::MissingElements;
+            return false;
+        }
+    }
 } // namespace Glee3D
