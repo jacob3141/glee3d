@@ -150,13 +150,13 @@ public:
     virtual void compile();
 
     /** @overload */
-    QString className();
+    virtual QString className();
 
     /** @overload */
-    QJsonObject serialize();
+    virtual QJsonObject serialize();
 
     /** @overload */
-    bool deserialize(QJsonObject jsonObject);
+    virtual bool deserialize(QJsonObject jsonObject);
 
 protected:
     QString _name;

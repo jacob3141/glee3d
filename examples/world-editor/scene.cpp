@@ -51,16 +51,28 @@ Scene::Scene()
     globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
     insertLightSource(globalLight);
 
-    Glee3D::Terrain *terrain = new Glee3D::Terrain();
-    terrain->generate("../../heightmaps/heightmap.png");
-    terrain->setMaterial(new Glee3D::ChromeMaterial());
-    terrain->material()->setTextureId("terrain");
-    terrain->setTilingOffset(0.5);
-    insertObject(terrain);
+    Glee3D::Cube *cube = new Glee3D::Cube();
+    cube->generate(10.0);
+    cube->setMaterial(new Glee3D::ChromeMaterial());
+    cube->material()->setTextureId("terrain");
+    cube->setPosition(Glee3D::RealVector3D(0.0, 0.0, 0.0));
+    insertObject(cube);
 
-    QJsonDocument d;
-    d.setObject(terrain->serialize());
-    qDebug() << d.toJson();
+    Glee3D::Cube *clonedCube = new Glee3D::Cube();
+    clonedCube->deserialize(cube->serialize());
+    clonedCube->setPosition(Glee3D::RealVector3D(20.0, 0.0, 0.0));
+    insertObject(clonedCube);
+
+//    Glee3D::Terrain *terrain = new Glee3D::Terrain();
+//    terrain->generate("../../heightmaps/heightmap.png");
+//    terrain->setMaterial(new Glee3D::ChromeMaterial());
+//    terrain->material()->setTextureId("terrain");
+//    terrain->setTilingOffset(0.5);
+//    insertObject(terrain);
+
+//    QJsonDocument d;
+//    d.setObject(terrain->serialize());
+//    qDebug() << d.toJson();
 }
 
 void Scene::select(Glee3D::RealLine3D line) {

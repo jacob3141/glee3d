@@ -47,6 +47,11 @@ namespace Glee3D {
 class Display : public QGLWidget {
     Q_OBJECT
 public:
+    /**
+     * @attention You have to make sure you pass the parent widget so that this
+     * class can add itself as a focus proxy and correctly process input events!
+     * @param parent
+     */
     Display(QWidget *parent = 0);
 
     void setActiveCamera(Camera *camera);

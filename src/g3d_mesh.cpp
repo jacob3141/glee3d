@@ -181,17 +181,19 @@ namespace Glee3D {
     bool Mesh::deserialize(QJsonObject jsonObject) {
         if(!jsonObject.contains("class")) {
             _deserializationError = Serializable::NoClassSpecified;
+            qDebug() << className() << " Class name not specified";
             return false;
         }
 
         if(jsonObject.contains("vertices")
-        && jsonObject.contains("texturesCoordinates")
+        && jsonObject.contains("textureCoordinates")
         && jsonObject.contains("triangles")) {
             if(jsonObject["class"] == className()) {
                 if(jsonObject["vertices"].type() != QJsonValue::Array
-                || jsonObject["texturesCoordinates"].type() != QJsonValue::Array
+                || jsonObject["textureCoordinates"].type() != QJsonValue::Array
                 || jsonObject["triangles"].type() != QJsonValue::Array) {
                     _deserializationError = Serializable::MissingElements;
+                    qDebug() << className() << ": Vertex data must be stored in arrays";
                     return false;
                 }
 
@@ -201,6 +203,7 @@ namespace Glee3D {
 
                 if(verticesArray.count() != textureCoordinatesArray.count()) {
                     _deserializationError = Serializable::MissingElements;
+                    qDebug() << className() << ": Vertex count must be the same as texture coordinates count";
                     return false;
                 }
 
@@ -209,6 +212,7 @@ namespace Glee3D {
                 for(int i = 0; i < _vertexCount; i++) {
                     if(!_vertices[i].deserialize(verticesArray[i].toObject())) {
                         _deserializationError = _vertices[i].deserializationError();
+                        qDebug() << className() << ": Couldn't deserialize vertex " << i;
                         return false;
                     }
                 }
@@ -216,6 +220,7 @@ namespace Glee3D {
                 for(int i = 0; i < _vertexCount; i++) {
                     if(!_textureCoordinates[i].deserialize(textureCoordinatesArray[i].toObject())) {
                         _deserializationError = _textureCoordinates[i].deserializationError();
+                        qDebug() << className() << ": Couldn't deserialize texture coordinate " << i;
                         return false;
                     }
                 }
@@ -223,6 +228,7 @@ namespace Glee3D {
                 for(int i = 0; i < _triangleCount; i++) {
                     if(!_triangles[i].deserialize(trianglesArray[i].toObject())) {
                         _deserializationError = _triangles[i].deserializationError();
+                        qDebug() << className() << ": Couldn't deserialize triangle " << i;
                         return false;
                     }
                 }

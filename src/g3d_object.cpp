@@ -285,6 +285,7 @@ namespace Glee3D {
                     _mesh = new Mesh();
                     if(!_mesh->deserialize(jsonObject["mesh"].toObject())) {
                         _deserializationError = _mesh->deserializationError();
+                        qDebug() << className() << ": Couldn't deserialize mesh";
                         return false;
                     }
                 }
@@ -293,6 +294,7 @@ namespace Glee3D {
                     _material = new Material();
                     if(!_material->deserialize(jsonObject["material"].toObject())) {
                         _deserializationError = _material->deserializationError();
+                        qDebug() << className() << ": Couldn't deserialize material";
                         return false;
                     }
                 }
@@ -309,6 +311,7 @@ namespace Glee3D {
 
                 _velocity = jsonObject["velocity"].toDouble();
 
+                compile();
                 _deserializationError = Serializable::NoError;
                 return true;
             } else {

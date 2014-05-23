@@ -31,7 +31,7 @@ WorldEditor::WorldEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    _display = new Glee3D::Display;
+    _display = new Glee3D::Display(this);
     _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 500.0, -10.0));
     _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
 
