@@ -19,23 +19,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // Own includes
-#include "g3d_entity.h"
+#include "g3d_anchored.h"
 
 namespace Glee3D {
-    Entity::Entity(Entity *parent) {
-        _parent = parent;
+    Anchored::Anchored() {
         _position = RealVector3D(0.0, 0.0, 0.0);
     }
 
-    RealVector3D Entity::position() {
+    RealVector3D Anchored::position() {
         return _position;
     }
 
-    void Entity::setPosition(RealVector3D position) {
+    void Anchored::setPosition(RealVector3D position) {
         _position = position;
     }
 
-    void Entity::move(RealVector3D delta) {
+    void Anchored::move(RealVector3D delta) {
         _position += delta;
     }
 } // namespace Glee3D

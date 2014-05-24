@@ -45,16 +45,16 @@ Scene::Scene()
     setSkyBox(skyBox);
 
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
-    globalLight->setPosition(Glee3D::RealVector3D(10.0, 100.0, 12.0));
-    globalLight->setAmbientLight(Glee3D::RgbaColor(0.5, 0.5, 0.5, 1.0));
-    globalLight->setSpecularLight(Glee3D::RgbaColor(0.5, 0.5, 0.5, 1.0));
-    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
+    globalLight->setPosition(Glee3D::RealVector3D(5.0, 15.0, 2.0));
+    globalLight->setAmbientLight(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
+    globalLight->setSpecularLight(Glee3D::RgbaColor(0.9, 0.9, 0.9, 1.0));
+    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
     insertLightSource(globalLight);
 
     Glee3D::Cube *cube = new Glee3D::Cube();
     cube->generate(10.0);
-    cube->setMaterial(new Glee3D::ChromeMaterial());
-    cube->material()->setTextureId("terrain");
+    cube->setMaterial(new Glee3D::PearlMaterial());
+    cube->material()->setTextureId("chrome");
     cube->setPosition(Glee3D::RealVector3D(0.0, 0.0, 0.0));
     insertObject(cube);
 
@@ -63,16 +63,14 @@ Scene::Scene()
     clonedCube->setPosition(Glee3D::RealVector3D(20.0, 0.0, 0.0));
     insertObject(clonedCube);
 
-//    Glee3D::Terrain *terrain = new Glee3D::Terrain();
-//    terrain->generate("../../heightmaps/heightmap.png");
-//    terrain->setMaterial(new Glee3D::ChromeMaterial());
-//    terrain->material()->setTextureId("terrain");
-//    terrain->setTilingOffset(0.5);
-//    insertObject(terrain);
+    Glee3D::Terrain *terrain = new Glee3D::Terrain();
+    terrain->generate("../../heightmaps/heightmap.png");
+    terrain->setMaterial(new Glee3D::ChromeMaterial());
+    terrain->material()->setTextureId("terrain");
+    terrain->setTilingOffset(0.5);
+    terrain->setPosition(Glee3D::RealVector3D(-500.0, 0.0, 0.0));
+    insertObject(terrain);
 
-//    QJsonDocument d;
-//    d.setObject(terrain->serialize());
-//    qDebug() << d.toJson();
 }
 
 void Scene::select(Glee3D::RealLine3D line) {

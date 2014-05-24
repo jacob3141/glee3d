@@ -26,8 +26,8 @@
 #include <math.h>
 
 namespace Glee3D {
-    Cylinder::Cylinder(Entity *parent)
-        : Object(parent) {
+    Cylinder::Cylinder()
+        : Object() {
         setName("Cylinder");
     }
 

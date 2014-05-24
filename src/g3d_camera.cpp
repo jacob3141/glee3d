@@ -28,8 +28,8 @@
 #include "GL/glu.h"
 
 namespace Glee3D {
-    Camera::Camera(Entity *parent)
-        : Entity(parent) {
+    Camera::Camera()
+        : Anchored() {
         _near = 0.1;
         _far = 100000.0;
         _fieldOfView = 45.0;

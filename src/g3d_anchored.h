@@ -18,28 +18,26 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_ENTITY_H
-#define G3D_ENTITY_H
+#ifndef G3D_ANCHORED_H
+#define G3D_ANCHORED_H
 
 // Own includes
 #include "g3d_vector3d.h"
 
 namespace Glee3D {
 /**
-  * @class Entity
+  * @class Anchored
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
-  * An entity can be anything that qualifies as an independent object in
-  * the 3D world. The idea is that entities can be made up of other
-  * child entities to form a more complex object.
+  * An anchored object owns an anchor position.
   */
-class Entity {
+class Anchored {
 public:
     /**
       * Creates a new entity.
       * @param parent Parent entity.
       */
-    Entity(Entity *parent = 0);
+    Anchored();
 
     /**
       * @returns Position of this entity in relation to its parent.
@@ -60,11 +58,8 @@ public:
 
 protected:
     RealVector3D _position;
-
-private:
-    Entity *_parent;
 };
 
 } // namespace Glee3D
 
-#endif // G3D_ENTITY_H
+#endif // G3D_ANCHORED_H

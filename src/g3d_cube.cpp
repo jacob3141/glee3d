@@ -22,8 +22,8 @@
 #include "g3d_cube.h"
 
 namespace Glee3D {
-    Cube::Cube(Entity *parent)
-        : Object(parent) {
+    Cube::Cube()
+        : Object() {
         setName("Cube");
     }
 

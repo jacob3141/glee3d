@@ -22,7 +22,7 @@
 #define G3D_LIGHTSOURCE_H
 
 // Own includes
-#include "g3d_entity.h"
+#include "g3d_anchored.h"
 #include "g3d_rgbacolor.h"
 #include "g3d_serializable.h"
 
@@ -36,7 +36,7 @@ namespace Glee3D {
   * @date 02.12.2012
   * Represents a light source in the virtual environment.
   */
-class LightSource : public Entity, public Serializable {
+class LightSource : public Anchored, public Serializable {
 public:
     enum LightSourceType {
         Punctual,
@@ -46,7 +46,7 @@ public:
     /**
       * Creates a new light source.
       */
-    LightSource(Entity *parent = 0);
+    LightSource();
 
     /**
       * Sets this light to be switched on.

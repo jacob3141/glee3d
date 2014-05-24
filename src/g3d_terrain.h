@@ -48,7 +48,7 @@ namespace Glee3D {
             InvalidImageSize
         };
 
-        explicit Terrain(Entity *parent = 0);
+        explicit Terrain();
         virtual ~Terrain();
 
         Result generate(QString fileName,

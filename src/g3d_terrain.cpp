@@ -30,8 +30,8 @@
 #include <iostream>
 
 namespace Glee3D {
-    Terrain::Terrain(Entity *parent)
-        : Object(parent) {
+    Terrain::Terrain()
+        : Object() {
         setName("Terrain");
         _terrain = 0;
         _tileIDs = 0;

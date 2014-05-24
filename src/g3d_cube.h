@@ -32,7 +32,7 @@ namespace Glee3D {
   */
 class Cube : public Object {
 public:
-    Cube(Entity *parent = 0);
+    Cube();
     virtual ~Cube();
 
     void generate(double edgeLength, double scaleX = 1.0, double scaleY = 1.0, double scaleZ = 1.0);

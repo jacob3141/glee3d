@@ -22,7 +22,7 @@
 #define G3D_OBJECT_H
 
 // Own includes
-#include "g3d_entity.h"
+#include "g3d_anchored.h"
 #include "g3d_material.h"
 #include "g3d_vector2d.h"
 #include "g3d_mesh.h"
@@ -39,10 +39,10 @@ namespace Glee3D {
   * @date 02.12.2012
   * Represents an object in the virtual space.
   */
-class Object : public Entity, public Serializable {
+class Object : public Anchored, public Serializable {
 public:
     /** Creates a new object for the virtual 3D space. */
-    Object(Entity *parent = 0);
+    Object();
 
     /** Destructor. */
     virtual ~Object();

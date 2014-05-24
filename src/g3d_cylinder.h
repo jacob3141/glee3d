@@ -32,7 +32,7 @@ namespace Glee3D {
   */
 class Cylinder : public Object {
 public:
-    Cylinder(Entity *parent = 0);
+    Cylinder();
 
     void generate(double radius, double height = 1.0, int segments = 16);
 };

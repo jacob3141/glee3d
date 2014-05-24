@@ -29,8 +29,8 @@
 #include "GL/glu.h"
 
 namespace Glee3D {
-    Object::Object(Entity *parent)
-        : Entity(parent),
+    Object::Object()
+        : Anchored(),
           Serializable() {
         _mesh = 0;
         _compiledMesh = 0;

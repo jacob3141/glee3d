@@ -22,7 +22,7 @@
 #define G3D_CAMERA_H
 
 // Own includes
-#include "g3d_entity.h"
+#include "g3d_anchored.h"
 #include "g3d_matrixstate.h"
 
 namespace Glee3D {
@@ -32,12 +32,12 @@ namespace Glee3D {
   * @date 02.12.2012
   * @brief Declares a camera in the virtual space.
   */
-class Camera : public Entity {
+class Camera : public Anchored {
 public:
     /**
       * @brief Creates a new camera.
       */
-    Camera(Entity *parent = 0);
+    Camera();
 
     MatrixState matrixState();
 

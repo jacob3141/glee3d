@@ -48,7 +48,6 @@ HEADERS += \
     g3d_cylinder.h \
     g3d_display.h \
     g3d_effect.h \
-    g3d_entity.h \
     g3d_framebuffer.h \
     g3d_lightsource.h \
     g3d_material.h \
@@ -65,7 +64,8 @@ HEADERS += \
     g3d_vector3d.h \
     g3d_vector4d.h \
     g3d_serializable.h \
-    g3d_texturestore.h
+    g3d_texturestore.h \
+    g3d_anchored.h
 
 SOURCES += \
     g3d_bloomeffect.cpp \
@@ -73,7 +73,6 @@ SOURCES += \
     g3d_cube.cpp \
     g3d_cylinder.cpp \
     g3d_display.cpp \
-    g3d_entity.cpp \
     g3d_framebuffer.cpp \
     g3d_lightsource.cpp \
     g3d_material.cpp \
@@ -85,5 +84,6 @@ SOURCES += \
     g3d_scene.cpp \
     g3d_skybox.cpp \
     g3d_terrain.cpp \
-    g3d_texturestore.cpp
+    g3d_texturestore.cpp \
+    g3d_anchored.cpp
 

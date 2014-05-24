@@ -22,8 +22,8 @@
 #include "g3d_lightsource.h"
 
 namespace Glee3D {
-    LightSource::LightSource(Entity *parent)
-        : Entity(parent) {
+    LightSource::LightSource()
+        : Anchored() {
         _lightSourceType = Punctual;
         _switchedOn = true;
     }
