@@ -63,8 +63,7 @@ namespace Glee3D {
         int width();
         int height();
 
-        void render();
-
+        void render(RenderMode renderMode = Textured);
 
     protected:
 

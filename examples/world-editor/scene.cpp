@@ -44,13 +44,14 @@ Scene::Scene()
     skyBox->setTexture(Glee3D::SkyBox::FrontZ, "skybox-zpos");
     setSkyBox(skyBox);
 
+    /*
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
     globalLight->setPosition(Glee3D::RealVector3D(5.0, 15.0, 2.0));
     globalLight->setAmbientLight(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
     globalLight->setSpecularLight(Glee3D::RgbaColor(0.9, 0.9, 0.9, 1.0));
     globalLight->setDiffuseLight(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
     insertLightSource(globalLight);
-
+*/
     Glee3D::Cube *cube = new Glee3D::Cube();
     cube->generate(10.0);
     cube->setMaterial(new Glee3D::PearlMaterial());
@@ -138,6 +139,6 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         activeCamera->move(Glee3D::RealVector3D(-0.05 * activeCamera->position()._y, 0.0, 0.0));
     }
 
-    activeCamera->setLookAt(Glee3D::RealVector3D(activeCamera->position()._x, 0, activeCamera->position()._z + activeCamera->position()._y * 2));
+    activeCamera->setLookAt(Glee3D::RealVector3D(activeCamera->position()._x, 0, activeCamera->position()._z + activeCamera->position()._y * 4));
 
 }

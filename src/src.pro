@@ -65,7 +65,8 @@ HEADERS += \
     g3d_vector4d.h \
     g3d_serializable.h \
     g3d_texturestore.h \
-    g3d_anchored.h
+    g3d_anchored.h \
+    g3d_renderable.h
 
 SOURCES += \
     g3d_bloomeffect.cpp \

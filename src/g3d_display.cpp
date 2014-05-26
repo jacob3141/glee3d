@@ -25,6 +25,7 @@
 
 // GL utilities includes
 #include "GL/glu.h"
+#include "GL/glut.h"
 
 // Standard includes
 #include <iostream>
@@ -121,7 +122,6 @@ namespace Glee3D {
     }
 
     void Display::initializeGL() {        
-
         GLenum result = glewInit();
         if(result != GLEW_OK) {
             std::cout << "Error initializing glew: " << (const char*)glewGetErrorString(result) << std::endl;

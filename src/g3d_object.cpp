@@ -31,6 +31,7 @@
 namespace Glee3D {
     Object::Object()
         : Anchored(),
+          Renderable(),
           Serializable() {
         _mesh = 0;
         _compiledMesh = 0;
@@ -62,7 +63,8 @@ namespace Glee3D {
         glRotated(_rotation._z, 0.0, 0.0, 1.0);
     }
 
-    void Object::render() {
+    void Object::render(RenderMode renderMode) {
+        Q_UNUSED(renderMode);
         if(!_visible)
             return;
 
@@ -168,16 +170,8 @@ namespace Glee3D {
         return _selected;
     }
 
-    bool Object::visible() {
-        return _visible;
-    }
-
     void Object::setSelected(bool on) {
         _selected = on;
-    }
-
-    void Object::setVisible(bool on) {
-        _visible = on;
     }
 
     void Object::moveForward(double units) {

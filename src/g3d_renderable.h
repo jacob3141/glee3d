@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
+//    Copyright (C) 2014 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,37 +18,45 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-// Own includes
-#include "g3d_texturestore.h"
+#ifndef G3D_RENDERABLE_H
+#define G3D_RENDERABLE_H
 
+/**
+ *
+ */
 namespace Glee3D {
 
-    TextureStore::TextureStore() {
-    }
+     /**
+     * @brief The Renderable class
+     */
+    class Renderable {
+    public:
+        enum RenderMode {
+            Grid,
+            Solid,
+            Textured
+        };
 
-    bool TextureStore::loadTexture(Display& display, QString fileName, QString textureId) {
-        LoadedTexture loadedTexture;
-        display.makeCurrent();
-        if(loadedTexture._image.load(fileName)) {
-            loadedTexture._glHandle = display.bindTexture(loadedTexture._image);
-            _loadedTextures[textureId] = loadedTexture;
-            return true;
-        } else {
-            return false;
-        }
-    }
+        virtual ~Renderable() { }
 
-    void TextureStore::activateTexture(QString textureId) {
-        if(!textureId.isEmpty()
-        && _loadedTextures.contains(textureId)) {
-            glBindTexture(GL_TEXTURE_2D, _loadedTextures[textureId]._glHandle);
-        } else {
-            glBindTexture(GL_TEXTURE_2D, GL_NONE);
+        /** Sets whether this object shall be visible or not.
+          * @param on true, if this object shall be visible.
+          */
+        void setVisible(bool on = true) {
+            _visible = on;
         }
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    }
+        /** @returns true, when this object is set to be visible. */
+        bool visible() {
+            return _visible;
+        }
+
+        virtual void render(RenderMode renderMode = Renderable::Textured) = 0;
+
+    protected:
+        bool _visible;
+    };
+
 } // namespace Glee3D
+
+#endif // G3D_RENDERABLE_H

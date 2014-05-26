@@ -165,7 +165,8 @@ namespace Glee3D {
         return _height;
     }
 
-    void Terrain::render() {
+    void Terrain::render(RenderMode renderMode) {
+        Q_UNUSED(renderMode);
         material()->activate();
         glBegin(GL_QUADS);
         for(int y = 0; y < _height - 1; y++) {

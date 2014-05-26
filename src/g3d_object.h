@@ -27,6 +27,7 @@
 #include "g3d_vector2d.h"
 #include "g3d_mesh.h"
 #include "g3d_serializable.h"
+#include "g3d_renderable.h"
 
 // Qt includes
 #include <QHash>
@@ -39,7 +40,10 @@ namespace Glee3D {
   * @date 02.12.2012
   * Represents an object in the virtual space.
   */
-class Object : public Anchored, public Serializable {
+class Object :
+        public Anchored,
+        public Renderable,
+        public Serializable {
 public:
     /** Creates a new object for the virtual 3D space. */
     Object();
@@ -107,14 +111,6 @@ public:
     /** @returns true, when this object is in selected-state. */
     bool selected();
 
-    /** Sets whether this object shall be visible or not.
-      * @param on true, if this object shall be visible.
-      */
-    void setVisible(bool on = true);
-
-    /** @returns true, when this object is set to be visible. */
-    bool visible();
-
     /** Moves the object forward, ie. in the directon of its
       * front-vector.
       * @param units The distance this object shall be moved.
@@ -139,7 +135,7 @@ public:
     void applyModelView();
 
     /** Renders this object using OpenGL commands. */
-    virtual void render();
+    virtual void render(RenderMode renderMode = Textured);
 
     /** Check whether this object collides with the given line.
       * @param line Collision line.
@@ -162,7 +158,6 @@ protected:
     QString _name;
 
     bool _selected;
-    bool _visible;
 
     Mesh *_mesh;
     CompiledMesh *_compiledMesh;
