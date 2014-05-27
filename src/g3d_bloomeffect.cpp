@@ -37,7 +37,7 @@ GLfloat lightblue[4] = {122, 143, 248, 0};
 
 namespace Glee3D {
 BloomEffect::BloomEffect()
-    : Effect() {
+    : PostRenderEffect() {
 }
 
 BloomEffect::~BloomEffect() {

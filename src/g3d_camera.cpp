@@ -53,7 +53,7 @@ namespace Glee3D {
         glLoadIdentity();
         gluLookAt(_position._x, _position._y, _position._z,
                   _lookAt._x, _lookAt._y, _lookAt._z,
-                  _up._x, _up._y, _up._z);
+                  upVector()._x, upVector()._y, upVector()._z);
 
         // Fetch current state into a matrix state object.
         MatrixState state;

@@ -34,6 +34,10 @@
 // Qt includes
 #include <QHash>
 
+/**
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
 namespace Glee3D {
 
 /**
@@ -62,31 +66,6 @@ public:
 
     /** @returns the name for this object. */
     QString name();
-
-    /** Accelerates the object by the given amount.
-      * @param value Acceleration value.
-      * @badcode This should be a vector.
-      * @deprecated
-      */
-    void accelerate(double value);
-
-    /** Sets the velocity for this object.
-      * @param value Velocity for this object.
-      * @badcode This should be a vector.
-      * @deprecated
-      */
-    void setVelocity(double value);
-
-    /** @returns the velocity for this object. */
-    double velocity();
-
-    /** Sets the spin for this object.
-      * @param spin Spin of this object for all three angles in degrees.
-      */
-    void setSpin(RealVector3D spin);
-
-    /** @returns the spin for this object. */
-    RealVector3D spin();
 
     /** Sets whether this object is selected or not.
       * @param on true, if this object is selected.
@@ -137,9 +116,6 @@ protected:
 
     Mesh *_mesh;
     CompiledMesh *_compiledMesh;
-
-    RealVector3D _spin;
-    double _velocity;
 };
 
 } // namespace Glee3D

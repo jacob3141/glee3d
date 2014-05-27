@@ -24,20 +24,33 @@
 // Own includes
 #include "g3d_object.h"
 
-namespace Glee3D {
 /**
-  * @class Cube
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-  * @date 02.12.2012
-  */
-class Cube : public Object {
-public:
-    Cube();
-    virtual ~Cube();
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
+namespace Glee3D {
+    /**
+      * @class Cube
+      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+      * @date 02.12.2012
+      */
+    class Cube : public Object {
+    public:
+        /** Creates a new cube. */
+        Cube();
 
-    void generate(double edgeLength, double scaleX = 1.0, double scaleY = 1.0, double scaleZ = 1.0);
-};
+        /** Destructor. */
+        virtual ~Cube();
 
+        /**
+         * Generates a new cube based on the given parameters.
+         * @param edgeLength Base edge length.
+         * @param scaleX Scaling factor in x direction.
+         * @param scaleY Scaling factor in y direction.
+         * @param scaleZ Scaling factor in z direction.
+         */
+        void generate(double edgeLength, double scaleX = 1.0, double scaleY = 1.0, double scaleZ = 1.0);
+    };
 } // namespace Glee3D
 
 #endif // G3D_CUBE_H

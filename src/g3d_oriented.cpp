@@ -26,10 +26,8 @@
 #include <QGLWidget>
 
 namespace Glee3D {
-
     Oriented::Oriented() {
         _rotation = RealVector3D(0.0, 0.0, 0.0);
-        _up = RealVector3D(0.0, 1.0, 0.0);
     }
 
     Oriented::~Oriented() {
@@ -82,7 +80,13 @@ namespace Glee3D {
         return _rotation;
     }
 
-    RealVector3D Oriented::front() {
+    RealVector3D Oriented::sideVector() {
+        // TODO: This method is broken and needs a rewrite.
+        return RealVector3D();
+    }
+
+    RealVector3D Oriented::frontVector() {
+        // TODO: This method is broken and needs a rewrite.
         RealVector3D result;
         double rot_x = _rotation._x * 2 * M_PI / 360.0;
         double rot_y = _rotation._y * 2 * M_PI / 360.0;
@@ -93,7 +97,8 @@ namespace Glee3D {
         return result;
     }
 
-    RealVector3D Oriented::up() {
+    RealVector3D Oriented::upVector() {
+        // TODO: This method is broken and needs a rewrite.
         RealVector3D result;
         double rot_x = _rotation._x * 2 * M_PI / 360.0;
         double rot_y = _rotation._y * 2 * M_PI / 360.0;
@@ -101,16 +106,8 @@ namespace Glee3D {
 
         result._x = - cos(rot_y) * sin(rot_z);
         result._y = - sin(rot_z) * sin(rot_y) * sin(rot_x) + cos(rot_x) * cos(rot_z);
-        result._z = cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x);
+        result._z =   cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x);
         return result;
     }
 
-    /*
-    void Oriented::setUp(RealVector3D up) {
-        _up = up;
-    }
-
-    RealVector3D Oriented::up() {
-        return _up;
-    }*/
 } // namespace Glee3D

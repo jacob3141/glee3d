@@ -24,41 +24,48 @@
 // Own includes
 #include "g3d_vector3d.h"
 
+/**
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
 namespace Glee3D {
-
+    /**
+     * Represents an oriented widget in the virtual space. Widgets may be
+     * oriented, but do not necessarily have to have a position.
+     */
     class Oriented {
     public:
+        /** Initializes a new oriented widget. */
         Oriented();
+
+        /** Destructor. */
         virtual ~Oriented();
 
-        /** Sets the rotation for this object.
+        /** Sets the rotation for this widget.
           * @param value Vector containing angles for all three axes in degrees.
           */
         void setRotation(RealVector3D value);
 
-        /** Rotates the object based on the current rotation state.
+        /** @returns the widget's rotation for all three axes in degrees. */
+        RealVector3D rotation();
+
+        /** Rotates the widget based on the current rotation state.
           * @param delta Vector containing angles for all three axes in degrees.
           */
         void rotate(RealVector3D delta);
 
-        /** @returns the object's rotation for all three axes in degrees. */
-        RealVector3D rotation();
+        /** @returns the widget's side-vector (positive x direction). */
+        RealVector3D sideVector();
 
-        /** @returns the object's front-vector. */
-        RealVector3D front();
+        /** @returns the widget's front-vector (positive z direction). */
+        RealVector3D frontVector();
 
-        /** @returns the object's up-vector. */
-        RealVector3D up();
-
-        /**
-          * Sets the up-vector of the camera.
-          * @param up Up-vector.
-          */
-        //void setUp(RealVector3D up);
+        /** @returns the widget's up-vector (positive y direction). */
+        RealVector3D upVector();
 
     protected:
+        /** This property holds the rotation for the x, y and z axis in degrees. */
         RealVector3D _rotation;
-        RealVector3D _up;
     };
 
 } // namespace Glee3D

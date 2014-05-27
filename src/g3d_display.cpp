@@ -85,8 +85,8 @@ namespace Glee3D {
         return _scene;
     }
 
-    void Display::appendEffect(Effect *effect) {
-        _effects.append(effect);
+    void Display::appendPostRenderEffect(PostRenderEffect *effect) {
+        _postRenderEffects.append(effect);
     }
 
     RealLine3D Display::ray(QPoint displayPoint) {
@@ -176,7 +176,7 @@ namespace Glee3D {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_NORMALIZE);
 
-        foreach(Effect *effect, _effects) {
+        foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->initialize();
         }
     }
@@ -238,21 +238,21 @@ namespace Glee3D {
                 foreach(Object *object, objects) {
                     cameraMatrixState.load();
                     object->applyModelViewMatrix();
-                    //object->render();
+                    object->render();
 
-                    glBegin(GL_LINES);
-                    glColor3i(0, 255, 0);
-                    glVertex3d(0, 0, 0);
-                    glVertex3d(object->front()._x * 10.0,
-                               object->front()._y * 10.0,
-                               object->front()._z * 10.0);
+//                    glBegin(GL_LINES);
+//                    glColor3i(0, 255, 0);
+//                    glVertex3d(0, 0, 0);
+//                    glVertex3d(object->frontVector()._x * 50.0,
+//                               object->frontVector()._y * 50.0,
+//                               object->frontVector()._z * 50.0);
 
-                    glVertex3d(0, 0, 0);
-                    glVertex3d(object->up()._x * 10.0,
-                               object->up()._y * 10.0,
-                               object->up()._z * 10.0);
-                    glEnd();
+//                    glVertex3d(0, 0, 0);
+//                    glVertex3d(object->upVector()._x * 50.0,
+//                               object->upVector()._y * 50.0,
+//                               object->upVector()._z * 50.0);
 
+//                    glEnd();
                 }
             }
             _scene->unlockScene();
@@ -260,7 +260,7 @@ namespace Glee3D {
 
         _frameBuffer->release();
 
-        foreach(Effect *effect, _effects) {
+        foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->apply(_frameBuffer);
         }
 

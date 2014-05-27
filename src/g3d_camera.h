@@ -26,67 +26,70 @@
 #include "g3d_matrixstate.h"
 #include "g3d_oriented.h"
 
-namespace Glee3D {
 /**
-  * @class Camera
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-  * @date 02.12.2012
-  * @brief Declares a camera in the virtual space.
-  */
-class Camera :
-    public Anchored,
-    public Oriented {
-public:
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
+namespace Glee3D {
     /**
-      * @brief Creates a new camera.
+      * @class Camera
+      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+      * @date 02.12.2012
+      * @brief Declares a camera in the virtual space.
       */
-    Camera();
+    class Camera :
+        public Anchored,
+        public Oriented {
+    public:
+        /**
+          * @brief Creates a new camera.
+          */
+        Camera();
 
-    /**
-     * Generates a new matrix state based on the camera values. Call the
-     * matrix states' load method in order to activate.
-     * @return
-     */
-    MatrixState generateMatrixState();
+        /**
+         * Generates a new matrix state based on the camera values. Call the
+         * matrix states' load method in order to activate.
+         * @return
+         */
+        MatrixState generateMatrixState();
 
-    /**
-      * Sets the aspect ratio for this camera.
-      * @param width Width of aspect ratio.
-      * @param height Height of aspect ratio.
-      */
-    void setAspectRatio(int width, int height);
+        /**
+          * Sets the aspect ratio for this camera.
+          * @param width Width of aspect ratio.
+          * @param height Height of aspect ratio.
+          */
+        void setAspectRatio(int width, int height);
 
-    /**
-     * Sets the camera field of view.
-     * @param fieldOfView
-     */
-    void setFieldOfView(double fieldOfView);
+        /**
+         * Sets the camera field of view.
+         * @param fieldOfView
+         */
+        void setFieldOfView(double fieldOfView);
 
-    /**
-      * Turns the camera so it looks at the specified point defined
-      * in the virtual space.
-      * @param target Point at which the camera is directed.
-      */
-    void setLookAt(RealVector3D target);
+        /**
+          * Turns the camera so it looks at the specified point defined
+          * in the virtual space.
+          * @param target Point at which the camera is directed.
+          */
+        void setLookAt(RealVector3D target);
 
-    /** @returns Look-At-vector. */
-    RealVector3D lookAt();
+        /** @returns Look-At-vector. */
+        RealVector3D lookAt();
 
-    /**
-      * Moves the camera into the direction that it is looking.
-      * @param units Distance that camera shall be moved.
-      */
-    void moveForward(double units);
+        /**
+          * Moves the camera into the direction that it is looking.
+          * @param units Distance that camera shall be moved.
+          */
+        void moveForward(double units);
 
-private:
-    double _near;
-    double _far;
-    double _fieldOfView;
-    double _aspectRatio;
+    private:
+        double _near;
+        double _far;
+        double _fieldOfView;
+        double _aspectRatio;
 
-    RealVector3D _lookAt;
-};
-
+        RealVector3D _lookAt;
+    };
 } // namespace Glee3D
 
 #endif // G3D_CAMERA_H

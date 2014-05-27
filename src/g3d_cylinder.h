@@ -24,19 +24,29 @@
 // Own includes
 #include "g3d_object.h"
 
-namespace Glee3D {
 /**
-  * @class Cylinder
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-  * @date 02.12.2012
-  */
-class Cylinder : public Object {
-public:
-    Cylinder();
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
+namespace Glee3D {
+    /**
+      * @class Cylinder
+      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+      * @date 02.12.2012
+      */
+    class Cylinder : public Object {
+    public:
+        /** Creates a new cylinder. */
+        Cylinder();
 
-    void generate(double radius, double height = 1.0, int segments = 16);
-};
-
+        /**
+         * Generates a new cylinder based on the given parameters.
+         * @param radius Radius of the cylinder.
+         * @param height Height.
+         * @param segments Number of segments.
+         */
+        void generate(double radius, double height = 1.0, int segments = 16);
+    };
 } // namespace Glee3D
 
 #endif // G3D_CYLINDER_H

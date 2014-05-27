@@ -38,8 +38,6 @@ namespace Glee3D {
         _mesh = 0;
         _compiledMesh = 0;
         _selected = false;
-        _spin = RealVector3D(0.0, 0.0, 0.0);
-        _velocity = 0.0;
     }
 
     Object::~Object() {
@@ -77,30 +75,6 @@ namespace Glee3D {
         }
     }
 
-    double Object::velocity() {
-        return _velocity;
-    }
-
-    void Object::accelerate(double value) {
-        if(_velocity < 0.001)
-            _velocity = 0.001;
-        _velocity *= value;
-        if(_velocity < 0.001)
-            _velocity = 0.0;
-    }
-
-    void Object::setVelocity(double value) {
-        _velocity = value;
-    }
-
-    RealVector3D Object::spin() {
-        return _spin;
-    }
-
-    void Object::setSpin(RealVector3D spin) {
-        _spin = spin;
-    }
-
     bool Object::selected() {
         return _selected;
     }
@@ -110,11 +84,11 @@ namespace Glee3D {
     }
 
     void Object::moveForward(double units) {
-        _position += (front() * units);
+        _position += (frontVector() * units);
     }
 
     void Object::moveBackward(double units) {
-        _position += (- front() * units);
+        _position += (- frontVector() * units);
     }
 
     bool Object::collides(const RealLine3D& line) {
@@ -176,8 +150,6 @@ namespace Glee3D {
             jsonObject["material"]  = _material->serialize();
         }
         jsonObject["rotation"]  = _rotation.serialize();
-        jsonObject["spin"]      = _spin.serialize();
-        jsonObject["velocity"]  = _velocity;
 
         return jsonObject;
     }
@@ -224,13 +196,6 @@ namespace Glee3D {
                     _deserializationError = _rotation.deserializationError();
                     return false;
                 }
-
-                if(!_spin.deserialize(jsonObject["spin"].toObject())) {
-                    _deserializationError = _spin.deserializationError();
-                    return false;
-                }
-
-                _velocity = jsonObject["velocity"].toDouble();
 
                 compile();
                 _deserializationError = Serializable::NoError;

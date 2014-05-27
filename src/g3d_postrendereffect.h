@@ -18,8 +18,8 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_EFFECT_H
-#define G3D_EFFECT_H
+#ifndef G3D_POSTRENDEREFFECT_H
+#define G3D_POSTRENDEREFFECT_H
 
 // Own includes
 #include "g3d_framebuffer.h"
@@ -35,10 +35,10 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
-class Effect {
+class PostRenderEffect {
 public:
-    Effect() { }
-    virtual ~Effect() { }
+    PostRenderEffect() { }
+    virtual ~PostRenderEffect() { }
 
     /**
       * @note Post-render effects need framebuffer objects, which can only be
@@ -48,8 +48,10 @@ public:
       * appropriate.
       */
     virtual void initialize() = 0;
+
+    /** Applies the effect to the framebuffer. */
     virtual void apply(FrameBuffer *frameBuffer) = 0;
 };
 
 } // namespace Glee3D
-#endif // G3D_EFFECT_H
+#endif // G3D_POSTRENDEREFFECT_H

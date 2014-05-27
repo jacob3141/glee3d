@@ -23,7 +23,7 @@
 
 // Own includes
 #include "g3d_program.h"
-#include "g3d_effect.h"
+#include "g3d_postrendereffect.h"
 
 typedef enum {HORIZONTAL, VERTICAL} Direction;
 
@@ -35,7 +35,7 @@ namespace Glee3D {
   * @date 02.12.2012
   * Implements a post render bloom effect.
   */
-class BloomEffect : public Effect {
+class BloomEffect : public PostRenderEffect {
 public:
     BloomEffect();
     ~BloomEffect();

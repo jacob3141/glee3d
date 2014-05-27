@@ -46,7 +46,6 @@ HEADERS += \
     g3d_cube.h \
     g3d_cylinder.h \
     g3d_display.h \
-    g3d_effect.h \
     g3d_framebuffer.h \
     g3d_lightsource.h \
     g3d_material.h \
@@ -67,7 +66,8 @@ HEADERS += \
     g3d_anchored.h \
     g3d_renderable.h \
     g3d_texturizable.h \
-    g3d_oriented.h
+    g3d_oriented.h \
+    g3d_postrendereffect.h
 
 SOURCES += \
     g3d_bloomeffect.cpp \

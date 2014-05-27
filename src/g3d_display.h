@@ -23,7 +23,7 @@
 
 // Own includes
 #include "g3d_program.h"
-#include "g3d_effect.h"
+#include "g3d_postrendereffect.h"
 #include "g3d_scene.h"
 #include "g3d_camera.h"
 #include "g3d_framebuffer.h"
@@ -38,86 +38,126 @@
 #include <QKeyEvent>
 #include <QList>
 
-namespace Glee3D {
 /**
-  * @class Display
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-  * @date 02.12.2012
-  */
-class Display : public QGLWidget {
-    Q_OBJECT
-public:
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
+namespace Glee3D {
     /**
-     * @attention You have to make sure you pass the parent widget so that this
-     * class can add itself as a focus proxy and correctly process input events!
-     * @param parent
-     */
-    Display(QWidget *parent = 0);
+      * @class Display
+      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+      * @date 02.12.2012
+      */
+    class Display : public QGLWidget {
+        Q_OBJECT
+    public:
+        /**
+         * @attention You have to make sure you pass the parent widget so that this
+         * class can add itself as a focus proxy and correctly process input events!
+         * @param parent
+         */
+        Display(QWidget *parent = 0);
 
-    void setActiveCamera(Camera *camera);
-    Camera *activeCamera();
+        /**
+         * Sets the active camera for rendering the current scene.
+         * @param camera The camera object.
+         */
+        void setActiveCamera(Camera *camera);
 
-    void setScene(Scene *scene);
-    Scene *scene();
+        /** @returns the active camera. */
+        Camera *activeCamera();
 
-    void appendEffect(Effect *effect);
+        /** Sets the currently displayed scene.
+         * @param scene The scene object.
+         */
+        void setScene(Scene *scene);
 
-    enum MouseMoveMode {
-        Normal,
-        Drag
+        /** @returns the current scene. */
+        Scene *scene();
+
+        /** Appends a post render effect. */
+        void appendPostRenderEffect(PostRenderEffect *effect);
+
+        enum MouseMoveMode {
+            Normal,
+            Drag
+        };
+
+        /**
+         * Constructs a ray based on the viewing frustrum into 3d space.
+         * @param displayPoint
+         * @return
+         */
+        RealLine3D ray(QPoint displayPoint);
+
+        /** Constructs a point based on the information in the depth buffer. */
+        RealVector3D point(QPoint displayPoint);
+
+    signals:
+        /** This signal will be emitted whenever a new fps value is available. */
+        void framesPerSecond(int fps);
+
+    protected:
+        /** @overload */
+        void initializeGL();
+
+        /** @overload */
+        void resizeGL(int w, int h);
+
+        /** @overload */
+        void paintGL();
+
+        /** @overload */
+        void mousePressEvent(QMouseEvent *mouseEvent);
+
+        /** @overload */
+        void mouseReleaseEvent(QMouseEvent *mouseEvent);
+
+        /** @overload */
+        void mouseMoveEvent(QMouseEvent *mouseEvent);
+
+        /** @overload */
+        void keyPressEvent(QKeyEvent *keyEvent);
+
+        /** @overload */
+        void keyReleaseEvent(QKeyEvent *keyEvent);
+
+    private slots:
+        /** Schedules a redraw of the displayed scene, returns immediately. */
+        void refresh();
+
+        /** Processes a logic step. */
+        void processLogic();
+
+        /** Updates the current fps. */
+        void updateFramesPerSecond();
+
+        /** Handles a left button on-screen click. */
+        void leftButtonClick(QPoint displayPoint);
+
+        /** Handles a new mouse hover position on screen. */
+        void hover(QPoint hoverPoint);
+
+        /** Handles a drag event on the screen. */
+        void drag(QPoint dragFrom, QPoint dragTo);
+
+    private:
+        Scene *_scene;
+        Camera *_activeCamera;
+        FrameBuffer *_frameBuffer;
+
+        QTimer _refreshTimer;
+        QTimer _logicTimer;
+        QTimer _framesPerSecondTimer;
+        QPoint _dragFrom;
+        int _framesPerSecondCounter;
+        int _framesPerSecond;
+
+        MouseMoveMode _mouseMoveMode;
+
+        QMap<int, bool> _keyStatusMap;
+        QList<PostRenderEffect*> _postRenderEffects;
     };
-
-    /**
-     * Constructs a ray based on the viewing frustrum into 3d space.
-     * @param displayPoint
-     * @return
-     */
-    RealLine3D ray(QPoint displayPoint);
-
-    /** Constructs a point based on the information in the depth buffer. */
-    RealVector3D point(QPoint displayPoint);
-
-signals:
-    void framesPerSecond(int fps);
-
-protected:
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
-
-    void mousePressEvent(QMouseEvent *mouseEvent);
-    void mouseReleaseEvent(QMouseEvent *mouseEvent);
-    void mouseMoveEvent(QMouseEvent *mouseEvent);
-
-    void keyPressEvent(QKeyEvent *keyEvent);
-    void keyReleaseEvent(QKeyEvent *keyEvent);
-
-private slots:
-    void refresh();
-    void processLogic();
-    void updateFramesPerSecond();
-    void leftButtonClick(QPoint displayPoint);
-    void hover(QPoint hoverPoint);
-    void drag(QPoint dragFrom, QPoint dragTo);
-
-private:
-    Scene *_scene;
-    Camera *_activeCamera;
-    FrameBuffer *_frameBuffer;
-
-    QTimer _refreshTimer;
-    QTimer _logicTimer;
-    QTimer _framesPerSecondTimer;
-    QPoint _dragFrom;
-    int _framesPerSecondCounter;
-    int _framesPerSecond;
-
-    MouseMoveMode _mouseMoveMode;
-
-    QMap<int, bool> _keyStatusMap;
-    QList<Effect*> _effects;
-};
-
 } // namespace Glee3D
 
 #endif // G3D_DISPLAY_H

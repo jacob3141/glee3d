@@ -53,7 +53,7 @@ Scene::Scene()
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->generate("../../heightmaps/heightmap.png");
-    terrain->setMaterial(new Glee3D::ChromeMaterial());
+    terrain->setMaterial(new Glee3D::GoldMaterial());
     terrain->material()->setTextureId("terrain");
     terrain->setTilingOffset(1.0);
     terrain->setScale(10.0);
@@ -65,7 +65,7 @@ Scene::Scene()
         cube->generate(20.0);
         cube->setMaterial(new Glee3D::ChromeMaterial());
         cube->material()->setTextureId("chrome");
-        cube->setPosition(Glee3D::RealVector3D(cos((double)i / 31.4) * 500, 300.0 + sin((double)i / 3.14) * 100.0, sin((double)i / 31.4) * 500));
+        cube->setPosition(Glee3D::RealVector3D(cos((double)i / 31.4) * (250 + 250 * sin((double)i / 3.14)), 300.0 + sin((double)i / 3.14) * 100.0, sin((double)i / 31.4) * (250 + 250 * sin((double)i / 3.14))));
         insertObject(cube);
     }
 }
@@ -94,8 +94,7 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
     }
 
     foreach(Glee3D::Object *o, _objects) {
-        o->rotate(o->spin());
-        o->move(o->front() * o->velocity());
+        o->rotate(Glee3D::RealVector3D(0.1, 0.1, 0.1));
     }
 
     if(keyStatusMap[Qt::Key_Space]) {
@@ -126,5 +125,5 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         activeCamera->move(Glee3D::RealVector3D(0.05 * activeCamera->position()._y, 0.0, 0.0));
     }
 
-    activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -1, -3));
+    //activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -1, -3));
 }
