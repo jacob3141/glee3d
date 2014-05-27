@@ -22,7 +22,6 @@
 #define G3D_VECTOR2D_H
 
 // Own includes
-#include "g3d_configuration.h"
 #include "g3d_serializable.h"
 
 // C++ includes
@@ -171,7 +170,7 @@ public:
     }
 };
 
-typedef Vector2D<FLOATING_POINT_FORMAT> RealVector2D;
+typedef Vector2D<double> RealVector2D;
 typedef Vector2D<int> IntVector2D;
 
 } // namespace Glee3D

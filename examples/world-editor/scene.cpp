@@ -44,60 +44,49 @@ Scene::Scene()
     skyBox->setTexture(Glee3D::SkyBox::FrontZ, "skybox-zpos");
     setSkyBox(skyBox);
 
-    /*
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
     globalLight->setPosition(Glee3D::RealVector3D(5.0, 15.0, 2.0));
     globalLight->setAmbientLight(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
     globalLight->setSpecularLight(Glee3D::RgbaColor(0.9, 0.9, 0.9, 1.0));
-    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
+    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
     insertLightSource(globalLight);
-*/
-    Glee3D::Cube *cube = new Glee3D::Cube();
-    cube->generate(10.0);
-    cube->setMaterial(new Glee3D::PearlMaterial());
-    cube->material()->setTextureId("chrome");
-    cube->setPosition(Glee3D::RealVector3D(0.0, 0.0, 0.0));
-    insertObject(cube);
-
-    Glee3D::Cube *clonedCube = new Glee3D::Cube();
-    clonedCube->deserialize(cube->serialize());
-    clonedCube->setPosition(Glee3D::RealVector3D(20.0, 0.0, 0.0));
-    insertObject(clonedCube);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->generate("../../heightmaps/heightmap.png");
     terrain->setMaterial(new Glee3D::ChromeMaterial());
     terrain->material()->setTextureId("terrain");
-    terrain->setTilingOffset(0.5);
-    terrain->setPosition(Glee3D::RealVector3D(-500.0, 0.0, 0.0));
-    insertObject(terrain);
+    terrain->setTilingOffset(1.0);
+    terrain->setScale(10.0);
+    terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
+    insertTerrain(terrain);
 
+    for(int i = 0; i < 100; i ++) {
+        Glee3D::Cube *cube = new Glee3D::Cube();
+        cube->generate(20.0);
+        cube->setMaterial(new Glee3D::ChromeMaterial());
+        cube->material()->setTextureId("chrome");
+        cube->setPosition(Glee3D::RealVector3D(cos((double)i / 31.4) * 500, 300.0 + sin((double)i / 3.14) * 100.0, sin((double)i / 31.4) * 500));
+        insertObject(cube);
+    }
 }
 
-void Scene::select(Glee3D::RealLine3D line) {
-    Q_UNUSED(line);
-//    bool somethingSelected = false;
-//    foreach(Glee3D::Object *o, _objects) {
-//        if(o->collides(line)) {
-//            o->setSelected(true);
-//            o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));
-//            somethingSelected = true;
-//        } else {
-//            o->setSelected(false);
-//            o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
-//        }
-//    }
+void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
+    Q_UNUSED(point);
+    bool somethingSelected = false;
+    foreach(Glee3D::Object *o, _objects) {
+        if(o->collides(ray)) {
+            //o->setSelected(true);
+            o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));
+            somethingSelected = true;
+        } else {
+            //o->setSelected(false);
+            o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
+        }
+    }
 
-//    if(somethingSelected) {
-//    }
-}
+    if(somethingSelected) {
 
-void Scene::drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to) {
-    Q_UNUSED(from);
-    Q_UNUSED(to);
-}
-
-void Scene::endDrag() {
+    }
 }
 
 void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera) {
@@ -110,35 +99,33 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         o->move(o->front() * o->velocity());
     }
 
-
     if(keyStatusMap[Qt::Key_Space]) {
 
     }
 
     if(keyStatusMap[Qt::Key_E]) {
-        activeCamera->move(Glee3D::RealVector3D(0.0, 0.05 * activeCamera->position()._y, 0.0));
-    }
-
-    if(keyStatusMap[Qt::Key_Q]) {
         activeCamera->move(Glee3D::RealVector3D(0.0, -0.05 * activeCamera->position()._y, 0.0));
     }
 
-    if(keyStatusMap[Qt::Key_W]) {
-        activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, 0.05 * activeCamera->position()._y));
+    if(keyStatusMap[Qt::Key_Q]) {
+        activeCamera->move(Glee3D::RealVector3D(0.0, 0.05 * activeCamera->position()._y, 0.0));
     }
 
-    if(keyStatusMap[Qt::Key_S]) {
+    if(keyStatusMap[Qt::Key_W]) {
         activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, -0.05 * activeCamera->position()._y));
     }
 
-    if(keyStatusMap[Qt::Key_A]) {
-        activeCamera->move(Glee3D::RealVector3D(0.05 * activeCamera->position()._y, 0.0, 0.0));
+    if(keyStatusMap[Qt::Key_S]) {
+        activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, 0.05 * activeCamera->position()._y));
     }
 
-    if(keyStatusMap[Qt::Key_D]) {
+    if(keyStatusMap[Qt::Key_A]) {
         activeCamera->move(Glee3D::RealVector3D(-0.05 * activeCamera->position()._y, 0.0, 0.0));
     }
 
-    activeCamera->setLookAt(Glee3D::RealVector3D(activeCamera->position()._x, 0, activeCamera->position()._z + activeCamera->position()._y * 4));
+    if(keyStatusMap[Qt::Key_D]) {
+        activeCamera->move(Glee3D::RealVector3D(0.05 * activeCamera->position()._y, 0.0, 0.0));
+    }
 
+    activeCamera->setLookAt(Glee3D::RealVector3D(activeCamera->position()._x, 0, activeCamera->position()._z - activeCamera->position()._y));
 }

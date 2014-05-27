@@ -32,6 +32,7 @@ namespace Glee3D {
     Object::Object()
         : Anchored(),
           Renderable(),
+          Texturizable(),
           Serializable() {
         _mesh = 0;
         _compiledMesh = 0;
@@ -55,7 +56,7 @@ namespace Glee3D {
         return _name;
     }
 
-    void Object::applyModelView() {
+    void Object::applyModelViewMatrix() {
         glMatrixMode(GL_MODELVIEW);
         glTranslated(_position._x, _position._y, _position._z);
         glRotated(_rotation._x, 1.0, 0.0, 0.0);
@@ -180,14 +181,6 @@ namespace Glee3D {
 
     void Object::moveBackward(double units) {
         _position += (- front() * units);
-    }
-
-    void Object::setMaterial(Material *material) {
-        _material = material;
-    }
-
-    Material *Object::material() {
-        return _material;
     }
 
     bool Object::collides(const RealLine3D& line) {

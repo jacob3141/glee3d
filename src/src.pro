@@ -43,7 +43,6 @@ CONFIG(debug, debug|release) {
 HEADERS += \
     g3d_bloomeffect.h \
     g3d_camera.h \
-    g3d_configuration.h \
     g3d_cube.h \
     g3d_cylinder.h \
     g3d_display.h \
@@ -66,7 +65,8 @@ HEADERS += \
     g3d_serializable.h \
     g3d_texturestore.h \
     g3d_anchored.h \
-    g3d_renderable.h
+    g3d_renderable.h \
+    g3d_texturizable.h
 
 SOURCES += \
     g3d_bloomeffect.cpp \

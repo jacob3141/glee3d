@@ -22,7 +22,6 @@
 #define G3D_VECTOR4D_H
 
 // Own includes
-#include "g3d_configuration.h"
 #include "g3d_serializable.h"
 
 // C++ includes
@@ -177,7 +176,7 @@ public:
     }
 };
 
-typedef Vector4D<FLOATING_POINT_FORMAT> RealVector4D;
+typedef Vector4D<double> RealVector4D;
 
 } // namespace Glee3D
 

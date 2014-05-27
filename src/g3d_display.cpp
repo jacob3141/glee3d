@@ -41,7 +41,7 @@ namespace Glee3D {
 
         _scene = 0;
         _activeCamera = new Camera();
-        _mouseMoveMode = Ignore;
+        _mouseMoveMode = Normal;
 
         _framesPerSecondCounter = 0;
         _framesPerSecond = 0;
@@ -64,6 +64,7 @@ namespace Glee3D {
 
         _frameBuffer = 0;
         setAutoBufferSwap(false);
+        setMouseTracking(true);
     }
 
     void Display::setActiveCamera(Camera *camera) {
@@ -99,7 +100,7 @@ namespace Glee3D {
 
         // Get the point at the front plane of the viewing frustrum.
         gluUnProject((GLdouble)displayPoint.x(),
-                     (GLdouble)(height() - displayPoint.y()),
+                     (GLdouble)(viewport[3] - displayPoint.y()),
                      0.0,
                      cameraMatrixState.modelviewMatrix()._data,
                      cameraMatrixState.projectionMatrix()._data,
@@ -108,7 +109,7 @@ namespace Glee3D {
 
         // Get the point at the back plane of the viewing frustrum.
         gluUnProject((GLdouble)displayPoint.x(),
-                     (GLdouble)(height() - displayPoint.y()),
+                     (GLdouble)(viewport[3] - displayPoint.y()),
                      1.0,
                      cameraMatrixState.modelviewMatrix()._data,
                      cameraMatrixState.projectionMatrix()._data,
@@ -119,6 +120,28 @@ namespace Glee3D {
         line._positionVector = frontPlanePoint;
         line._directionVector = backPlanePoint - frontPlanePoint;
         return line;
+    }
+
+    RealVector3D Display::point(QPoint displayPoint) {
+        // Retrieve viewport, model view matrix and projection matrix.
+        int viewport[4];
+        glGetIntegerv(GL_VIEWPORT, viewport);
+        MatrixState cameraMatrixState = _activeCamera->matrixState();
+        RealVector3D point;
+
+        GLdouble x = (GLdouble)displayPoint.x();
+        GLdouble y = (GLdouble)(viewport[3] - displayPoint.y());
+        GLdouble z;
+        // Access the depth component.
+        glReadPixels((int)x, (int)y, 1, 1, GL_DEPTH_COMPONENT, GL_DOUBLE, &z);
+
+        // Get the point at the front plane of the viewing frustrum.
+        gluUnProject(x, y, z,
+                     cameraMatrixState.modelviewMatrix()._data,
+                     cameraMatrixState.projectionMatrix()._data,
+                     viewport,
+                     &point._x, &point._y, &point._z);
+        return point;
     }
 
     void Display::initializeGL() {        
@@ -180,8 +203,10 @@ namespace Glee3D {
 
                 SkyBox *s = _scene->skyBox();
                 if(s) {
-                    s->setPosition(_activeCamera->position());
-                    s->applyModelView();
+                    glMatrixMode(GL_MODELVIEW);
+                    glTranslated(_activeCamera->position()._x,
+                                 _activeCamera->position()._y,
+                                 _activeCamera->position()._z);
                     s->render();
                 }
 
@@ -195,14 +220,24 @@ namespace Glee3D {
                         i = 7;
                         // TODO: Decide which light sources to use in order
                         // to exceed OpenGLs limit of only eight light sources.
+
+                        // TODO: This should be handled by own shaders.
                     }
+                }
+
+                // Render terrains.
+                QSet<Terrain*> terrains = _scene->terrains();
+                foreach(Terrain *terrain, terrains) {
+                    cameraMatrixState.load();
+                    terrain->applyModelViewMatrix();
+                    terrain->render();
                 }
 
                 // Render objects.
                 QSet<Object*> objects = _scene->objects();
                 foreach(Object *object, objects) {
                     cameraMatrixState.load();
-                    object->applyModelView();
+                    object->applyModelViewMatrix();
                     object->render();
                 }
             }
@@ -250,9 +285,9 @@ namespace Glee3D {
 
         switch(mouseButton) {
         case Qt::LeftButton:
-            _mouseMoveMode = Ignore;
+            _mouseMoveMode = Normal;
             if(_scene) {
-                _scene->endDrag();
+                _scene->endDrag(ray(mouseEvent->pos()), point(mouseEvent->pos()));
             }
             break;
         default:
@@ -265,7 +300,8 @@ namespace Glee3D {
 
         switch(_mouseMoveMode) {
         default:
-        case Ignore:
+        case Normal:
+            hover(mouseEvent->pos());
             break;
         case Drag:
             QPoint dragTo = mouseEvent->pos();
@@ -284,14 +320,20 @@ namespace Glee3D {
     void Display::leftButtonClick(QPoint displayPoint) {
         // Make sure any scene is set.
         if(_scene) {
-            _scene->select(ray(displayPoint));
+            _scene->select(ray(displayPoint), point(displayPoint));
+        }
+    }
+
+    void Display::hover(QPoint hoverPoint) {
+        if(_scene) {
+            _scene->hover(ray(hoverPoint), point(hoverPoint));
         }
     }
 
     void Display::drag(QPoint dragFrom, QPoint dragTo) {
         // Make sure any scene is set.
         if(_scene) {
-            _scene->drag(ray(dragFrom), ray(dragTo));
+            _scene->drag(ray(dragFrom), ray(dragTo), point(dragFrom), point(dragTo));
         }
     }
 

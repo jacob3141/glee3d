@@ -22,7 +22,6 @@
 #define G3D_VECTOR3D_H
 
 // Own includes
-#include "g3d_configuration.h"
 #include "g3d_serializable.h"
 
 // Qt includes
@@ -336,9 +335,9 @@ public:
     Vector3D<NumberType> _directionVector2;
 };
 
-typedef Vector3D<FLOATING_POINT_FORMAT> RealVector3D;
-typedef Line3D<FLOATING_POINT_FORMAT> RealLine3D;
-typedef Plane3D<FLOATING_POINT_FORMAT> RealPlane3D;
+typedef Vector3D<double> RealVector3D;
+typedef Line3D<double> RealLine3D;
+typedef Plane3D<double> RealPlane3D;
 
 } // namespace Glee3D
 

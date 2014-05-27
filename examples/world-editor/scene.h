@@ -33,9 +33,7 @@ class Scene : public Glee3D::Scene {
 public:
     Scene();
 
-    void select(Glee3D::RealLine3D line);
-    void drag(Glee3D::RealLine3D from, Glee3D::RealLine3D to);
-    void endDrag();
+    void hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point);
 
     void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
 

@@ -34,7 +34,11 @@ namespace Glee3D {
       * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
       * @date 18.08.2013
       */
-    class Terrain : public Object {
+    class Terrain :
+        public Anchored,
+        public Renderable,
+        public Texturizable,
+        public Serializable {
     public:
         enum Encoding {
             RedComponent,
@@ -51,6 +55,9 @@ namespace Glee3D {
         explicit Terrain();
         virtual ~Terrain();
 
+        /** Applies translation and rotation to the model view matrix. */
+        void applyModelViewMatrix();
+
         Result generate(QString fileName,
                         Encoding heightEncoding = RedComponent,
                         Encoding textureEncoding = GreenComponent);
@@ -59,11 +66,17 @@ namespace Glee3D {
                         Encoding textureEncoding = GreenComponent);
 
         void setTilingOffset(float tilingOffset);
+        void setScale(float scale);
 
+        float scale();
         int width();
         int height();
 
         void render(RenderMode renderMode = Textured);
+
+        QString className();
+        QJsonObject serialize();
+        bool deserialize(QJsonObject json);
 
     protected:
 
@@ -71,6 +84,7 @@ namespace Glee3D {
         void allocateMemory();
         void freeMemory();
 
+        float _scale;
         float *_terrain;
         float *_normals;
         float *_vertexNormals;

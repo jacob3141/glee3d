@@ -20,7 +20,6 @@
 
 // Own includes
 #include "g3d_skybox.h"
-//#include "g3d_camera.h"
 #include "g3d_scene.h"
 
 // GL utilities includes
@@ -28,7 +27,7 @@
 
 namespace Glee3D {
     SkyBox::SkyBox()
-        : Object() {
+        : Renderable() {
     }
 
     void SkyBox::setTexture(Plane plane, QString textureId) {
@@ -43,7 +42,8 @@ namespace Glee3D {
         _materials[plane] = material;
     }
 
-    void SkyBox::render() {
+    void SkyBox::render(RenderMode renderMode) {
+        Q_UNUSED(renderMode);
         glPushAttrib(GL_ENABLE_BIT);
         glEnable(GL_TEXTURE_2D);
         glDisable(GL_DEPTH_TEST);

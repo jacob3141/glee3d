@@ -52,6 +52,19 @@ namespace Glee3D {
         }
     }
 
+    void Scene::insertTerrain(Terrain *terrain) {
+        if(terrain) {
+            _terrains.insert(terrain);
+        }
+    }
+
+    void Scene::removeTerrain(Terrain *terrain) {
+        if(terrain) {
+            _terrains.remove(terrain);
+        }
+    }
+
+
     void Scene::insertLightSource(LightSource *lightSource) {
         if(lightSource) {
             _lightSources.insert(lightSource);
@@ -73,4 +86,9 @@ namespace Glee3D {
     QSet<LightSource*> Scene::lightSources() {
         return _lightSources;
     }
+
+    QSet<Terrain*> Scene::terrains() {
+        return _terrains;
+    }
+
 } // namespace Glee3D

@@ -18,9 +18,33 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_CONFIGURATION_H
-#define G3D_CONFIGURATION_H
+#ifndef G3D_TEXTURIZABLE_H
+#define G3D_TEXTURIZABLE_H
 
-#define FLOATING_POINT_FORMAT double
+// Own includes
+#include "g3d_material.h"
 
-#endif // G3D_CONFIGURATION_H
+namespace Glee3D {
+    class Texturizable {
+    public:
+        Texturizable() { }
+        virtual ~Texturizable() { }
+
+        /** Sets the material.
+          * @param material Material that shall be set.
+          */
+        void setMaterial(Material *material) {
+            _material = material;
+        }
+
+        /** @returns the material. */
+        Material *material() {
+            return _material;
+        }
+
+    protected:
+        Material *_material;
+    };
+} // namespace Glee3D
+
+#endif // G3D_TEXTURIZABLE_H

@@ -22,7 +22,7 @@
 #define G3D_SKYBOX_H
 
 // Own includes
-#include "g3d_object.h"
+#include "g3d_renderable.h"
 #include "g3d_material.h"
 
 // Qt includes
@@ -36,7 +36,8 @@ namespace Glee3D {
   * @date 02.12.2012
   * Defines a skybox.
   */
-class SkyBox : public Object {
+class SkyBox :
+    public Renderable {
 public:
     /**
       * @enum Plane
@@ -70,7 +71,7 @@ public:
     /**
       * Renders the skybox.
       */
-    void render();
+    void render(RenderMode renderMode = Textured);
 
 private:
     QMap<Plane, Material*> _materials;

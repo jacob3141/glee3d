@@ -28,6 +28,7 @@
 #include "g3d_mesh.h"
 #include "g3d_serializable.h"
 #include "g3d_renderable.h"
+#include "g3d_texturizable.h"
 
 // Qt includes
 #include <QHash>
@@ -43,6 +44,7 @@ namespace Glee3D {
 class Object :
         public Anchored,
         public Renderable,
+        public Texturizable,
         public Serializable {
 public:
     /** Creates a new object for the virtual 3D space. */
@@ -123,16 +125,8 @@ public:
       */
     void moveBackward(double units);
 
-    /** Sets the material of the object.
-      * @param material Material that shall be set for this object.
-      */
-    void setMaterial(Material *material);
-
-    /** @returns the material of this object. */
-    Material *material();
-
     /** Applies translation and rotation to the model view matrix. */
-    void applyModelView();
+    void applyModelViewMatrix();
 
     /** Renders this object using OpenGL commands. */
     virtual void render(RenderMode renderMode = Textured);
@@ -156,12 +150,10 @@ public:
 
 protected:
     QString _name;
-
     bool _selected;
 
     Mesh *_mesh;
     CompiledMesh *_compiledMesh;
-    Material *_material;
 
     RealVector3D _rotation;
     RealVector3D _spin;

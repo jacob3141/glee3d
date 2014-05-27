@@ -28,6 +28,7 @@
 #include "g3d_vector3d.h"
 #include "g3d_vector2d.h"
 #include "g3d_skybox.h"
+#include "g3d_terrain.h"
 
 // Qt includes
 #include <QObject>
@@ -72,6 +73,10 @@ namespace Glee3D {
           */
         void removeObject(Object *object);
 
+        void insertTerrain(Terrain *terrain);
+
+        void removeTerrain(Terrain *terrain);
+
         /**
           * Inserts a light source into the scene.
           * @param lightSource Light source that shall be inserted.
@@ -95,27 +100,41 @@ namespace Glee3D {
         /** @returns All light sources in this scene. */
         QSet<LightSource*> lightSources();
 
+        QSet<Terrain*> terrains();
+
         virtual void processLogic(QMap<int, bool> keyStatusMap, Camera *activeCamera) {
             Q_UNUSED(keyStatusMap);
             Q_UNUSED(activeCamera);
         }
 
-        virtual void select(RealLine3D line) {
-            Q_UNUSED(line);
+        virtual void select(RealLine3D ray, RealVector3D point) {
+            Q_UNUSED(ray);
+            Q_UNUSED(point);
         }
 
-        virtual void drag(RealLine3D from, RealLine3D to) {
-            Q_UNUSED(from);
-            Q_UNUSED(to);
+        virtual void hover(RealLine3D ray, RealVector3D point) {
+            Q_UNUSED(ray);
+            Q_UNUSED(point);
         }
 
-        virtual void endDrag() {
+        virtual void drag(RealLine3D fromRay, RealLine3D toRay,
+                          RealVector3D fromPoint, RealVector3D toPoint) {
+            Q_UNUSED(fromRay);
+            Q_UNUSED(toRay);
+            Q_UNUSED(fromPoint);
+            Q_UNUSED(toPoint);
+        }
+
+        virtual void endDrag(RealLine3D ray, RealVector3D point) {
+            Q_UNUSED(ray);
+            Q_UNUSED(point);
         }
 
     protected:
         SkyBox *_skyBox;
         QSet<Object*> _objects;
         QSet<LightSource*> _lightSources;
+        QSet<Terrain*> _terrains;
 
     private:
         QSemaphore *_sceneLock;

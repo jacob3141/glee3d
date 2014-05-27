@@ -31,16 +31,27 @@
 
 namespace Glee3D {
     Terrain::Terrain()
-        : Object() {
-        setName("Terrain");
+        : Anchored(),
+          Renderable(),
+          Serializable(){
         _terrain = 0;
         _tileIDs = 0;
         _normals = 0;
+        _scale = 1.0;
     }
 
     Terrain::~Terrain() {
         freeMemory();
     }
+
+    void Terrain::applyModelViewMatrix() {
+        glMatrixMode(GL_MODELVIEW);
+        glTranslated(_position._x, _position._y, _position._z);
+        //glRotated(_rotation._x, 1.0, 0.0, 0.0);
+        //glRotated(_rotation._y, 0.0, 1.0, 0.0);
+        //glRotated(_rotation._z, 0.0, 0.0, 1.0);
+    }
+
 
     Terrain::Result Terrain::generate(QString fileName,
                                       Encoding heightEncoding,
@@ -157,6 +168,14 @@ namespace Glee3D {
         _tilingOffset = tilingOffset;
     }
 
+    void Terrain::setScale(float scale) {
+        _scale = scale;
+    }
+
+    float Terrain::scale() {
+        return _scale;
+    }
+
     int Terrain::width() {
         return _width;
     }
@@ -175,33 +194,48 @@ namespace Glee3D {
                 _normals[x * 3 + y * _width * 3 + 0],
                 _normals[x * 3 + y * _width * 3 + 1],
                 _normals[x * 3 + y * _width * 3 + 2]);
-                glVertex3f((float)x * 10.0, _terrain[x + y * _width],(float)y * 10.0);
+                glVertex3f((float)x * _scale, _terrain[x + y * _width],(float)y * _scale);
                 glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)], 0.0);
 
                 glNormal3f(
                 _normals[x * 3 + (y+1) * _width * 3 + 0],
                 _normals[x * 3 + (y+1) * _width * 3 + 1],
                 _normals[x * 3 + (y+1) * _width * 3 + 2]);
-                glVertex3f((float)x * 10.0, _terrain[x + (y+1) * _width],(float)(y+1) * 10.0);
+                glVertex3f((float)x * _scale, _terrain[x + (y+1) * _width],(float)(y+1) * _scale);
                 glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)], 1.0);
 
                 glNormal3f(
                 _normals[(x+1) * 3 + (y+1) * _width * 3 + 0],
                 _normals[(x+1) * 3 + (y+1) * _width * 3 + 1],
                 _normals[(x+1) * 3 + (y+1) * _width * 3 + 2]);
-                glVertex3f((float)(x+1) * 10.0, _terrain[x+1 + (y+1) * _width],(float)(y+1) * 10.0);
+                glVertex3f((float)(x+1) * _scale, _terrain[x+1 + (y+1) * _width],(float)(y+1) * _scale);
                 glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)] + _tilingOffset, 1.0);
 
                 glNormal3f(
                 _normals[(x+1) * 3 + y * _width * 3 + 0],
                 _normals[(x+1) * 3 + y * _width * 3 + 1],
                 _normals[(x+1) * 3 + y * _width * 3 + 2]);
-                glVertex3f((float)(x+1) * 10.0, _terrain[x+1 + y * _width],(float)y * 10.0);
+                glVertex3f((float)(x+1) * _scale, _terrain[x+1 + y * _width],(float)y * _scale);
                 glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)] + _tilingOffset, 0.0);
 
             }
         }
         glEnd();
+    }
+
+    QString Terrain::className() {
+        return "Terrain";
+    }
+
+    QJsonObject Terrain::serialize() {
+        // TODO: Implement.
+        return QJsonObject();
+    }
+
+    bool Terrain::deserialize(QJsonObject json) {
+        Q_UNUSED(json);
+        // TODO: Implement.
+        return false;
     }
 
     void Terrain::allocateMemory() {

@@ -63,11 +63,19 @@ public:
     void appendEffect(Effect *effect);
 
     enum MouseMoveMode {
-        Ignore,
+        Normal,
         Drag
     };
 
+    /**
+     * Constructs a ray based on the viewing frustrum into 3d space.
+     * @param displayPoint
+     * @return
+     */
     RealLine3D ray(QPoint displayPoint);
+
+    /** Constructs a point based on the information in the depth buffer. */
+    RealVector3D point(QPoint displayPoint);
 
 signals:
     void framesPerSecond(int fps);
@@ -89,6 +97,7 @@ private slots:
     void processLogic();
     void updateFramesPerSecond();
     void leftButtonClick(QPoint displayPoint);
+    void hover(QPoint hoverPoint);
     void drag(QPoint dragFrom, QPoint dragTo);
 
 private:
