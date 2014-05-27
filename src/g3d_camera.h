@@ -24,6 +24,7 @@
 // Own includes
 #include "g3d_anchored.h"
 #include "g3d_matrixstate.h"
+#include "g3d_oriented.h"
 
 namespace Glee3D {
 /**
@@ -32,14 +33,34 @@ namespace Glee3D {
   * @date 02.12.2012
   * @brief Declares a camera in the virtual space.
   */
-class Camera : public Anchored {
+class Camera :
+    public Anchored,
+    public Oriented {
 public:
     /**
       * @brief Creates a new camera.
       */
     Camera();
 
-    MatrixState matrixState();
+    /**
+     * Generates a new matrix state based on the camera values. Call the
+     * matrix states' load method in order to activate.
+     * @return
+     */
+    MatrixState generateMatrixState();
+
+    /**
+      * Sets the aspect ratio for this camera.
+      * @param width Width of aspect ratio.
+      * @param height Height of aspect ratio.
+      */
+    void setAspectRatio(int width, int height);
+
+    /**
+     * Sets the camera field of view.
+     * @param fieldOfView
+     */
+    void setFieldOfView(double fieldOfView);
 
     /**
       * Turns the camera so it looks at the specified point defined
@@ -50,26 +71,6 @@ public:
 
     /** @returns Look-At-vector. */
     RealVector3D lookAt();
-
-    /**
-      * Sets the up-vector of the camera.
-      * @param up Up-vector.
-      */
-    void setUp(RealVector3D up);
-
-    /** @returns Up-vector. */
-    RealVector3D up();
-
-    /**
-      * Sets the aspect ratio for this camera.
-      * @param width Width of aspect ratio.
-      * @param height Height of aspect ratio.
-      */
-    void setAspectRatio(int width, int height);
-
-    void setFieldOfView(double fieldOfView);
-
-    void moveLookAt(RealVector3D delta);
 
     /**
       * Moves the camera into the direction that it is looking.
@@ -84,7 +85,6 @@ private:
     double _aspectRatio;
 
     RealVector3D _lookAt;
-    RealVector3D _up;
 };
 
 } // namespace Glee3D

@@ -66,7 +66,8 @@ HEADERS += \
     g3d_texturestore.h \
     g3d_anchored.h \
     g3d_renderable.h \
-    g3d_texturizable.h
+    g3d_texturizable.h \
+    g3d_oriented.h
 
 SOURCES += \
     g3d_bloomeffect.cpp \
@@ -86,5 +87,6 @@ SOURCES += \
     g3d_skybox.cpp \
     g3d_terrain.cpp \
     g3d_texturestore.cpp \
-    g3d_anchored.cpp
+    g3d_anchored.cpp \
+    g3d_oriented.cpp
 

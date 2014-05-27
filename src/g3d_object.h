@@ -23,6 +23,7 @@
 
 // Own includes
 #include "g3d_anchored.h"
+#include "g3d_oriented.h"
 #include "g3d_material.h"
 #include "g3d_vector2d.h"
 #include "g3d_mesh.h"
@@ -43,6 +44,7 @@ namespace Glee3D {
   */
 class Object :
         public Anchored,
+        public Oriented,
         public Renderable,
         public Texturizable,
         public Serializable {
@@ -60,25 +62,6 @@ public:
 
     /** @returns the name for this object. */
     QString name();
-
-    /** Sets the rotation for this object.
-      * @param value Vector containing angles for all three axes in degrees.
-      */
-    void setRotation(RealVector3D value);
-
-    /** Rotates the object based on the current rotation state.
-      * @param delta Vector containing angles for all three axes in degrees.
-      */
-    void rotate(RealVector3D delta);
-
-    /** @returns the object's rotation for all three axes in degrees. */
-    RealVector3D rotation();
-
-    /** @returns the object's front-vector. */
-    RealVector3D front();
-
-    /** @returns the object's up-vector. */
-    RealVector3D up();
 
     /** Accelerates the object by the given amount.
       * @param value Acceleration value.
@@ -155,7 +138,6 @@ protected:
     Mesh *_mesh;
     CompiledMesh *_compiledMesh;
 
-    RealVector3D _rotation;
     RealVector3D _spin;
     double _velocity;
 };

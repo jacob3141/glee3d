@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@googlemail.com             //
+//    Copyright (C) 2014 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,27 +18,49 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef G3D_ORIENTED_H
+#define G3D_ORIENTED_H
 
-#include "g3d_display.h"
-#include "g3d_scene.h"
-#include "g3d_cube.h"
-#include "g3d_cylinder.h"
+// Own includes
+#include "g3d_vector3d.h"
 
-#include <QList>
+namespace Glee3D {
 
-class Scene : public Glee3D::Scene {
-    Q_OBJECT
-public:
-    Scene();
+    class Oriented {
+    public:
+        Oriented();
+        virtual ~Oriented();
 
-    void hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point);
+        /** Sets the rotation for this object.
+          * @param value Vector containing angles for all three axes in degrees.
+          */
+        void setRotation(RealVector3D value);
 
-    void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
+        /** Rotates the object based on the current rotation state.
+          * @param delta Vector containing angles for all three axes in degrees.
+          */
+        void rotate(RealVector3D delta);
 
-private:
-    Glee3D::RealVector3D _lookAt;
-};
+        /** @returns the object's rotation for all three axes in degrees. */
+        RealVector3D rotation();
 
-#endif // SCENE_H
+        /** @returns the object's front-vector. */
+        RealVector3D front();
+
+        /** @returns the object's up-vector. */
+        RealVector3D up();
+
+        /**
+          * Sets the up-vector of the camera.
+          * @param up Up-vector.
+          */
+        //void setUp(RealVector3D up);
+
+    protected:
+        RealVector3D _rotation;
+        RealVector3D _up;
+    };
+
+} // namespace Glee3D
+
+#endif // G3D_ORIENTED_H

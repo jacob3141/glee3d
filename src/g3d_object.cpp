@@ -31,16 +31,15 @@
 namespace Glee3D {
     Object::Object()
         : Anchored(),
+          Oriented(),
           Renderable(),
           Texturizable(),
           Serializable() {
         _mesh = 0;
         _compiledMesh = 0;
         _selected = false;
-        _rotation = RealVector3D(0.0, 0.0, 0.0);
         _spin = RealVector3D(0.0, 0.0, 0.0);
         _velocity = 0.0;
-        _visible = true;
     }
 
     Object::~Object() {
@@ -76,71 +75,6 @@ namespace Glee3D {
 
             _compiledMesh->render();
         }
-    }
-
-    void Object::setRotation(RealVector3D value) {
-        _rotation = value;
-    }
-
-    void Object::rotate(RealVector3D delta) {
-        MatrixState matrixState;
-        matrixState.save();
-
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glRotated(_rotation._x, 1.0, 0.0, 0.0);
-        glRotated(_rotation._y, 0.0, 1.0, 0.0);
-        glRotated(_rotation._z, 0.0, 0.0, 1.0);
-
-        glRotated(delta._x, 1.0, 0.0, 0.0);
-        glRotated(delta._y, 0.0, 1.0, 0.0);
-        glRotated(delta._z, 0.0, 0.0, 1.0);
-
-        float m[16];
-        glGetFloatv(GL_MODELVIEW_MATRIX , m);
-
-        _rotation._y = asin(m[8]) * 180.0 / M_PI;
-        if( _rotation._y < 90.0 ) {
-            if( _rotation._y > -90.0 ) {
-                _rotation._x = atan2(-m[9], m[10]) * 180.0 / M_PI;
-                _rotation._z = atan2(-m[4], m[0]) * 180.0 / M_PI;
-            } else {
-                _rotation._x = -atan2(m[1], m[5]) * 180.0 / M_PI;
-                _rotation._z = 0;
-            }
-        } else {
-            _rotation._x = atan2(m[1], m[5])*180.0 / M_PI;
-            _rotation._z = 0;
-        }
-
-        matrixState.load();
-    }
-
-    RealVector3D Object::rotation() {
-        return _rotation;
-    }
-
-    RealVector3D Object::front() {
-        RealVector3D result;
-        double rot_x = _rotation._x * 2 * M_PI / 360.0;
-        double rot_y = _rotation._y * 2 * M_PI / 360.0;
-
-        result._x = sin(rot_y);
-        result._y = - sin(rot_x) * cos(rot_y);
-        result._z = cos(rot_x) * cos(rot_y);
-        return result;
-    }
-
-    RealVector3D Object::up() {
-        RealVector3D result;
-        double rot_x = _rotation._x * 2 * M_PI / 360.0;
-        double rot_y = _rotation._y * 2 * M_PI / 360.0;
-        double rot_z = _rotation._z * 2 * M_PI / 360.0;
-
-        result._x = - cos(rot_y) * sin(rot_z);
-        result._y = - sin(rot_z) * sin(rot_y) * sin(rot_x) + cos(rot_x) * cos(rot_z);
-        result._z = cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x);
-        return result;
     }
 
     double Object::velocity() {

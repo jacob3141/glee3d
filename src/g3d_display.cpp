@@ -95,7 +95,7 @@ namespace Glee3D {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];        
         glGetIntegerv(GL_VIEWPORT, viewport);
-        MatrixState cameraMatrixState = _activeCamera->matrixState();
+        MatrixState cameraMatrixState = _activeCamera->generateMatrixState();
         RealVector3D frontPlanePoint, backPlanePoint;
 
         // Get the point at the front plane of the viewing frustrum.
@@ -126,7 +126,7 @@ namespace Glee3D {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];
         glGetIntegerv(GL_VIEWPORT, viewport);
-        MatrixState cameraMatrixState = _activeCamera->matrixState();
+        MatrixState cameraMatrixState = _activeCamera->generateMatrixState();
         RealVector3D point;
 
         GLdouble x = (GLdouble)displayPoint.x();
@@ -198,7 +198,7 @@ namespace Glee3D {
         if(_scene) {
             _scene->lockScene();
             if(_activeCamera) {
-                MatrixState cameraMatrixState = _activeCamera->matrixState();
+                MatrixState cameraMatrixState = _activeCamera->generateMatrixState();
                 cameraMatrixState.load();
 
                 SkyBox *s = _scene->skyBox();
@@ -238,7 +238,21 @@ namespace Glee3D {
                 foreach(Object *object, objects) {
                     cameraMatrixState.load();
                     object->applyModelViewMatrix();
-                    object->render();
+                    //object->render();
+
+                    glBegin(GL_LINES);
+                    glColor3i(0, 255, 0);
+                    glVertex3d(0, 0, 0);
+                    glVertex3d(object->front()._x * 10.0,
+                               object->front()._y * 10.0,
+                               object->front()._z * 10.0);
+
+                    glVertex3d(0, 0, 0);
+                    glVertex3d(object->up()._x * 10.0,
+                               object->up()._y * 10.0,
+                               object->up()._z * 10.0);
+                    glEnd();
+
                 }
             }
             _scene->unlockScene();

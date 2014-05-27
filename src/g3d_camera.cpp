@@ -29,17 +29,17 @@
 
 namespace Glee3D {
     Camera::Camera()
-        : Anchored() {
+        : Anchored(),
+          Oriented() {
         _near = 0.1;
         _far = 100000.0;
         _fieldOfView = 45.0;
         _aspectRatio = 0.75;
 
         _lookAt = RealVector3D(0.0, 0.0, 0.0);
-        _up = RealVector3D(0.0, 1.0, 0.0);
     }
 
-    MatrixState Camera::matrixState() {
+    MatrixState Camera::generateMatrixState() {
         // Back up current matrix state.
         MatrixState previousState;
         previousState.save();
@@ -66,22 +66,6 @@ namespace Glee3D {
         return state;
     }
 
-    void Camera::setLookAt(RealVector3D target) {
-        _lookAt = target;
-    }
-
-    RealVector3D Camera::lookAt() {
-        return _lookAt;
-    }
-
-    void Camera::setUp(RealVector3D up) {
-        _up = up;
-    }
-
-    RealVector3D Camera::up() {
-        return _up;
-    }
-
     void Camera::setAspectRatio(int width, int height) {
         _aspectRatio = (double)width / (double)height;
     }
@@ -90,8 +74,12 @@ namespace Glee3D {
         _fieldOfView = fieldOfView;
     }
 
-    void Camera::moveLookAt(RealVector3D delta) {
-        _lookAt += delta;
+    void Camera::setLookAt(RealVector3D target) {
+        _lookAt = target;
+    }
+
+    RealVector3D Camera::lookAt() {
+        return _lookAt;
     }
 
     void Camera::moveForward(double units) {

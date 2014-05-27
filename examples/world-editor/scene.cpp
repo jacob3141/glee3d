@@ -45,7 +45,7 @@ Scene::Scene()
     setSkyBox(skyBox);
 
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
-    globalLight->setPosition(Glee3D::RealVector3D(5.0, 15.0, 2.0));
+    globalLight->setPosition(Glee3D::RealVector3D(5.0, 400.0, 2.0));
     globalLight->setAmbientLight(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
     globalLight->setSpecularLight(Glee3D::RgbaColor(0.9, 0.9, 0.9, 1.0));
     globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
@@ -71,7 +71,6 @@ Scene::Scene()
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
-    Q_UNUSED(point);
     bool somethingSelected = false;
     foreach(Glee3D::Object *o, _objects) {
         if(o->collides(ray)) {
@@ -83,7 +82,7 @@ void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
             o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
         }
     }
-
+    _lookAt = point;
     if(somethingSelected) {
 
     }
@@ -127,5 +126,5 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         activeCamera->move(Glee3D::RealVector3D(0.05 * activeCamera->position()._y, 0.0, 0.0));
     }
 
-    activeCamera->setLookAt(Glee3D::RealVector3D(activeCamera->position()._x, 0, activeCamera->position()._z - activeCamera->position()._y));
+    activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -1, -3));
 }

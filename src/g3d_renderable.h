@@ -32,10 +32,14 @@ namespace Glee3D {
     class Renderable {
     public:
         enum RenderMode {
-            Grid,
+            MeshOnly,
             Solid,
             Textured
         };
+
+        Renderable() {
+            _visible = true;
+        }
 
         virtual ~Renderable() { }
 

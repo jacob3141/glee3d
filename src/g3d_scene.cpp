@@ -64,7 +64,6 @@ namespace Glee3D {
         }
     }
 
-
     void Scene::insertLightSource(LightSource *lightSource) {
         if(lightSource) {
             _lightSources.insert(lightSource);
