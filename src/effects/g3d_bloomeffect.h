@@ -22,7 +22,7 @@
 #define G3D_BLOOMEFFECT_H
 
 // Own includes
-#include "g3d_program.h"
+#include "core/g3d_program.h"
 #include "g3d_postrendereffect.h"
 
 typedef enum {HORIZONTAL, VERTICAL} Direction;

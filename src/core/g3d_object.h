@@ -27,7 +27,7 @@
 #include "g3d_material.h"
 #include "g3d_vector2d.h"
 #include "g3d_mesh.h"
-#include "g3d_serializable.h"
+#include "io/g3d_serializable.h"
 #include "g3d_renderable.h"
 #include "g3d_texturizable.h"
 

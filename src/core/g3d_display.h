@@ -23,7 +23,7 @@
 
 // Own includes
 #include "g3d_program.h"
-#include "g3d_postrendereffect.h"
+#include "effects/g3d_postrendereffect.h"
 #include "g3d_scene.h"
 #include "g3d_camera.h"
 #include "g3d_framebuffer.h"

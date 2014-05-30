@@ -21,7 +21,7 @@
 #ifndef WORLDEDITOR_H
 #define WORLDEDITOR_H
 
-#include "g3d_display.h"
+#include "core/g3d_display.h"
 
 #include "scene.h"
 

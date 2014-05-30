@@ -26,7 +26,8 @@
 
 // Qt includes
 #include <QString>
-#include <QMap>
+#include <QHash>
+#include <QPair>
 
 namespace Glee3D {
     /**
@@ -85,10 +86,9 @@ namespace Glee3D {
         void freeMemory();
 
         float _scale;
-        float *_terrain;
-        float *_normals;
-        float *_vertexNormals;
-        int *_tileIDs;
+        QHash<QPair<int, int>, float> _terrain;
+        QHash<QPair<int, int>, int> _tileIDs;
+        QHash<QPair<int, int>, RealVector3D> _normals;
         float _tilingOffset;
         int _width;
         int _height;

@@ -21,12 +21,7 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-#include "g3d_display.h"
-#include "g3d_scene.h"
-#include "g3d_cube.h"
-#include "g3d_cylinder.h"
-
-#include <QList>
+#include "core/g3d_scene.h"
 
 class Scene : public Glee3D::Scene {
     Q_OBJECT

@@ -20,7 +20,7 @@
 
 // Own includes
 #include "g3d_bloomeffect.h"
-#include "g3d_matrixstate.h"
+#include "core/g3d_matrixstate.h"
 
 // GL extension wrangler includes
 #include "GL/glew.h"

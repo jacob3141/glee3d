@@ -23,7 +23,7 @@
 
 // Own includes
 #include "g3d_rgbacolor.h"
-#include "g3d_serializable.h"
+#include "io/g3d_serializable.h"
 
 // Qt includes
 #include <QString>

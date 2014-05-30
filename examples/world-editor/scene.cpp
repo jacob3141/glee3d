@@ -19,15 +19,16 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
+#include "core/g3d_texturestore.h"
+#include "core/g3d_scene.h"
+#include "core/g3d_vector2d.h"
+#include "core/g3d_rgbacolor.h"
+#include "core/g3d_skybox.h"
+#include "objects/g3d_cube.h"
+#include "core/g3d_terrain.h"
+
 #include "scene.h"
 
-#include "g3d_scene.h"
-#include "g3d_vector2d.h"
-#include "g3d_rgbacolor.h"
-#include "g3d_skybox.h"
-#include "g3d_cube.h"
-#include "g3d_terrain.h"
-#include "g3d_texturestore.h"
 
 #include <QApplication>
 #include <QJsonDocument>
@@ -56,18 +57,9 @@ Scene::Scene()
     terrain->setMaterial(new Glee3D::GoldMaterial());
     terrain->material()->setTextureId("terrain");
     terrain->setTilingOffset(1.0);
-    terrain->setScale(10.0);
+    terrain->setScale(20.0);
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
     insertTerrain(terrain);
-
-    for(int i = 0; i < 100; i ++) {
-        Glee3D::Cube *cube = new Glee3D::Cube();
-        cube->generate(20.0);
-        cube->setMaterial(new Glee3D::ChromeMaterial());
-        cube->material()->setTextureId("chrome");
-        cube->setPosition(Glee3D::RealVector3D(cos((double)i / 31.4) * (250 + 250 * sin((double)i / 3.14)), 300.0 + sin((double)i / 3.14) * 100.0, sin((double)i / 31.4) * (250 + 250 * sin((double)i / 3.14))));
-        insertObject(cube);
-    }
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {

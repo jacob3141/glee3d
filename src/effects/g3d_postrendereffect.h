@@ -18,32 +18,40 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_OBJLOADER_H
-#define G3D_OBJLOADER_H
+#ifndef G3D_POSTRENDEREFFECT_H
+#define G3D_POSTRENDEREFFECT_H
 
 // Own includes
-#include "g3d_mesh.h"
+#include "core/g3d_framebuffer.h"
 
 // Qt includes
-#include <QString>
+#include <QImage>
+#include <QGLWidget>
 
 namespace Glee3D {
 
 /**
-  * @class ObjLoader
-  * @author Jacob Dawid
-  * @date 09.12.2012
-  * Loader for Wavefront *.obj-files.
+  * @class
+  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @date 02.12.2012
   */
-class ObjLoader {
+class PostRenderEffect {
 public:
-    ObjLoader();
+    PostRenderEffect() { }
+    virtual ~PostRenderEffect() { }
 
-    QList<Mesh*> readObjFile(QString fileName);
-private:
+    /**
+      * @note Post-render effects need framebuffer objects, which can only be
+      * created when a valid rendering context is available. That's why we
+      * cannot initialize the effect in the constructor, but we have to rely
+      * on the framework that it calls the initialize method whenever it's
+      * appropriate.
+      */
+    virtual void initialize() = 0;
 
+    /** Applies the effect to the framebuffer. */
+    virtual void apply(FrameBuffer *frameBuffer) = 0;
 };
 
 } // namespace Glee3D
-
-#endif // G3D_OBJLOADER_H
+#endif // G3D_POSTRENDEREFFECT_H

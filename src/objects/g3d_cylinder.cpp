@@ -20,7 +20,7 @@
 
 // Own includes
 #include "g3d_cylinder.h"
-#include "g3d_vector3d.h"
+#include "core/g3d_vector3d.h"
 
 // Standard includes
 #include <math.h>

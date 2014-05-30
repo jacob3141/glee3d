@@ -18,39 +18,32 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_CUBE_H
-#define G3D_CUBE_H
+#ifndef G3D_OBJLOADER_H
+#define G3D_OBJLOADER_H
 
 // Own includes
-#include "g3d_object.h"
+#include "core/g3d_mesh.h"
+
+// Qt includes
+#include <QString>
+
+namespace Glee3D {
 
 /**
- * @namespace Glee3D
- * Namespace for the Glee3D project.
- */
-namespace Glee3D {
-    /**
-      * @class Cube
-      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-      * @date 02.12.2012
-      */
-    class Cube : public Object {
-    public:
-        /** Creates a new cube. */
-        Cube();
+  * @class ObjLoader
+  * @author Jacob Dawid
+  * @date 09.12.2012
+  * Loader for Wavefront *.obj-files.
+  */
+class ObjLoader {
+public:
+    ObjLoader();
 
-        /** Destructor. */
-        virtual ~Cube();
+    QList<Mesh*> readObjFile(QString fileName);
+private:
 
-        /**
-         * Generates a new cube based on the given parameters.
-         * @param edgeLength Base edge length.
-         * @param scaleX Scaling factor in x direction.
-         * @param scaleY Scaling factor in y direction.
-         * @param scaleZ Scaling factor in z direction.
-         */
-        void generate(double edgeLength, double scaleX = 1.0, double scaleY = 1.0, double scaleZ = 1.0);
-    };
+};
+
 } // namespace Glee3D
 
-#endif // G3D_CUBE_H
+#endif // G3D_OBJLOADER_H

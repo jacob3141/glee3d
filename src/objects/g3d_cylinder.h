@@ -18,40 +18,35 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_POSTRENDEREFFECT_H
-#define G3D_POSTRENDEREFFECT_H
+#ifndef G3D_CYLINDER_H
+#define G3D_CYLINDER_H
 
 // Own includes
-#include "g3d_framebuffer.h"
-
-// Qt includes
-#include <QImage>
-#include <QGLWidget>
-
-namespace Glee3D {
+#include "core/g3d_object.h"
 
 /**
-  * @class
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
-  * @date 02.12.2012
-  */
-class PostRenderEffect {
-public:
-    PostRenderEffect() { }
-    virtual ~PostRenderEffect() { }
-
+ * @namespace Glee3D
+ * Namespace for the Glee3D project.
+ */
+namespace Glee3D {
     /**
-      * @note Post-render effects need framebuffer objects, which can only be
-      * created when a valid rendering context is available. That's why we
-      * cannot initialize the effect in the constructor, but we have to rely
-      * on the framework that it calls the initialize method whenever it's
-      * appropriate.
+      * @class Cylinder
+      * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+      * @date 02.12.2012
       */
-    virtual void initialize() = 0;
+    class Cylinder : public Object {
+    public:
+        /** Creates a new cylinder. */
+        Cylinder();
 
-    /** Applies the effect to the framebuffer. */
-    virtual void apply(FrameBuffer *frameBuffer) = 0;
-};
-
+        /**
+         * Generates a new cylinder based on the given parameters.
+         * @param radius Radius of the cylinder.
+         * @param height Height.
+         * @param segments Number of segments.
+         */
+        void generate(double radius, double height = 1.0, int segments = 16);
+    };
 } // namespace Glee3D
-#endif // G3D_POSTRENDEREFFECT_H
+
+#endif // G3D_CYLINDER_H

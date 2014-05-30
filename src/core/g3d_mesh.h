@@ -24,7 +24,7 @@
 // Own includes
 #include "g3d_vector2d.h"
 #include "g3d_vector3d.h"
-#include "g3d_serializable.h"
+#include "io/g3d_serializable.h"
 
 // Qt includes
 #include <QGLWidget>

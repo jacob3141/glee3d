@@ -22,7 +22,7 @@
 #define G3D_VECTOR2D_H
 
 // Own includes
-#include "g3d_serializable.h"
+#include "io/g3d_serializable.h"
 
 // C++ includes
 #include <math.h>

@@ -22,7 +22,7 @@
 #define G3D_VECTOR3D_H
 
 // Own includes
-#include "g3d_serializable.h"
+#include "io/g3d_serializable.h"
 
 // Qt includes
 #include <QDebug>

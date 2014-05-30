@@ -25,6 +25,8 @@
 // Qt includes
 #include <QImage>
 #include <QRgb>
+#include <QMap>
+#include <QPair>
 
 // Standard includes
 #include <iostream>
@@ -34,9 +36,6 @@ namespace Glee3D {
         : Anchored(),
           Renderable(),
           Serializable(){
-        _terrain = 0;
-        _tileIDs = 0;
-        _normals = 0;
         _scale = 1.0;
     }
 
@@ -74,93 +73,87 @@ namespace Glee3D {
         }
 
         allocateMemory();
-
         for(int y = 0; y < _height; y++) {
             for(int x = 0; x < _width; x++) {
                 int pixelValue = image.pixel(x, y);
                 switch(heightEncoding) {
                     case RedComponent:
-                        _terrain[x + y * _width] = (float)qRed(pixelValue) - 128.0;
+                        _terrain[QPair<int, int>(x,y)] = (float)qRed(pixelValue) - 128.0;
                         break;
                     case GreenComponent:
-                        _terrain[x + y * _width] = (float)qGreen(pixelValue) - 128.0;
+                        _terrain[QPair<int, int>(x,y)] = (float)qGreen(pixelValue) - 128.0;
                         break;
                     case BlueComponent:
-                        _terrain[x + y * _width] = (float)qBlue(pixelValue) - 128.0;
+                        _terrain[QPair<int, int>(x,y)] = (float)qBlue(pixelValue) - 128.0;
                         break;
                 }
 
                 switch(textureEncoding) {
                     case RedComponent:
-                        _tileIDs[x + y * _width] = qRed(pixelValue);
+                        _tileIDs[QPair<int, int>(x,y)] = qRed(pixelValue);
                         break;
                     case GreenComponent:
-                        _tileIDs[x + y * _width] = qGreen(pixelValue);
+                        _tileIDs[QPair<int, int>(x,y)] = qGreen(pixelValue);
                         break;
                     case BlueComponent:
-                        _tileIDs[x + y * _width] = qBlue(pixelValue);
+                        _tileIDs[QPair<int, int>(x,y)] = qBlue(pixelValue);
                         break;
                 }
             }
         }
 
-        // Precompute surface normals
-        RealVector3D *surfaceNormals = new RealVector3D[(_width - 1)*(_height - 1)];
-        #define LIN_IDX(x, y) (x) + ((y) * (_width - 1))
-
+        QMap<QPair<int, int>, RealVector3D> surfaceNormals;
         for(int y = 0; y < _height - 1; y++) {
             for(int x = 0; x < _width - 1; x++) {
                 RealVector3D v1 = RealVector3D(
                                             0,
-                                            _terrain[x + (y+1) * _width] - _terrain[x + y * _width],
-                                            (float)(y+1) * 10.0 - (float)y * 10.0);
+                                            _terrain[QPair<int, int>(x, y + 1)] -
+                                            _terrain[QPair<int, int>(x, y)],
+                                            (float)(y + 1) * 10.0 - (float)y * 10.0);
 
                 RealVector3D v2 = RealVector3D(
-                                            (float)(x+1) * 10.0 - (float)x * 10.0,
-                                            _terrain[x+1 + y * _width] - _terrain[x + y * _width],
+                                            (float)(x + 1) * 10.0 - (float)x * 10.0,
+                                            _terrain[QPair<int, int>(x + 1, y)] -
+                                            _terrain[QPair<int, int>(x, y)],
                                             0);
 
-                surfaceNormals[LIN_IDX(x, y)] = v1.crossProduct(v2);
-                surfaceNormals[LIN_IDX(x, y)].normalize();
+                RealVector3D normal = v1.crossProduct(v2);
+                normal.normalize();
+                surfaceNormals[QPair<int, int>(x, y)] = normal;
             }
         }
-
 
         // Now compute vertex normals for smooth shading
         for(int y = 0; y < _height; y++) {
             for(int x = 0; x < _width; x++) {
                 RealVector3D vertexNormal;
                 if(x == 0 && y == 0) {
-                    vertexNormal = surfaceNormals[LIN_IDX(0, 0)];
+                    vertexNormal = surfaceNormals[QPair<int, int>(0, 0)];
                 } else if(x > 0 && x < (_width - 1) && y == 0) {
-                    vertexNormal = (surfaceNormals[LIN_IDX(x - 1, 0)] + surfaceNormals[LIN_IDX(x, 0)]) * 0.5;
+                    vertexNormal = (surfaceNormals[QPair<int, int>(x - 1, 0)] + surfaceNormals[QPair<int, int>(x, 0)]) * 0.5;
                 } else if(x == (_width - 1) && y == 0) {
-                    vertexNormal = surfaceNormals[LIN_IDX(_width - 2, 0)];
+                    vertexNormal = surfaceNormals[QPair<int, int>(_width - 2, 0)];
                 } else if(x == (_width - 1) && y > 0 && y < (_height - 1)) {
-                    vertexNormal = (surfaceNormals[LIN_IDX(_width - 2, y - 1)] + surfaceNormals[LIN_IDX(_width - 2, y)]) * 0.5;
+                    vertexNormal = (surfaceNormals[QPair<int, int>(_width - 2, y - 1)] + surfaceNormals[QPair<int, int>(_width - 2, y)]) * 0.5;
                 } else if(x == (_width - 1) && y == (_height - 1)) {
-                    vertexNormal = surfaceNormals[LIN_IDX(_width - 2, _height - 2)];
+                    vertexNormal = surfaceNormals[QPair<int, int>(_width - 2, _height - 2)];
                 } else if(x > 0 && x < (_width - 1) && y == (_height - 1)) {
-                    vertexNormal = (surfaceNormals[LIN_IDX(x - 1, _height - 2)] + surfaceNormals[LIN_IDX(x, _height - 2)]) * 0.5;
+                    vertexNormal = (surfaceNormals[QPair<int, int>(x - 1, _height - 2)] + surfaceNormals[QPair<int, int>(x, _height - 2)]) * 0.5;
                 } else if(x == 0 && y == (_height - 1)) {
-                    vertexNormal = surfaceNormals[LIN_IDX(0, _height - 2)];
+                    vertexNormal = surfaceNormals[QPair<int, int>(0, _height - 2)];
                 } else if(x == 0 && y > 0 && y < (_height - 1)) {
-                    vertexNormal = (surfaceNormals[LIN_IDX(0, y - 1)] + surfaceNormals[LIN_IDX(0, y)]) * 0.5;
+                    vertexNormal = (surfaceNormals[QPair<int, int>(0, y - 1)] + surfaceNormals[QPair<int, int>(0, y)]) * 0.5;
                 } else {
-                    vertexNormal = (surfaceNormals[LIN_IDX(x - 1, y - 1)]
-                            + surfaceNormals[LIN_IDX(x    , y - 1)]
-                            + surfaceNormals[LIN_IDX(x    , y    )]
-                            + surfaceNormals[LIN_IDX(x - 1, y    )]) * 0.25;
+                    vertexNormal = (surfaceNormals[QPair<int, int>(x - 1, y - 1)]
+                            + surfaceNormals[QPair<int, int>(x    , y - 1)]
+                            + surfaceNormals[QPair<int, int>(x    , y    )]
+                            + surfaceNormals[QPair<int, int>(x - 1, y    )]) * 0.25;
                 }
                 vertexNormal.normalize();
-                _normals[x * 3 + y * _width * 3 + 0] = vertexNormal._x;
-                _normals[x * 3 + y * _width * 3 + 1] = vertexNormal._y;
-                _normals[x * 3 + y * _width * 3 + 2] = vertexNormal._z;
+                _normals[QPair<int, int>(x, y)] = vertexNormal;
             }
         }
 
-        #undef LIN_IDX
-        delete[] surfaceNormals;
         return Ok;
     }
 
@@ -190,34 +183,32 @@ namespace Glee3D {
         glBegin(GL_QUADS);
         for(int y = 0; y < _height - 1; y++) {
             for(int x = 0; x < _width - 1; x++) {
-                glNormal3f(
-                _normals[x * 3 + y * _width * 3 + 0],
-                _normals[x * 3 + y * _width * 3 + 1],
-                _normals[x * 3 + y * _width * 3 + 2]);
-                glVertex3f((float)x * _scale, _terrain[x + y * _width],(float)y * _scale);
-                glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)], 0.0);
+                QPair<int, int> p1(x, y);
+                QPair<int, int> p2(x, y + 1);
+                QPair<int, int> p3(x + 1, y + 1);
+                QPair<int, int> p4(x + 1, y);
 
-                glNormal3f(
-                _normals[x * 3 + (y+1) * _width * 3 + 0],
-                _normals[x * 3 + (y+1) * _width * 3 + 1],
-                _normals[x * 3 + (y+1) * _width * 3 + 2]);
-                glVertex3f((float)x * _scale, _terrain[x + (y+1) * _width],(float)(y+1) * _scale);
-                glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)], 1.0);
+                RealVector3D n1 = _normals[p1];
+                RealVector3D n2 = _normals[p2];
+                RealVector3D n3 = _normals[p3];
+                RealVector3D n4 = _normals[p4];
 
-                glNormal3f(
-                _normals[(x+1) * 3 + (y+1) * _width * 3 + 0],
-                _normals[(x+1) * 3 + (y+1) * _width * 3 + 1],
-                _normals[(x+1) * 3 + (y+1) * _width * 3 + 2]);
-                glVertex3f((float)(x+1) * _scale, _terrain[x+1 + (y+1) * _width],(float)(y+1) * _scale);
-                glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)] + _tilingOffset, 1.0);
+                float tileID = 0; //_tileIDs[p1];
+                glNormal3f(n1._x, n1._y, n1._z);
+                glVertex3f((float)x * _scale, _terrain[p1],(float)y * _scale);
+                glTexCoord2f(_tilingOffset * (float)tileID, 0.0);
 
-                glNormal3f(
-                _normals[(x+1) * 3 + y * _width * 3 + 0],
-                _normals[(x+1) * 3 + y * _width * 3 + 1],
-                _normals[(x+1) * 3 + y * _width * 3 + 2]);
-                glVertex3f((float)(x+1) * _scale, _terrain[x+1 + y * _width],(float)y * _scale);
-                glTexCoord2f(_tilingOffset * (float)_tileIDs[x + y * (_width - 1)] + _tilingOffset, 0.0);
+                glNormal3f(n2._x, n2._y, n2._z);
+                glVertex3f((float)x * _scale, _terrain[p2],(float)(y+1) * _scale);
+                glTexCoord2f(_tilingOffset * (float)tileID, 1.0);
 
+                glNormal3f(n3._x, n3._y, n3._z);
+                glVertex3f((float)(x+1) * _scale, _terrain[p3],(float)(y+1) * _scale);
+                glTexCoord2f(_tilingOffset * (float)tileID + _tilingOffset, 1.0);
+
+                glNormal3f(n4._x, n4._y, n4._z);
+                glVertex3f((float)(x+1) * _scale, _terrain[p4],(float)y * _scale);
+                glTexCoord2f(_tilingOffset * (float)tileID + _tilingOffset, 0.0);
             }
         }
         glEnd();
@@ -240,20 +231,11 @@ namespace Glee3D {
 
     void Terrain::allocateMemory() {
         freeMemory();
-        _terrain = new float[_width * _height];
-        _tileIDs = new int[(_width - 1) * (_height - 1)];
-        _normals = new float[_width * _height * 3];
     }
 
     void Terrain::freeMemory() {
-        if(_terrain) {
-            delete[] _terrain;
-        }
-        if(_tileIDs) {
-            delete[] _tileIDs;
-        }
-        if(_normals) {
-            delete[] _normals;
-        }
+        _terrain.clear();
+        _tileIDs.clear();
+        _normals.clear();
     }
 } // namespace Glee3D
