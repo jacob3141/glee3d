@@ -154,6 +154,75 @@ namespace Glee3D {
             }
         }
 
+        // Translate calculated data into vertex buffer arrays
+        _vertexBuffer = new GLfloat[(_width - 1) * (_height - 1) * 4 * 3];
+        _textureCoordinatesBuffer = new GLfloat[(_width - 1) * (_height - 1) * 4 * 2];
+        _normalsBuffer = new GLfloat[(_width - 1) * (_height - 1) * 4 * 3];
+
+        #define vtx(i, c) ((i) * 3 + (c))
+        #define tex(i, c) ((i) * 2 + (c))
+        #define nml(i, c) ((i) * 3 + (c))
+
+        int i = 0;
+        for(int y = 0; y < _height - 1; y++) {
+            for(int x = 0; x < _width - 1; x++) {
+                QPair<int, int> p1(x, y);
+                QPair<int, int> p2(x, y + 1);
+                QPair<int, int> p3(x + 1, y + 1);
+                QPair<int, int> p4(x + 1, y);
+
+                RealVector3D n1 = _normals[p1];
+                RealVector3D n2 = _normals[p2];
+                RealVector3D n3 = _normals[p3];
+                RealVector3D n4 = _normals[p4];
+
+                float tileID = 0; //_tileIDs[p1];
+
+                //
+                _vertexBuffer[vtx(i, 0)] = (GLfloat)(x * _scale);
+                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p1] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (GLfloat)(y * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID;
+                _textureCoordinatesBuffer[tex(i, 1)] = 0.0f;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n1._x;
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n1._y;
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n1._z;
+                i++;
+
+                //
+                _vertexBuffer[vtx(i, 0)] = (GLfloat)(x * _scale);
+                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p2] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (GLfloat)((y + 1) * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID;
+                _textureCoordinatesBuffer[tex(i, 1)] = 1.0f;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n2._x;
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n2._y;
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n2._z;
+                i++;
+
+                //
+                _vertexBuffer[vtx(i, 0)] = (GLfloat)((x + 1) * _scale);
+                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p3] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (GLfloat)((y + 1) * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID + _tilingOffset;
+                _textureCoordinatesBuffer[tex(i, 1)] = 1.0f;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n3._x;
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n3._y;
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n3._z;
+                i++;
+
+                //
+                _vertexBuffer[vtx(i, 0)] = (GLfloat)((x + 1) * _scale);
+                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p4] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (GLfloat)(y * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID + _tilingOffset;
+                _textureCoordinatesBuffer[tex(i, 1)] = 0.0f;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n4._x;
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n4._y;
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n4._z;
+                i++;
+            }
+        }
         return Ok;
     }
 
@@ -180,38 +249,18 @@ namespace Glee3D {
     void Terrain::render(RenderMode renderMode) {
         Q_UNUSED(renderMode);
         material()->activate();
-        glBegin(GL_QUADS);
-        for(int y = 0; y < _height - 1; y++) {
-            for(int x = 0; x < _width - 1; x++) {
-                QPair<int, int> p1(x, y);
-                QPair<int, int> p2(x, y + 1);
-                QPair<int, int> p3(x + 1, y + 1);
-                QPair<int, int> p4(x + 1, y);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
 
-                RealVector3D n1 = _normals[p1];
-                RealVector3D n2 = _normals[p2];
-                RealVector3D n3 = _normals[p3];
-                RealVector3D n4 = _normals[p4];
+        glVertexPointer(3, GL_FLOAT, 0, _vertexBuffer);
+        glTexCoordPointer(2, GL_FLOAT, 0, _textureCoordinatesBuffer);
+        glNormalPointer(GL_FLOAT, 0, _normalsBuffer);
+        glDrawArrays(GL_QUADS, 0, (_width - 1) * (_height - 1) * 4);
 
-                float tileID = 0; //_tileIDs[p1];
-                glNormal3f(n1._x, n1._y, n1._z);
-                glVertex3f((float)x * _scale, _terrain[p1],(float)y * _scale);
-                glTexCoord2f(_tilingOffset * (float)tileID, 0.0);
-
-                glNormal3f(n2._x, n2._y, n2._z);
-                glVertex3f((float)x * _scale, _terrain[p2],(float)(y+1) * _scale);
-                glTexCoord2f(_tilingOffset * (float)tileID, 1.0);
-
-                glNormal3f(n3._x, n3._y, n3._z);
-                glVertex3f((float)(x+1) * _scale, _terrain[p3],(float)(y+1) * _scale);
-                glTexCoord2f(_tilingOffset * (float)tileID + _tilingOffset, 1.0);
-
-                glNormal3f(n4._x, n4._y, n4._z);
-                glVertex3f((float)(x+1) * _scale, _terrain[p4],(float)y * _scale);
-                glTexCoord2f(_tilingOffset * (float)tileID + _tilingOffset, 0.0);
-            }
-        }
-        glEnd();
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
     }
 
     QString Terrain::className() {

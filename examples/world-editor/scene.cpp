@@ -46,18 +46,17 @@ Scene::Scene()
     setSkyBox(skyBox);
 
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
-    globalLight->setPosition(Glee3D::RealVector3D(5.0, 400.0, 2.0));
+    globalLight->setPosition(Glee3D::RealVector3D(5.0, 1000.0, 2.0));
     globalLight->setAmbientLight(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
-    globalLight->setSpecularLight(Glee3D::RgbaColor(0.9, 0.9, 0.9, 1.0));
-    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.8, 0.8, 0.8, 1.0));
+    globalLight->setSpecularLight(Glee3D::RgbaColor(0.3, 0.3, 0.3, 1.0));
+    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
     insertLightSource(globalLight);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
-    terrain->generate("../../heightmaps/heightmap.png");
-    terrain->setMaterial(new Glee3D::GoldMaterial());
-    terrain->material()->setTextureId("terrain");
-    terrain->setTilingOffset(1.0);
     terrain->setScale(20.0);
+    terrain->setMaterial(new Glee3D::ChromeMaterial());
+    terrain->setTilingOffset(1.0);
+    terrain->generate("../../heightmaps/heightmap.png");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
     insertTerrain(terrain);
 }

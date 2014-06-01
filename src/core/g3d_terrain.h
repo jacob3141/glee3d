@@ -92,6 +92,10 @@ namespace Glee3D {
         float _tilingOffset;
         int _width;
         int _height;
+
+        GLfloat *_vertexBuffer;
+        GLfloat *_textureCoordinatesBuffer;
+        GLfloat *_normalsBuffer;
     };
 } // namespace Glee3D
 

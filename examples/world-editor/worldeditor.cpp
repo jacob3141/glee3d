@@ -42,8 +42,6 @@ WorldEditor::WorldEditor(QWidget *parent) :
     textureStore.loadTexture(*_display, "../../skybox/sky/ypos.png", "skybox-ypos");
     textureStore.loadTexture(*_display, "../../skybox/sky/zneg.png", "skybox-zneg");
     textureStore.loadTexture(*_display, "../../skybox/sky/zpos.png", "skybox-zpos");
-    textureStore.loadTexture(*_display, "../../textures/asteroid.png", "terrain");
-    textureStore.loadTexture(*_display, "../../textures/chrome.png", "chrome");
 
     _scene = new Scene();
     _display->setScene(_scene);
