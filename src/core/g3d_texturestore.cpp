@@ -42,8 +42,10 @@ namespace Glee3D {
         if(!textureId.isEmpty()
         && _loadedTextures.contains(textureId)) {
             glBindTexture(GL_TEXTURE_2D, _loadedTextures[textureId]._glHandle);
+            glEnable(GL_TEXTURE_2D);
         } else {
             glBindTexture(GL_TEXTURE_2D, GL_NONE);
+            glDisable(GL_TEXTURE_2D);
         }
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);

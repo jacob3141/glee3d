@@ -265,6 +265,8 @@ namespace Glee3D {
         }
 
         _frameBuffer->copy(_frameBuffer->width(), _frameBuffer->height());
+
+        glFinish();
         swapBuffers();
     }
 

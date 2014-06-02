@@ -223,6 +223,7 @@ namespace Glee3D {
                 i++;
             }
         }
+
         return Ok;
     }
 
@@ -249,13 +250,15 @@ namespace Glee3D {
     void Terrain::render(RenderMode renderMode) {
         Q_UNUSED(renderMode);
         material()->activate();
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glEnableClientState(GL_NORMAL_ARRAY);
 
         glVertexPointer(3, GL_FLOAT, 0, _vertexBuffer);
         glTexCoordPointer(2, GL_FLOAT, 0, _textureCoordinatesBuffer);
         glNormalPointer(GL_FLOAT, 0, _normalsBuffer);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+
         glDrawArrays(GL_QUADS, 0, (_width - 1) * (_height - 1) * 4);
 
         glDisableClientState(GL_VERTEX_ARRAY);

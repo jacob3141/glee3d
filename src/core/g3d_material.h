@@ -107,6 +107,7 @@ namespace Glee3D {
         bool deserialize(QJsonObject jsonObject);
 
     protected:
+        RgbaColor _solidColor;
         RgbaColor _ambientReflection;
         RgbaColor _diffuseReflection;
         RgbaColor _specularReflection;

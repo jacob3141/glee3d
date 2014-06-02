@@ -99,7 +99,17 @@ public:
       */
     bool collides(const RealLine3D& line);
 
+    /** Compiles the current object, ie. prepares the object information for
+      * fast rendering. This is supposed to be called before the object will
+      * be rendered. When subclassing, you may overwrite the default behaviour.
+      */
     virtual void compile();
+
+    /** @returns the current mesh. */
+    Mesh *mesh();
+
+    /** Sets the current mesh for this object. */
+    void setMesh(Mesh *mesh);
 
     /** @overload */
     virtual QString className();

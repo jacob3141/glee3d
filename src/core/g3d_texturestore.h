@@ -51,7 +51,8 @@ public:
     bool loadTexture(Display& display, QString fileName, QString textureId);
 
     /**
-     * Activates the specified texture for rendering.
+     * Activates the specified texture for rendering. If the texture id is
+     * empty, this will clear the current texture.
      * @brief activateTexture
      * @param textureId
      */

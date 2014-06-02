@@ -57,8 +57,27 @@ Scene::Scene()
     terrain->setMaterial(new Glee3D::ChromeMaterial());
     terrain->setTilingOffset(1.0);
     terrain->generate("../../heightmaps/heightmap.png");
+    terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.5, 0.4, 0.2, 1.0));
+    terrain->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
     insertTerrain(terrain);
+
+    Glee3D::Object *waterPlane = new Glee3D::Object();
+    Glee3D::Mesh *mesh = new Glee3D::Mesh(4, 2);
+    double w = terrain->width() * terrain->scale() / 2;
+    double h = terrain->height() * terrain->scale() / 2;
+    mesh->setVertex(0, Glee3D::RealVector3D(-w, -180.0,  h));
+    mesh->setVertex(1, Glee3D::RealVector3D( w, -180.0,  h));
+    mesh->setVertex(2, Glee3D::RealVector3D( w, -180.0, -h));
+    mesh->setVertex(3, Glee3D::RealVector3D(-w, -180.0, -h));
+    mesh->setTriangle(0, Glee3D::Triangle(0, 1, 2));
+    mesh->setTriangle(1, Glee3D::Triangle(0, 2, 3));
+    waterPlane->setMesh(mesh);
+    waterPlane->setMaterial(new Glee3D::ChromeMaterial());
+    waterPlane->material()->setAmbientReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.0));
+    waterPlane->material()->setDiffuseReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.5));
+    waterPlane->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 0.5));
+    insertObject(waterPlane);
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
@@ -66,11 +85,11 @@ void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
     foreach(Glee3D::Object *o, _objects) {
         if(o->collides(ray)) {
             //o->setSelected(true);
-            o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));
+            //o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));
             somethingSelected = true;
         } else {
             //o->setSelected(false);
-            o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
+            //o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
         }
     }
     _lookAt = point;
@@ -84,9 +103,9 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         QApplication::quit();
     }
 
-    foreach(Glee3D::Object *o, _objects) {
-        o->rotate(Glee3D::RealVector3D(0.1, 0.1, 0.1));
-    }
+//    foreach(Glee3D::Object *o, _objects) {
+//        o->rotate(Glee3D::RealVector3D(0.1, 0.1, 0.1));
+//    }
 
     if(keyStatusMap[Qt::Key_Space]) {
 

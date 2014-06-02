@@ -132,6 +132,15 @@ namespace Glee3D {
         }
     }
 
+    Mesh *Object::mesh() {
+        return _mesh;
+    }
+
+    void Object::setMesh(Mesh *mesh) {
+        _mesh = mesh;
+        compile();
+    }
+
     QString Object::className() {
         return "Object";
     }
