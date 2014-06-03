@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/shaders">
+        <file>glsl/perpixellighting.frag.glsl</file>
+        <file>glsl/perpixellighting.vert.glsl</file>
+    </qresource>
+</RCC>

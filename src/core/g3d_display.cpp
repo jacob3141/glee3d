@@ -161,7 +161,7 @@ namespace Glee3D {
         }
 
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_LIGHTING);
+        glDisable(GL_LIGHTING);
         glEnable(GL_SMOOTH);
         glClearColor(0.0,0.0,0.0,1.0);
         glShadeModel(GL_SMOOTH);
@@ -179,6 +179,9 @@ namespace Glee3D {
         foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->initialize();
         }
+
+        _renderProgram.build(":/shaders/glsl/perpixellighting.vert.glsl",
+                             ":/shaders/glsl/perpixellighting.frag.glsl");
     }
 
     void Display::resizeGL(int w, int h) {
@@ -194,6 +197,7 @@ namespace Glee3D {
 
     void Display::paintGL() {
         makeCurrent();
+        _renderProgram.insert();
         _frameBuffer->clear();
         if(_scene) {
             _scene->lockScene();

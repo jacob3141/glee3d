@@ -46,10 +46,10 @@ Scene::Scene()
     setSkyBox(skyBox);
 
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
-    globalLight->setPosition(Glee3D::RealVector3D(5.0, 1000.0, 2.0));
-    globalLight->setAmbientLight(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
-    globalLight->setSpecularLight(Glee3D::RgbaColor(0.3, 0.3, 0.3, 1.0));
-    globalLight->setDiffuseLight(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
+    globalLight->setPosition(Glee3D::RealVector3D(5.0, 1500.0, 2.0));
+    globalLight->setAmbientLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    globalLight->setSpecularLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    globalLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     insertLightSource(globalLight);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
@@ -57,11 +57,13 @@ Scene::Scene()
     terrain->setMaterial(new Glee3D::ChromeMaterial());
     terrain->setTilingOffset(1.0);
     terrain->generate("../../heightmaps/heightmap.png");
-    terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.5, 0.4, 0.2, 1.0));
+    terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
     terrain->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
+    terrain->material()->setTextureId("green");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
     insertTerrain(terrain);
-
+/*
     Glee3D::Object *waterPlane = new Glee3D::Object();
     Glee3D::Mesh *mesh = new Glee3D::Mesh(4, 2);
     double w = terrain->width() * terrain->scale() / 2;
@@ -75,9 +77,9 @@ Scene::Scene()
     waterPlane->setMesh(mesh);
     waterPlane->setMaterial(new Glee3D::ChromeMaterial());
     waterPlane->material()->setAmbientReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.0));
-    waterPlane->material()->setDiffuseReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.5));
-    waterPlane->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 0.5));
-    insertObject(waterPlane);
+    waterPlane->material()->setDiffuseReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.1));
+    waterPlane->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 0.4));
+    insertObject(waterPlane);*/
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {

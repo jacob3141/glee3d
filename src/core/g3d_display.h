@@ -27,6 +27,7 @@
 #include "g3d_scene.h"
 #include "g3d_camera.h"
 #include "g3d_framebuffer.h"
+#include "g3d_program.h"
 
 // Qt includes
 #include <QGLWidget>
@@ -145,6 +146,8 @@ namespace Glee3D {
         Scene *_scene;
         Camera *_activeCamera;
         FrameBuffer *_frameBuffer;
+
+        Program _renderProgram;
 
         QTimer _refreshTimer;
         QTimer _logicTimer;

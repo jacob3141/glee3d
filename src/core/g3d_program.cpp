@@ -36,18 +36,64 @@ Program::Program() {
     _glFragmentShader = 0;
 }
 
+bool Program::build(QString vertexShaderFileName, QString fragmentShaderFileName) {
+    QFile vertexShaderFile, fragmentShaderFile;
+    vertexShaderFile.setFileName(vertexShaderFileName);
+    fragmentShaderFile.setFileName(fragmentShaderFileName);
+
+    vertexShaderFile.open(QFile::ReadOnly);
+    if(vertexShaderFile.isOpen()) {
+        if(!compile(vertexShaderFile.readAll(), Vertex)) {
+            std::cout << "Error compiling vertex shader." << std::endl;
+            return false;
+        }
+
+        vertexShaderFile.close();
+    } else {
+        std::cout << "Error: Could not open vertex shader file." << std::endl;
+        return false;
+    }
+
+    fragmentShaderFile.open(QFile::ReadOnly);
+    if(fragmentShaderFile.isOpen()) {
+        if(!compile(fragmentShaderFile.readAll(), Fragment)) {
+            std::cout << "Error compiling fragment shader." << std::endl;
+            return false;
+        }
+
+        fragmentShaderFile.close();
+    } else {
+        std::cout << "Error: Could not open fragment shader file." << std::endl;
+        return false;
+    }
+
+    if(!link()) {
+        std::cout << "Error: Could not link program." << std::endl;
+        return false;
+    }
+    return true;
+}
+
 bool Program::compile(QString shaderSource, ShaderType shaderType) {
     if(!shaderSource.isEmpty()) {
         GLint success;
-        GLchar buf[256];
+        GLchar buf[2048];
 
         switch(shaderType) {
             case Vertex: {
                 _vertexShaderSource = shaderSource;
-                _glVertexShader = glCreateShader(GL_VERTEX_SHADER);
-                const GLchar* shaderSourceArray[] = { _vertexShaderSource.toStdString().c_str() };
-                glShaderSource(_glVertexShader, 1, shaderSourceArray, 0);
-                glCompileShader(_glVertexShader);
+                std::cout << "Creating GL vertex shader object." << std::endl;
+                _glVertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER);
+
+                QByteArray programBytes = _vertexShaderSource.toUtf8();
+                const GLint programSize = (const GLint)programBytes.size();
+                const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
+
+                std::cout << "Setting shader source for vertex shader object." << std::endl;
+                glShaderSourceARB(_glVertexShader, 1, &programData, &programSize);
+
+                std::cout << "Compiling vertex shader object." << std::endl;
+                glCompileShaderARB(_glVertexShader);
                 glGetShaderiv(_glVertexShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
                     glGetShaderInfoLog(_glVertexShader, sizeof(buf), 0, buf);
@@ -60,10 +106,19 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
 
             case Fragment: {
                 _fragmentShaderSource = shaderSource;
-                _glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-                const GLchar* shaderSourceArray[] = { _fragmentShaderSource.toStdString().c_str() };
-                glShaderSource(_glFragmentShader, 1, shaderSourceArray, 0);
-                glCompileShader(_glFragmentShader);
+                std::cout << "Creating GL fragment shader object." << std::endl;
+                _glFragmentShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
+
+                QByteArray programBytes = _fragmentShaderSource.toUtf8();
+                const GLint programSize = (const GLint)programBytes.size();
+                const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
+
+                std::cout << "Setting shader source for fragment shader object." << std::endl;
+                glShaderSourceARB(_glFragmentShader, 1, &programData, &programSize);
+
+                std::cout << "Compiling fragment shader object." << std::endl;
+                glCompileShaderARB(_glFragmentShader);
+
                 glGetShaderiv(_glFragmentShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
                     glGetShaderInfoLog(_glFragmentShader, sizeof(buf), 0, buf);
@@ -83,14 +138,14 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
 bool Program::link() {
     GLint success;
     GLchar buf[256];
-    _glProgram = glCreateProgram();
+    _glProgram = glCreateProgramObjectARB();
     if(_glVertexShader) {
-        glAttachShader(_glProgram, _glVertexShader);
+        glAttachObjectARB(_glProgram, _glVertexShader);
     }
     if(_glFragmentShader) {
-        glAttachShader(_glProgram, _glFragmentShader);
+        glAttachObjectARB(_glProgram, _glFragmentShader);
     }
-    glLinkProgram(_glProgram);
+    glLinkProgramARB(_glProgram);
     glGetProgramiv(_glProgram, GL_LINK_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(_glProgram, sizeof(buf), 0, buf);
@@ -118,19 +173,19 @@ QString Program::fragmentShaderSource() {
     return _fragmentShaderSource;
 }
 
-GLuint Program::glProgram() {
+GLhandleARB Program::glProgram() {
     return _glProgram;
 }
 
-GLuint Program::glVertexShader() {
+GLhandleARB Program::glVertexShader() {
     return _glVertexShader;
 }
 
-GLuint Program::glFragmentShader() {
+GLhandleARB Program::glFragmentShader() {
     return _glFragmentShader;
 }
 
-GLint Program::glUniformLocation(QString name) {
+GLhandleARB Program::glUniformLocation(QString name) {
     return glGetUniformLocation(_glProgram, (const GLchar*)name.toStdString().c_str());
 }
 

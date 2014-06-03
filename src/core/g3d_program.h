@@ -50,6 +50,8 @@ public:
     /** Creates a new shading program. */
     Program();
 
+    bool build(QString vertexShaderFileName, QString fragmentShaderFileName);
+
     /**
       * Compiles the given source code written in GLSL for the
       * given shader type.
@@ -82,21 +84,21 @@ public:
     QString fragmentShaderSource();
 
     /** @returns the OpenGL program handle. */
-    GLuint glProgram();
+    GLhandleARB glProgram();
 
     /** @returns the OpenGL vertex shader handle. */
-    GLuint glVertexShader();
+    GLhandleARB glVertexShader();
 
     /** @returns the OpenGL fragment shader handle. */
-    GLuint glFragmentShader();
+    GLhandleARB glFragmentShader();
 
     /** @returns the OpenGL variable location for the given name. */
-    GLint glUniformLocation(QString name);
+    GLhandleARB glUniformLocation(QString name);
 
 private:
-    GLuint _glProgram;
-    GLuint _glVertexShader;
-    GLuint _glFragmentShader;
+    GLhandleARB _glProgram;
+    GLhandleARB _glVertexShader;
+    GLhandleARB _glFragmentShader;
 
     QString _vertexShaderSource;
     QString _fragmentShaderSource;
