@@ -44,31 +44,26 @@ bool Program::build(QString vertexShaderFileName, QString fragmentShaderFileName
     vertexShaderFile.open(QFile::ReadOnly);
     if(vertexShaderFile.isOpen()) {
         if(!compile(vertexShaderFile.readAll(), Vertex)) {
-            std::cout << "Error compiling vertex shader." << std::endl;
             return false;
         }
 
         vertexShaderFile.close();
     } else {
-        std::cout << "Error: Could not open vertex shader file." << std::endl;
         return false;
     }
 
     fragmentShaderFile.open(QFile::ReadOnly);
     if(fragmentShaderFile.isOpen()) {
         if(!compile(fragmentShaderFile.readAll(), Fragment)) {
-            std::cout << "Error compiling fragment shader." << std::endl;
             return false;
         }
 
         fragmentShaderFile.close();
     } else {
-        std::cout << "Error: Could not open fragment shader file." << std::endl;
         return false;
     }
 
     if(!link()) {
-        std::cout << "Error: Could not link program." << std::endl;
         return false;
     }
     return true;
@@ -82,50 +77,37 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
         switch(shaderType) {
             case Vertex: {
                 _vertexShaderSource = shaderSource;
-                std::cout << "Creating GL vertex shader object." << std::endl;
                 _glVertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER);
 
                 QByteArray programBytes = _vertexShaderSource.toUtf8();
                 const GLint programSize = (const GLint)programBytes.size();
                 const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
 
-                std::cout << "Setting shader source for vertex shader object." << std::endl;
                 glShaderSourceARB(_glVertexShader, 1, &programData, &programSize);
-
-                std::cout << "Compiling vertex shader object." << std::endl;
                 glCompileShaderARB(_glVertexShader);
                 glGetShaderiv(_glVertexShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
                     glGetShaderInfoLog(_glVertexShader, sizeof(buf), 0, buf);
                     std::cout << "Error compiling vertex shader: " << buf << std::endl;
                     return false;
-                } else {
-                    std::cout << "Successfully compiled vertex shader." << std::endl;
                 }
             } break;
 
             case Fragment: {
                 _fragmentShaderSource = shaderSource;
-                std::cout << "Creating GL fragment shader object." << std::endl;
                 _glFragmentShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
 
                 QByteArray programBytes = _fragmentShaderSource.toUtf8();
                 const GLint programSize = (const GLint)programBytes.size();
                 const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
 
-                std::cout << "Setting shader source for fragment shader object." << std::endl;
                 glShaderSourceARB(_glFragmentShader, 1, &programData, &programSize);
-
-                std::cout << "Compiling fragment shader object." << std::endl;
                 glCompileShaderARB(_glFragmentShader);
-
                 glGetShaderiv(_glFragmentShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
                     glGetShaderInfoLog(_glFragmentShader, sizeof(buf), 0, buf);
                     std::cout << "Error compiling fragment shader: " << buf << std::endl;
                     return false;
-                } else {
-                    std::cout << "Successfully compiled fragment shader." << std::endl;
                 }
             } break;
         }
@@ -151,8 +133,6 @@ bool Program::link() {
         glGetProgramInfoLog(_glProgram, sizeof(buf), 0, buf);
         std::cout << "Error linking shader program: " << buf << std::endl;
         return false;
-    } else {
-        std::cout << "Successfully linked shader program." << std::endl;
     }
     return true;
 }

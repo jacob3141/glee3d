@@ -243,27 +243,13 @@ namespace Glee3D {
                     cameraMatrixState.load();
                     object->applyModelViewMatrix();
                     object->render();
-
-//                    glBegin(GL_LINES);
-//                    glColor3i(0, 255, 0);
-//                    glVertex3d(0, 0, 0);
-//                    glVertex3d(object->frontVector()._x * 50.0,
-//                               object->frontVector()._y * 50.0,
-//                               object->frontVector()._z * 50.0);
-
-//                    glVertex3d(0, 0, 0);
-//                    glVertex3d(object->upVector()._x * 50.0,
-//                               object->upVector()._y * 50.0,
-//                               object->upVector()._z * 50.0);
-
-//                    glEnd();
                 }
             }
             _scene->unlockScene();
         }
 
         _frameBuffer->release();
-
+        _renderProgram.eject();
         foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->apply(_frameBuffer);
         }
