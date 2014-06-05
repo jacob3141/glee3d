@@ -54,12 +54,12 @@ Scene::Scene()
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->setScale(20.0);
-    terrain->setMaterial(new Glee3D::ChromeMaterial());
+    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::Chrome));
     terrain->setTilingOffset(1.0);
     terrain->generate("../../heightmaps/heightmap.png");
-    terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
-    terrain->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
-    terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(0.4, 0.4, 0.4, 1.0));
+    terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.05, 0.05, 0.05, 1.0));
+    terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    terrain->material()->setSpecularReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
     terrain->material()->setTextureId("green");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
     insertTerrain(terrain);
@@ -74,12 +74,16 @@ Scene::Scene()
     mesh->setVertex(3, Glee3D::RealVector3D(-w, -180.0, -h));
     mesh->setTriangle(0, Glee3D::Triangle(0, 1, 2));
     mesh->setTriangle(1, Glee3D::Triangle(0, 2, 3));
+    mesh->setTextureCoordinates(0, Glee3D::RealVector2D(0.0, 0.0));
+    mesh->setTextureCoordinates(1, Glee3D::RealVector2D(0.0, 1.0));
+    mesh->setTextureCoordinates(2, Glee3D::RealVector2D(1.0, 1.0));
+    mesh->setTextureCoordinates(3, Glee3D::RealVector2D(1.0, 0.0));
     waterPlane->setMesh(mesh);
-    waterPlane->setMaterial(new Glee3D::ChromeMaterial());
-    waterPlane->material()->setAmbientReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.2));
-    waterPlane->material()->setDiffuseReflection(Glee3D::RgbaColor(0.2, 0.3, 0.8, 0.5));
-    waterPlane->material()->setSpecularReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 0.3));
-    insertObject(waterPlane);
+    waterPlane->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::Chrome));
+    waterPlane->material()->setAmbientReflection(Glee3D::RgbaColor(0.2, 0.3, 0.2, 1.0));
+    waterPlane->material()->setDiffuseReflection(Glee3D::RgbaColor(0.2, 0.3, 0.2, 1.0));
+    waterPlane->material()->setSpecularReflection(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
+    //insertObject(waterPlane);
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
@@ -114,28 +118,28 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
     }
 
     if(keyStatusMap[Qt::Key_E]) {
-        activeCamera->move(Glee3D::RealVector3D(0.0, -0.05 * activeCamera->position()._y, 0.0));
+        activeCamera->move(Glee3D::RealVector3D(0.0, -0.2 * activeCamera->position()._y, 0.0));
     }
 
     if(keyStatusMap[Qt::Key_Q]) {
-        activeCamera->move(Glee3D::RealVector3D(0.0, 0.05 * activeCamera->position()._y, 0.0));
+        activeCamera->move(Glee3D::RealVector3D(0.0, 0.2 * activeCamera->position()._y, 0.0));
     }
 
     if(keyStatusMap[Qt::Key_W]) {
-        activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, -0.05 * activeCamera->position()._y));
+        activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, -0.1 * activeCamera->position()._y));
     }
 
     if(keyStatusMap[Qt::Key_S]) {
-        activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, 0.05 * activeCamera->position()._y));
+        activeCamera->move(Glee3D::RealVector3D(0.0, 0.0, 0.1 * activeCamera->position()._y));
     }
 
     if(keyStatusMap[Qt::Key_A]) {
-        activeCamera->move(Glee3D::RealVector3D(-0.05 * activeCamera->position()._y, 0.0, 0.0));
+        activeCamera->move(Glee3D::RealVector3D(-0.1 * activeCamera->position()._y, 0.0, 0.0));
     }
 
     if(keyStatusMap[Qt::Key_D]) {
-        activeCamera->move(Glee3D::RealVector3D(0.05 * activeCamera->position()._y, 0.0, 0.0));
+        activeCamera->move(Glee3D::RealVector3D(0.1 * activeCamera->position()._y, 0.0, 0.0));
     }
 
-    //activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -1, -3));
+    activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -2, -1));
 }

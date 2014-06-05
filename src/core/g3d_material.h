@@ -37,8 +37,33 @@ namespace Glee3D {
       */
     class Material : public Serializable {
     public:
+        enum StandardMaterial{
+            BlackRubber,
+            BlackPlastic,
+            Bronze,
+            BronzePolished,
+            Chrome,
+            Copper,
+            CopperPolished,
+            Gold,
+            GoldPolished,
+            Pearl,
+            Ruby,
+            Silver,
+            SilverPolished
+        };
+
+        static Material* standardMaterial(StandardMaterial standardMaterial);
+
         /** Creates a new material. */
         Material();
+
+        Material(QString textureId,
+            RgbaColor ambientReflection,
+            RgbaColor diffuseReflection,
+            RgbaColor specularReflection,
+            float shininess,
+            RgbaColor emission);
 
         /** Activates this material. */
         void activate();
@@ -107,68 +132,12 @@ namespace Glee3D {
         bool deserialize(QJsonObject jsonObject);
 
     protected:
-        RgbaColor _solidColor;
         RgbaColor _ambientReflection;
         RgbaColor _diffuseReflection;
         RgbaColor _specularReflection;
         float _shininess;
         RgbaColor _emission;
         QString _textureId;
-    };
-
-    class ChromeMaterial : public Material {
-    public:
-        ChromeMaterial()
-            : Material() {
-            _ambientReflection = RgbaColor(0.25, 0.25, 0.25, 1.0);
-            _diffuseReflection = RgbaColor(0.40, 0.40, 0.40, 1.0);
-            _specularReflection = RgbaColor(0.77, 0.77, 0.77, 1.0);
-            _shininess = 76.8;
-        }
-    };
-
-    class GoldMaterial : public Material {
-    public:
-        GoldMaterial()
-            : Material() {
-            _ambientReflection = RgbaColor(0.25, 0.20, 0.07, 1.0);
-            _diffuseReflection = RgbaColor(0.75, 0.61, 0.23, 1.0);
-            _specularReflection = RgbaColor(0.63, 0.65, 0.37, 1.0);
-            _shininess = 51.2;
-        }
-    };
-
-    class GoldPolishedMaterial : public Material {
-    public:
-        GoldPolishedMaterial()
-            : Material() {
-            _ambientReflection = RgbaColor(0.25, 0.22, 0.06, 1.0);
-            _diffuseReflection = RgbaColor(0.35, 0.31, 0.09, 1.0);
-            _specularReflection = RgbaColor(0.80, 0.72, 0.21, 1.0);
-            _shininess = 83.2;
-        }
-    };
-
-    class CopperMaterial : public Material {
-    public:
-        CopperMaterial()
-            : Material() {
-            _ambientReflection = RgbaColor(0.19, 0.07, 0.02, 1.0);
-            _diffuseReflection = RgbaColor(0.70, 0.27, 0.08, 1.0);
-            _specularReflection = RgbaColor(0.26, 0.14, 0.09, 1.0);
-            _shininess = 12.8;
-        }
-    };
-
-    class PearlMaterial : public Material {
-    public:
-        PearlMaterial()
-            : Material() {
-            _ambientReflection = RgbaColor(0.25, 0.21, 0.21, 0.9);
-            _diffuseReflection = RgbaColor(0.99, 0.83, 0.83, 0.9);
-            _specularReflection = RgbaColor(0.30, 0.30, 0.30, 0.9);
-            _shininess = 11.3;
-        }
     };
 
 } // namespace Glee3D

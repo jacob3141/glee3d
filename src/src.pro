@@ -90,4 +90,5 @@ SOURCES += \
     objects/g3d_cylinder.cpp \
     io/g3d_objloader.cpp
 
-RESOURCES += glsl.qrc
+RESOURCES += \
+    g3d.qrc

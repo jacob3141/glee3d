@@ -27,13 +27,129 @@
 #include <QGLWidget>
 
 namespace Glee3D {
+    Material* Material::standardMaterial(StandardMaterial standardMaterial) {
+        switch(standardMaterial) {
+
+        case BlackRubber:
+            return new Material("",
+                RgbaColor(0.02, 0.02, 0.02, 1.0),  // Ambient
+                RgbaColor(0.01, 0.01, 0.01, 1.0),  // Diffuse
+                RgbaColor(0.40, 0.40, 0.40, 1.0),  // Specular
+                10.0,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case BlackPlastic:
+            return new Material("",
+                RgbaColor(0.00, 0.00, 0.00, 1.0),  // Ambient
+                RgbaColor(0.01, 0.01, 0.01, 1.0),  // Diffuse
+                RgbaColor(0.50, 0.50, 0.50, 1.0),  // Specular
+                32.0,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Bronze:
+            return new Material("",
+                RgbaColor(0.21, 0.13, 0.05, 1.0),  // Ambient
+                RgbaColor(0.71, 0.43, 0.18, 1.0),  // Diffuse
+                RgbaColor(0.39, 0.27, 0.17, 1.0),  // Specular
+                25.6,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case BronzePolished:
+            return new Material("",
+                RgbaColor(0.25, 0.15, 0.06, 1.0),  // Ambient
+                RgbaColor(0.40, 0.24, 0.10, 1.0),  // Diffuse
+                RgbaColor(0.77, 0.46, 0.20, 1.0),  // Specular
+                76.8,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Chrome:
+            return new Material("",
+                RgbaColor(0.25, 0.25, 0.25, 1.0),  // Ambient
+                RgbaColor(0.40, 0.40, 0.40, 1.0),  // Diffuse
+                RgbaColor(0.77, 0.77, 0.77, 1.0),  // Specular
+                76.8,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Copper:
+            return new Material("",
+                RgbaColor(0.19, 0.07, 0.02, 1.0),  // Ambient
+                RgbaColor(0.70, 0.27, 0.08, 1.0),  // Diffuse
+                RgbaColor(0.26, 0.14, 0.09, 1.0),  // Specular
+                12.8,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case CopperPolished:
+            return new Material("",
+                RgbaColor(0.23, 0.09, 0.03, 1.0),  // Ambient
+                RgbaColor(0.55, 0.21, 0.07, 1.0),  // Diffuse
+                RgbaColor(0.58, 0.22, 0.07, 1.0),  // Specular
+                51.2,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Gold:
+            return new Material("",
+                RgbaColor(0.25, 0.20, 0.07, 1.0),  // Ambient
+                RgbaColor(0.75, 0.61, 0.23, 1.0),  // Diffuse
+                RgbaColor(0.63, 0.65, 0.37, 1.0),  // Specular
+                51.2,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case GoldPolished:
+            return new Material("",
+                RgbaColor(0.25, 0.22, 0.06, 1.0),  // Ambient
+                RgbaColor(0.35, 0.31, 0.09, 1.0),  // Diffuse
+                RgbaColor(0.80, 0.72, 0.21, 1.0),  // Specular
+                83.2,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Pearl:
+            return new Material("",
+                RgbaColor(0.25, 0.21, 0.21, 0.9),  // Ambient
+                RgbaColor(0.99, 0.83, 0.83, 0.9),  // Diffuse
+                RgbaColor(0.30, 0.30, 0.30, 0.9),  // Specular
+                11.3,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Ruby:
+            return new Material("",
+                RgbaColor(0.17, 0.01, 0.01, 0.5),  // Ambient
+                RgbaColor(0.61, 0.04, 0.04, 0.5),  // Diffuse
+                RgbaColor(0.73, 0.63, 0.63, 0.5),  // Specular
+                76.8,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case Silver:
+            return new Material("",
+                RgbaColor(0.19, 0.19, 0.19, 1.0),  // Ambient
+                RgbaColor(0.51, 0.51, 0.51, 1.0),  // Diffuse
+                RgbaColor(0.51, 0.51, 0.51, 1.0),  // Specular
+                51.2,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        case SilverPolished:
+            return new Material("",
+                RgbaColor(0.23, 0.23, 0.23, 1.0),  // Ambient
+                RgbaColor(0.28, 0.28, 0.28, 1.0),  // Diffuse
+                RgbaColor(0.77, 0.77, 0.77, 1.0),  // Specular
+                89.6,                              // Shininess
+                RgbaColor(0.00, 0.00, 0.00, 0.0)); // Emission
+        };
+
+        // This should never happen.
+        Q_ASSERT(false);
+        return 0;
+    }
+
     Material::Material()
         : Serializable() {
         _textureId          = "";
         _ambientReflection  = RgbaColor();
         _diffuseReflection  = RgbaColor();
         _specularReflection = RgbaColor();
+        _shininess          = 0.4;
         _emission           = RgbaColor();
+    }
+
+    Material::Material(QString textureId,
+        RgbaColor ambientReflection,
+        RgbaColor diffuseReflection,
+        RgbaColor specularReflection,
+        float shininess,
+        RgbaColor emission) {
+        _textureId = textureId;
+        _ambientReflection = ambientReflection;
+        _diffuseReflection = diffuseReflection;
+        _specularReflection = specularReflection;
+        _shininess = shininess;
+        _emission = emission;
     }
 
     void Material::activate() {

@@ -46,13 +46,12 @@ namespace Glee3D {
         Q_UNUSED(renderMode);
         glPushAttrib(GL_ENABLE_BIT);
         glEnable(GL_TEXTURE_2D);
-        glDisable(GL_DEPTH_TEST);
         glDisable(GL_CULL_FACE);
         glDisable(GL_LIGHTING);
         glDisable(GL_BLEND);
 
         glColor4f(1,1,1,1);
-        double k = 80.0f;
+        double k = 10000.0f;
 
         _materials[BackX]->activate();
         const GLfloat vertexDataBackX[] = {

@@ -24,7 +24,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Q_INIT_RESOURCE(glsl);
+    Q_INIT_RESOURCE(g3d);
 
     a.setApplicationName("Glee3D World Editor");
     WorldEditor worldEditor;
