@@ -53,37 +53,16 @@ Scene::Scene()
     insertLightSource(globalLight);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
-    terrain->setScale(20.0);
-    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::Chrome));
+    terrain->setScale(10.0);
+    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::BlackPlastic));
     terrain->setTilingOffset(1.0);
     terrain->generate("../../heightmaps/heightmap.png");
-    terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.05, 0.05, 0.05, 1.0));
-    terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
-    terrain->material()->setSpecularReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
-    terrain->material()->setTextureId("green");
+    //terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.05, 0.05, 0.05, 1.0));
+    //terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
+    //terrain->material()->setSpecularReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
+    terrain->material()->setTextureId("brushed-aluminium-3");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
     insertTerrain(terrain);
-
-    Glee3D::Object *waterPlane = new Glee3D::Object();
-    Glee3D::Mesh *mesh = new Glee3D::Mesh(4, 2);
-    double w = terrain->width() * terrain->scale() / 2;
-    double h = terrain->height() * terrain->scale() / 2;
-    mesh->setVertex(0, Glee3D::RealVector3D(-w, -180.0,  h));
-    mesh->setVertex(1, Glee3D::RealVector3D( w, -180.0,  h));
-    mesh->setVertex(2, Glee3D::RealVector3D( w, -180.0, -h));
-    mesh->setVertex(3, Glee3D::RealVector3D(-w, -180.0, -h));
-    mesh->setTriangle(0, Glee3D::Triangle(0, 1, 2));
-    mesh->setTriangle(1, Glee3D::Triangle(0, 2, 3));
-    mesh->setTextureCoordinates(0, Glee3D::RealVector2D(0.0, 0.0));
-    mesh->setTextureCoordinates(1, Glee3D::RealVector2D(0.0, 1.0));
-    mesh->setTextureCoordinates(2, Glee3D::RealVector2D(1.0, 1.0));
-    mesh->setTextureCoordinates(3, Glee3D::RealVector2D(1.0, 0.0));
-    waterPlane->setMesh(mesh);
-    waterPlane->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::Chrome));
-    waterPlane->material()->setAmbientReflection(Glee3D::RgbaColor(0.2, 0.3, 0.2, 1.0));
-    waterPlane->material()->setDiffuseReflection(Glee3D::RgbaColor(0.2, 0.3, 0.2, 1.0));
-    waterPlane->material()->setSpecularReflection(Glee3D::RgbaColor(0.2, 0.2, 0.2, 1.0));
-    //insertObject(waterPlane);
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {

@@ -45,6 +45,10 @@ WorldEditor::WorldEditor(QWidget *parent) :
     textureStore.loadTexture(*_display, "../../textures/green.png", "green");
     //textureStore.loadTexture(*_display, "../../textures/water-texture.jpg", "water");
 
+    textureStore.loadTexture(*_display, "../../../../assets/textures/brushed-aluminium-1.jpg", "brushed-aluminium-1");
+    textureStore.loadTexture(*_display, "../../../../assets/textures/brushed-aluminium-2.jpg", "brushed-aluminium-2");
+    textureStore.loadTexture(*_display, "../../../../assets/textures/brushed-aluminium-3.jpg", "brushed-aluminium-3");
+
 
     _scene = new Scene();
     _display->setScene(_scene);

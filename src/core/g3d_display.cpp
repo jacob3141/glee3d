@@ -22,6 +22,7 @@
 #include "g3d_display.h"
 #include "g3d_skybox.h"
 #include "g3d_matrixstate.h"
+#include "g3d_texturestore.h"
 
 // GL utilities includes
 #include "GL/glu.h"
