@@ -21,6 +21,9 @@
 // Own includes
 #include "g3d_texturestore.h"
 
+// Standard includes
+#include <iostream>
+
 namespace Glee3D {
 
     TextureStore::TextureStore() {
@@ -34,6 +37,7 @@ namespace Glee3D {
             _loadedTextures[textureId] = loadedTexture;
             return true;
         } else {
+            std::cout << "Error loading texture: " << fileName.toStdString() << std::endl;
             return false;
         }
     }

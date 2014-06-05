@@ -57,6 +57,7 @@ namespace Glee3D {
                                       Encoding textureEncoding) {
         QImage image;
         if(!image.load(fileName)) {
+            std::cout << "Could not find terrain map file: " << fileName.toStdString() << std::endl;
             return FileLoadError;
         }
         return generate(image, heightEncoding, textureEncoding);

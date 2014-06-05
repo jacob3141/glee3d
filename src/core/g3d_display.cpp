@@ -181,8 +181,10 @@ namespace Glee3D {
             effect->initialize();
         }
 
-        _renderProgram.build(":/shaders/glsl/perpixellighting.vert.glsl",
-                             ":/shaders/glsl/perpixellighting.frag.glsl");
+        if(!_renderProgram.build(":/shaders/glsl/perpixellighting.vert.glsl",
+                                 ":/shaders/glsl/perpixellighting.frag.glsl")) {
+            std::cout << "Error building GL render program." << std::endl;
+        }
     }
 
     void Display::resizeGL(int w, int h) {
@@ -251,13 +253,12 @@ namespace Glee3D {
 
         _frameBuffer->release();
         _renderProgram.eject();
+
         foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->apply(_frameBuffer);
         }
 
         _frameBuffer->copy(_frameBuffer->width(), _frameBuffer->height());
-
-        glFinish();
         swapBuffers();
     }
 

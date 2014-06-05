@@ -20,6 +20,7 @@
 
 // Own includes
 #include "g3d_framebuffer.h"
+#include "g3d_matrixstate.h"
 
 // Standard includes
 #include <iostream>
@@ -124,7 +125,10 @@ void FrameBuffer::bindTexture() {
 }
 
 void FrameBuffer::copy(int width, int height) {
-    // TODO: Store modelview and projection matrices
+    MatrixState matrixState;
+    matrixState.save();
+
+    glPushAttrib(GL_ENABLE_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, width, 0, height, -10, 10);
@@ -137,7 +141,6 @@ void FrameBuffer::copy(int width, int height) {
 
     glDisable(GL_LIGHTING);
     glDisable(GL_DEPTH_TEST);
-    glColor3f(1.0, 1.0, 1.0);
 
     const GLfloat vertexData[] = {
         0, 0,
@@ -158,6 +161,9 @@ void FrameBuffer::copy(int width, int height) {
     glVertexPointer(2, GL_FLOAT, 0, vertexData);
     glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates);
     glDrawArrays(GL_QUADS, 0, 4);
+
+    matrixState.load();
+    glPopAttrib();
 }
 
 void FrameBuffer::clear() {

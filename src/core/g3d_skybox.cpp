@@ -50,7 +50,6 @@ namespace Glee3D {
         glDisable(GL_LIGHTING);
         glDisable(GL_BLEND);
 
-        glColor4f(1,1,1,1);
         double k = 10000.0f;
 
         _materials[BackX]->activate();
@@ -94,7 +93,6 @@ namespace Glee3D {
         glVertexPointer(3, GL_FLOAT, 0, vertexDataFrontX);
         glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesFrontX);
         glDrawArrays(GL_QUADS, 0, 4);
-
 
         _materials[BackY]->activate();
         const GLfloat vertexDataBackY[] = {
@@ -184,7 +182,6 @@ namespace Glee3D {
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
         glPopAttrib();
-        glPopMatrix();
     }
 
 } // namespace Glee3D

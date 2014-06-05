@@ -46,7 +46,7 @@ Scene::Scene()
     setSkyBox(skyBox);
 
     Glee3D::LightSource *globalLight = new Glee3D::LightSource();
-    globalLight->setPosition(Glee3D::RealVector3D(5.0, 2000.0, 2.0));
+    globalLight->setPosition(Glee3D::RealVector3D(5.0, 1000.0, 2.0));
     globalLight->setAmbientLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     globalLight->setSpecularLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     globalLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
@@ -60,9 +60,9 @@ Scene::Scene()
     //terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.05, 0.05, 0.05, 1.0));
     //terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     //terrain->material()->setSpecularReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
-    terrain->material()->setTextureId("brushed-aluminium-3");
+    terrain->material()->setTextureId("brushed-aluminium-1");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
-    insertTerrain(terrain);
+    //insertTerrain(terrain);
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
@@ -120,5 +120,5 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         activeCamera->move(Glee3D::RealVector3D(0.1 * activeCamera->position()._y, 0.0, 0.0));
     }
 
-    activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -2, -1));
+    //activeCamera->setLookAt(activeCamera->position() + Glee3D::RealVector3D(0, -2, -1));
 }

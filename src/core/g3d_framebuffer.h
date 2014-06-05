@@ -75,7 +75,7 @@ public:
     /** Binds the framebuffer contents as a texture. */
     void bindTexture();
 
-    /** @deprecated */
+    /** Blits the contents of the framebuffer to the current target. */
     void copy(int width, int height);
 
     /** Clears the framebuffer object. */
