@@ -166,7 +166,7 @@ void BloomEffect::blur(FrameBuffer **from, FrameBuffer **to, Direction dir) {
             offsets[c * 2 + 1] = (dir == VERTICAL)   ? offset * (c - 2) : 0;
         }
 
-        to[pass]->acquire();
+        to[pass]->target();
         glUniform2fv(offsetsLocation, _kernelSize, offsets);
         from[pass]->copy(to[pass]->width(), to[pass]->height());
         to[pass]->release();
@@ -180,7 +180,7 @@ void BloomEffect::apply(FrameBuffer *frameBuffer) {
     // Downsample the scene into the source materials.
     frameBuffer->bindTexture();
     for(int p = 1; p < _filterDepth; p++) {
-      _passA[p]->acquire();
+      _passA[p]->target();
 
       glMatrixMode(GL_PROJECTION);
       glLoadIdentity();
@@ -205,7 +205,7 @@ void BloomEffect::apply(FrameBuffer *frameBuffer) {
     glUniform4fv(_blitProgram.glUniformLocation("bkgd"), 1, lightblue);
     glUniform1i(_blitProgram.glUniformLocation("source"), 0);
 
-    frameBuffer->acquire();
+    frameBuffer->target();
     frameBuffer->clear();
 
     MatrixState matrixState;
@@ -225,7 +225,7 @@ void BloomEffect::apply(FrameBuffer *frameBuffer) {
     blur(_passB, _passA, VERTICAL);
 
     // Draw right portion of window.
-    frameBuffer->acquire();
+    frameBuffer->target();
 
     glTranslatef((GLfloat) 2 * _passB[0]->width() + 2, 0, 0);
     _blitProgram.insert();

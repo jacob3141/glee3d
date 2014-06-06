@@ -105,7 +105,7 @@ FrameBuffer::FrameBuffer(int width, int height, int properties) {
     }
 }
 
-void FrameBuffer::acquire() {
+void FrameBuffer::target() {
     _previousMatrixState.save();
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferObject);
 
@@ -120,7 +120,6 @@ void FrameBuffer::release() {
 }
 
 void FrameBuffer::bindTexture() {
-    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, _texture);
 }
 
@@ -138,17 +137,26 @@ void FrameBuffer::copy(int width, int height) {
     glTranslatef(0, 0, -6.0);
 
     bindTexture();
-
-    glDisable(GL_LIGHTING);
     glDisable(GL_DEPTH_TEST);
 
-    const GLfloat vertexData[] = {
-        0, 0,
-        (GLfloat)_width, 0,
-        (GLfloat)_width, (GLfloat)_height,
-        0, (GLfloat)_height
+    // Create a fullscreen quad. Pass it a z parameter of 1.0 to ensure it is
+    // always on top of the target.
+    const GLfloat vertices[] = {
+        0.0f,            0.0f,             1.0f,
+        (GLfloat)_width, 0.0f,             1.0f,
+        (GLfloat)_width, (GLfloat)_height, 1.0f,
+        0.0f,            (GLfloat)_height, 1.0f
     };
 
+    // All vertices have to face upwards from the target.
+    const GLfloat normals[] = {
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f,
+        0.0f, 0.0f, 1.0f
+    };
+
+    // Set the texture coordinates.
     const GLfloat textureCoordinates[] = {
         0.0f, 0.0f,
         1.0f, 0.0f,
@@ -156,18 +164,39 @@ void FrameBuffer::copy(int width, int height) {
         0.0f, 1.0f
     };
 
+    // Usually, this will be handled my materials, but since we need to deal
+    // with our own texture here, let's save the overhead of dealing with
+    // material objects set the right values inline.
+    float ambientReflection[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    float diffuseReflection[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    float specularReflection[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    float emission[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+    glMaterialfv(GL_FRONT, GL_AMBIENT, ambientReflection);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuseReflection);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, specularReflection);
+    glMaterialf(GL_FRONT, GL_SHININESS, 100.0);
+    glMaterialfv(GL_FRONT, GL_EMISSION, emission);
+
+    // Draw the quad.
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates);
+    glNormalPointer(GL_FLOAT, 0, normals);
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    glVertexPointer(2, GL_FLOAT, 0, vertexData);
-    glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates);
+    glEnableClientState(GL_NORMAL_ARRAY);
+
     glDrawArrays(GL_QUADS, 0, 4);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
 
     matrixState.load();
     glPopAttrib();
 }
 
 void FrameBuffer::clear() {
-    acquire();
+    target();
     glClearColor(_clearColor._red,
                  _clearColor._green,
                  _clearColor._blue,

@@ -161,21 +161,7 @@ namespace Glee3D {
             std::cout << "Framebuffer objects have to be supported." << std::endl;
         }
 
-        glEnable(GL_DEPTH_TEST);
-        glDisable(GL_LIGHTING);
-        glEnable(GL_SMOOTH);
-        glClearColor(0.0,0.0,0.0,1.0);
-        glShadeModel(GL_SMOOTH);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_POINT_SMOOTH);
-        glEnable(GL_LINE_SMOOTH);
-        glEnable(GL_POLYGON_SMOOTH);
-        glPointSize(4.0);
-        glLineWidth(2.0);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDisable(GL_NORMALIZE);
+        configureOpenGL();
 
         foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->initialize();
@@ -351,5 +337,26 @@ namespace Glee3D {
 
     void Display::keyReleaseEvent(QKeyEvent *keyEvent) {
         _keyStatusMap[keyEvent->key()] = false;
+    }
+
+    void Display::configureOpenGL() {
+        // Disable normalization since we will precalculate our normals.
+        glDisable(GL_NORMALIZE);
+        // Disable the default OpenGL lightning because we will provide our own
+        glDisable(GL_LIGHTING);
+
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glEnable(GL_SMOOTH);
+        glEnable(GL_POINT_SMOOTH);
+        glEnable(GL_LINE_SMOOTH);
+        glEnable(GL_POLYGON_SMOOTH);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+
+        glShadeModel(GL_SMOOTH);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glPointSize(2.0);
+        glLineWidth(1.0);
     }
 } // namespace Glee3D

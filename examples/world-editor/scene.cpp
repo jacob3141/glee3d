@@ -54,7 +54,7 @@ Scene::Scene()
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->setScale(10.0);
-    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::BlackPlastic));
+    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::Bronze));
     terrain->setTilingOffset(1.0);
     terrain->generate("../../heightmaps/heightmap.png");
     //terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.05, 0.05, 0.05, 1.0));
@@ -62,7 +62,7 @@ Scene::Scene()
     //terrain->material()->setSpecularReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
     terrain->material()->setTextureId("brushed-aluminium-1");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
-    //insertTerrain(terrain);
+    insertTerrain(terrain);
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
@@ -77,7 +77,6 @@ void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
             //o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
         }
     }
-    _lookAt = point;
     if(somethingSelected) {
 
     }

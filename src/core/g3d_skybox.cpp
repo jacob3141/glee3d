@@ -45,9 +45,7 @@ namespace Glee3D {
     void SkyBox::render(RenderMode renderMode) {
         Q_UNUSED(renderMode);
         glPushAttrib(GL_ENABLE_BIT);
-        glEnable(GL_TEXTURE_2D);
         glDisable(GL_CULL_FACE);
-        glDisable(GL_LIGHTING);
         glDisable(GL_BLEND);
 
         double k = 10000.0f;

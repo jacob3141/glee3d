@@ -142,6 +142,13 @@ namespace Glee3D {
         /** Handles a drag event on the screen. */
         void drag(QPoint dragFrom, QPoint dragTo);
 
+        /** This method will be called to set all OpenGL default parameters.
+         * Usually, you will never want to overload this method since it
+         * contains settings known to work best. For maintenance and debugging
+         * it might be useful to modify the defaults.
+         * */
+        virtual void configureOpenGL();
+
     private:
         Scene *_scene;
         Camera *_activeCamera;

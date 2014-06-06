@@ -36,8 +36,14 @@ namespace Glee3D {
   * @class FrameBuffer
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
-  * Makes it easier to handle ramebuffers by hiding a lot of OpenGL's
-  * details in a single object.
+  * Makes it easier to handle framebuffers by hiding a lot of OpenGL's
+  * details in a single object. The term "target" describes a render target.
+  * OpenGL can have a single render target at a time. All operations act on the
+  * current render target.
+  *
+  * Framebuffers are memory targets that OpenGL can render to and which are
+  * linked to a texture. This makes it possible to draw contents offscreen and
+  * then use these contents as a texture again to draw them on another target.
   */
 class FrameBuffer {
 public:
@@ -64,7 +70,7 @@ public:
       * non-visible memory buffer until release() is called.
       * @see release()
       */
-    void acquire();
+    void target();
 
     /** Releases that framebuffer object, defaulting to the OpenGL
       * visible memory.

@@ -112,6 +112,7 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
             } break;
         }
     } else {
+        std::cout << "Warning: No shader source provided for compilation." << std::endl;
         return false;
     }
     return true;
@@ -121,6 +122,9 @@ bool Program::link() {
     GLint success;
     GLchar buf[256];
     _glProgram = glCreateProgramObjectARB();
+
+    // REVIEW: Does a values >= 0 really mean the shader is valid? Probably be
+    // more verbose on that here.
     if(_glVertexShader) {
         glAttachObjectARB(_glProgram, _glVertexShader);
     }

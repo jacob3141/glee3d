@@ -41,8 +41,6 @@ namespace Glee3D {
     }
 
     void LightSource::activate(int glLight) {
-        glEnable(GL_LIGHTING);
-        glEnable(GL_TEXTURE_2D);
         glDisable(glLight);
         GLfloat ambientLight[] = { _ambientLight._red,
                                    _ambientLight._green,

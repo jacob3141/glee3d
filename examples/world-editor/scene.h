@@ -33,7 +33,6 @@ public:
     void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
 
 private:
-    Glee3D::RealVector3D _lookAt;
 };
 
 #endif // SCENE_H
