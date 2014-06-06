@@ -1,6 +1,53 @@
+-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.
+-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.
+|                                                                              |
+|        .@'@@@':    ,#@+                           .:@@@@':    .'@@@@@@'.     |
+|     .'@@+;:::'#:   ;@@:                          :@;:':'@@@,  ;@@',:;#@@'    |
+|    :@@'`           +@#.  .;+@@@@'.   .;+@@@@'.         .#@+`  +@#.    ;@@;   |
+|   ,#@'`     ...   ,#@'  '@@;` `+@@. '@@;` `+@@,   ,@@@@@#,   ,#@'     :#@;   |
+|   ;@@:    '@@@@,  '@@, ;@@@@@@@@@@.;@@@@@@@@@@,      `;@@#.  '@@,     '@@,   |
+|   :#@+`    `+@#.  +@#. +@@,``````` +@@,```````        .+@#.  +@#.   .'@@:    |
+|    :@@@+'''+@@'  :#@;  '#@#+...+@; '#@#+...+@; :#@...+@@+.  :#@#'''#@@'.     |
+|      .@@@@@:,`   :@@.    .@@@@@;`    .@@@@@;`   .:@@@@,`    .#@@@@@@.        |
+|                                                                              |
+-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.
+-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.
+
+Glee3D is a very thin wrapper around OpenGL an is intended to be used as a high
+level wrapper in Qt applications. It features a nice high level API instead of
+using OpenGL commands directly, comes with predefined primitive shapes such as
+cubes or cylinders and contains known-to-work code for common tasks, such as
+terrain rendering, serialization and deserialization of objections, texture and
+material handling, object management, light source management, shader support
+and predefined shaders for various effects, clean separation of logic and render
+loop, display input detection and translation into 3d space, math helpers and a
+lot more - in short: Everything you would have to write yourself if you want to
+do a bit of 3d, but actually don't need a bleeding edge, feature-satured 3d
+engine.
+
+As it is often the case, this has been written to scratch a personal itch.
+I used this code during my OpenGL programming classes at university to do my
+homeworks. Therefore, this has been developed based on practical needs rather
+than scary theories. After I passed my exam, I decided to refactor a lot of the
+code and to release it as free software.
+
+The main focus (at least that is my opinion) lies on usability, clean code and
+and stability, not on performance. If you need maximum frames per second and
+mind-blowing effects, maximum compatibility with state-of-the-art software for
+game development, do not use this, because this is not a major design goal.
+This doesn't mean that I would reject code that improves Glee3D within these
+aspects, given that it's still clean code. If you want to write applications
+that need a 3d view of certain things, for example a Qt-based GUI application
+that needs to visualize scientific data or a spare parts database that gives you
+a 3d model preview of the parts you would purchase, then Glee3D might be 
+a suitable solution.
+
 You will need the following libraries installed on Ubuntu 14.04 with Qt5:
 
 - libglew-dev
 - freeglut3-dev
 
-Then, in the root directory, type 'qmake' and 'make'. Happy hacking!
+Then, in the root directory, type 'qmake' and 'make'. If you are using
+QtCreator, please uncheck "Shadow Build" in the projects settings, because the
+built example application will be located in the wrong directory and can't find
+the assets. Happy hacking!
