@@ -18,8 +18,8 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_OBJECT_H
-#define G3D_OBJECT_H
+#ifndef g3d_entity_H
+#define g3d_entity_H
 
 // Own includes
 #include "g3d_anchored.h"
@@ -41,12 +41,16 @@
 namespace Glee3D {
 
 /**
-  * @class Object
+  * @class Entity
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
-  * Represents an object in the virtual space.
+  * Represents an entity in the virtual space. An entity itself contains a mesh
+  * and material, has a position relative to a certain anchor (e.g. its parent)
+  * and an orientation. It may contain an indefinite number of sub-entities,
+  * which themselves are positioned and orientated relative to the entity they
+  * have been assigned to.
   */
-class Object :
+class Entity :
         public Anchored,
         public Oriented,
         public Renderable,
@@ -54,10 +58,10 @@ class Object :
         public Serializable {
 public:
     /** Creates a new object for the virtual 3D space. */
-    Object();
+    Entity();
 
     /** Destructor. */
-    virtual ~Object();
+    virtual ~Entity();
 
     /** Sets the name for this object.
       * @param name Name for this object.
@@ -87,9 +91,6 @@ public:
       */
     void moveBackward(double units);
 
-    /** Applies translation and rotation to the model view matrix. */
-    void applyModelViewMatrix();
-
     /** Renders this object using OpenGL commands. */
     virtual void render(RenderMode renderMode = Textured);
 
@@ -111,6 +112,8 @@ public:
     /** Sets the current mesh for this object. */
     void setMesh(Mesh *mesh);
 
+    void subordinate(Entity *child);
+
     /** @overload */
     virtual QString className();
 
@@ -126,8 +129,11 @@ protected:
 
     Mesh *_mesh;
     CompiledMesh *_compiledMesh;
+
+private:
+    Entity *_parent;
 };
 
 } // namespace Glee3D
 
-#endif // G3D_OBJECT_H
+#endif // g3d_entity_H

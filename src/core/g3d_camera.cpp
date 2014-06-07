@@ -39,11 +39,7 @@ namespace Glee3D {
         _lookAt = RealVector3D(0.0, 0.0, 0.0);
     }
 
-    MatrixState Camera::generateMatrixState() {
-        // Back up current matrix state.
-        MatrixState previousState;
-        previousState.save();
-
+    void Camera::applyCameraMatrix() {
         // Generate camera matrices.
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -54,16 +50,12 @@ namespace Glee3D {
         gluLookAt(_position._x, _position._y, _position._z,
                   _lookAt._x, _lookAt._y, _lookAt._z,
                   upVector()._x, upVector()._y, upVector()._z);
+    }
 
-        // Fetch current state into a matrix state object.
-        MatrixState state;
-        state.save();
-
-        // Restore previous state.
-        previousState.load();
-
-        // Return result.
-        return state;
+    MatrixState Camera::cameraMatrixState() {
+        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
+        applyCameraMatrix();
+        return MatrixState();
     }
 
     void Camera::setAspectRatio(int width, int height) {

@@ -22,7 +22,7 @@
 #define G3D_TERRAIN_H
 
 // Own includes
-#include "g3d_object.h"
+#include "g3d_entity.h"
 
 // Qt includes
 #include <QString>
@@ -55,9 +55,6 @@ namespace Glee3D {
 
         explicit Terrain();
         virtual ~Terrain();
-
-        /** Applies translation and rotation to the model view matrix. */
-        void applyModelViewMatrix();
 
         Result generate(QString fileName,
                         Encoding heightEncoding = RedComponent,

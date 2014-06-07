@@ -96,7 +96,7 @@ namespace Glee3D {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];        
         glGetIntegerv(GL_VIEWPORT, viewport);
-        MatrixState cameraMatrixState = _activeCamera->generateMatrixState();
+        MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
         RealVector3D frontPlanePoint, backPlanePoint;
 
         // Get the point at the front plane of the viewing frustrum.
@@ -127,7 +127,7 @@ namespace Glee3D {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];
         glGetIntegerv(GL_VIEWPORT, viewport);
-        MatrixState cameraMatrixState = _activeCamera->generateMatrixState();
+        MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
         RealVector3D point;
 
         GLdouble x = (GLdouble)displayPoint.x();
@@ -191,11 +191,11 @@ namespace Glee3D {
         if(_scene) {
             _scene->lockScene();
             if(_activeCamera) {
-                MatrixState cameraMatrixState = _activeCamera->generateMatrixState();
-                cameraMatrixState.load();
+                _activeCamera->applyCameraMatrix();
 
                 SkyBox *s = _scene->skyBox();
                 if(s) {
+                    MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
                     glMatrixMode(GL_MODELVIEW);
                     glTranslated(_activeCamera->position()._x,
                                  _activeCamera->position()._y,
@@ -203,7 +203,6 @@ namespace Glee3D {
                     s->render();
                 }
 
-                cameraMatrixState.load();
                 QSet<LightSource*> lightSources = _scene->lightSources();
                 int i = 0;
                 foreach(LightSource* lightSource, lightSources) {
@@ -221,16 +220,13 @@ namespace Glee3D {
                 // Render terrains.
                 QSet<Terrain*> terrains = _scene->terrains();
                 foreach(Terrain *terrain, terrains) {
-                    cameraMatrixState.load();
-                    terrain->applyModelViewMatrix();
                     terrain->render();
                 }
 
                 // Render objects.
-                QSet<Object*> objects = _scene->objects();
-                foreach(Object *object, objects) {
-                    cameraMatrixState.load();
-                    object->applyModelViewMatrix();
+                QSet<Entity*> objects = _scene->entities();
+                foreach(Entity *object, objects) {
+                    // Tell the object to render itself
                     object->render();
                 }
             }

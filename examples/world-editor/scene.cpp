@@ -50,24 +50,21 @@ Scene::Scene()
     globalLight->setAmbientLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     globalLight->setSpecularLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     globalLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
-    insertLightSource(globalLight);
+    insert(globalLight);
 
     Glee3D::Terrain *terrain = new Glee3D::Terrain();
     terrain->setScale(10.0);
-    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::Bronze));
+    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::SilverPolished));
     terrain->setTilingOffset(1.0);
     terrain->generate("../../heightmaps/heightmap.png");
-    //terrain->material()->setAmbientReflection(Glee3D::RgbaColor(0.05, 0.05, 0.05, 1.0));
-    //terrain->material()->setDiffuseReflection(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
-    //terrain->material()->setSpecularReflection(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
     terrain->material()->setTextureId("brushed-aluminium-1");
     terrain->setPosition(Glee3D::RealVector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
-    insertTerrain(terrain);
+    insert(terrain);
 }
 
 void Scene::hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point) {
     bool somethingSelected = false;
-    foreach(Glee3D::Object *o, _objects) {
+    foreach(Glee3D::Entity *o, _objects) {
         if(o->collides(ray)) {
             //o->setSelected(true);
             //o->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));

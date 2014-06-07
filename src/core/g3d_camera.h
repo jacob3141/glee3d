@@ -47,11 +47,18 @@ namespace Glee3D {
         Camera();
 
         /**
-         * Generates a new matrix state based on the camera values. Call the
-         * matrix states' load method in order to activate.
+         * Apply the camera matrices. You need to call this to active the
+         * camera, ie. you want to start drawing objects as seen by this camera.
          * @return
          */
-        MatrixState generateMatrixState();
+        void applyCameraMatrix();
+
+        /**
+         * Does not apply the camera matrix state, but instead returns the
+         * state that would have been active after application.
+         * @returns the camera matrix state.
+         */
+        MatrixState cameraMatrixState();
 
         /**
           * Sets the aspect ratio for this camera.

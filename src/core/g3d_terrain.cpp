@@ -43,15 +43,6 @@ namespace Glee3D {
         freeMemory();
     }
 
-    void Terrain::applyModelViewMatrix() {
-        glMatrixMode(GL_MODELVIEW);
-        glTranslated(_position._x, _position._y, _position._z);
-        //glRotated(_rotation._x, 1.0, 0.0, 0.0);
-        //glRotated(_rotation._y, 0.0, 1.0, 0.0);
-        //glRotated(_rotation._z, 0.0, 0.0, 1.0);
-    }
-
-
     Terrain::Result Terrain::generate(QString fileName,
                                       Encoding heightEncoding,
                                       Encoding textureEncoding) {
@@ -249,6 +240,10 @@ namespace Glee3D {
     }
 
     void Terrain::render(RenderMode renderMode) {
+        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
+        glMatrixMode(GL_MODELVIEW);
+        applyTranslation();
+
         Q_UNUSED(renderMode);
         material()->activate();
 

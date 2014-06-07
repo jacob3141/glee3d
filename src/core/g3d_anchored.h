@@ -56,6 +56,8 @@ namespace Glee3D {
           */
         void move(RealVector3D delta);
 
+        void applyTranslation();
+
     protected:
         /** Position for this widget. */
         RealVector3D _position;

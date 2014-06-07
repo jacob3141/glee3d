@@ -73,7 +73,7 @@ namespace Glee3D {
         }
 
         // Restore modelview matrix state
-        matrixState.load();
+        matrixState.restore();
     }
 
     RealVector3D Oriented::rotation() {
@@ -108,6 +108,12 @@ namespace Glee3D {
         result._y = - sin(rot_z) * sin(rot_y) * sin(rot_x) + cos(rot_x) * cos(rot_z);
         result._z =   cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x);
         return result;
+    }
+
+    void Oriented::applyRotation() {
+        glRotated(_rotation._x, 1.0, 0.0, 0.0);
+        glRotated(_rotation._y, 0.0, 1.0, 0.0);
+        glRotated(_rotation._z, 0.0, 0.0, 1.0);
     }
 
 } // namespace Glee3D

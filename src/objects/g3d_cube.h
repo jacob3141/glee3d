@@ -22,7 +22,7 @@
 #define G3D_CUBE_H
 
 // Own includes
-#include "core/g3d_object.h"
+#include "core/g3d_entity.h"
 
 /**
  * @namespace Glee3D
@@ -34,7 +34,7 @@ namespace Glee3D {
       * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
       * @date 02.12.2012
       */
-    class Cube : public Object {
+    class Cube : public Entity {
     public:
         /** Creates a new cube. */
         Cube();

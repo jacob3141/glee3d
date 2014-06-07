@@ -40,31 +40,31 @@ namespace Glee3D {
         return _skyBox;
     }
 
-    void Scene::insertObject(Object *object) {
+    void Scene::insert(Entity *object) {
         if(object) {
             _objects.insert(object);
         }
     }
 
-    void Scene::removeObject(Object *object) {
+    void Scene::remove(Entity *object) {
         if(object) {
             _objects.remove(object);
         }
     }
 
-    void Scene::insertTerrain(Terrain *terrain) {
+    void Scene::insert(Terrain *terrain) {
         if(terrain) {
             _terrains.insert(terrain);
         }
     }
 
-    void Scene::removeTerrain(Terrain *terrain) {
+    void Scene::remove(Terrain *terrain) {
         if(terrain) {
             _terrains.remove(terrain);
         }
     }
 
-    void Scene::insertLightSource(LightSource *lightSource) {
+    void Scene::insert(LightSource *lightSource) {
         if(lightSource) {
             _lightSources.insert(lightSource);
         }
@@ -78,7 +78,7 @@ namespace Glee3D {
         _sceneLock->release();
     }
 
-    QSet<Object*> Scene::objects() {
+    QSet<Entity*> Scene::entities() {
         return _objects;
     }
 

@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // Own includes
-#include "g3d_object.h"
+#include "g3d_entity.h"
 #include "g3d_matrixstate.h"
 
 // Qt includes
@@ -29,7 +29,7 @@
 #include "GL/glu.h"
 
 namespace Glee3D {
-    Object::Object()
+    Entity::Entity()
         : Anchored(),
           Oriented(),
           Renderable(),
@@ -40,28 +40,25 @@ namespace Glee3D {
         _selected = false;
     }
 
-    Object::~Object() {
+    Entity::~Entity() {
         delete _mesh;
         delete _compiledMesh;
     }
 
-    void Object::setName(QString name) {
+    void Entity::setName(QString name) {
         _name = name;
     }
 
-    QString Object::name() {
+    QString Entity::name() {
         return _name;
     }
 
-    void Object::applyModelViewMatrix() {
+    void Entity::render(RenderMode renderMode) {
+        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
         glMatrixMode(GL_MODELVIEW);
-        glTranslated(_position._x, _position._y, _position._z);
-        glRotated(_rotation._x, 1.0, 0.0, 0.0);
-        glRotated(_rotation._y, 0.0, 1.0, 0.0);
-        glRotated(_rotation._z, 0.0, 0.0, 1.0);
-    }
+        applyTranslation();
+        applyRotation();
 
-    void Object::render(RenderMode renderMode) {
         Q_UNUSED(renderMode);
         if(!_visible)
             return;
@@ -73,25 +70,27 @@ namespace Glee3D {
 
             _compiledMesh->render();
         }
+
+        matrixState.restore();
     }
 
-    bool Object::selected() {
+    bool Entity::selected() {
         return _selected;
     }
 
-    void Object::setSelected(bool on) {
+    void Entity::setSelected(bool on) {
         _selected = on;
     }
 
-    void Object::moveForward(double units) {
+    void Entity::moveForward(double units) {
         _position += (frontVector() * units);
     }
 
-    void Object::moveBackward(double units) {
+    void Entity::moveBackward(double units) {
         _position += (- frontVector() * units);
     }
 
-    bool Object::collides(const RealLine3D& line) {
+    bool Entity::collides(const RealLine3D& line) {
         if(!_compiledMesh)
             return false;
 
@@ -121,7 +120,7 @@ namespace Glee3D {
         return false;
     }
 
-    void Object::compile() {
+    void Entity::compile() {
         if(_compiledMesh) {
             delete _compiledMesh;
             _compiledMesh = 0;
@@ -132,20 +131,24 @@ namespace Glee3D {
         }
     }
 
-    Mesh *Object::mesh() {
+    Mesh *Entity::mesh() {
         return _mesh;
     }
 
-    void Object::setMesh(Mesh *mesh) {
+    void Entity::setMesh(Mesh *mesh) {
         _mesh = mesh;
         compile();
     }
 
-    QString Object::className() {
-        return "Object";
+    void Entity::subordinate(Entity *child) {
+
     }
 
-    QJsonObject Object::serialize() {
+    QString Entity::className() {
+        return "Entity";
+    }
+
+    QJsonObject Entity::serialize() {
         QJsonObject jsonObject;
         jsonObject["class"] = className();
 
@@ -163,7 +166,7 @@ namespace Glee3D {
         return jsonObject;
     }
 
-    bool Object::deserialize(QJsonObject jsonObject) {
+    bool Entity::deserialize(QJsonObject jsonObject) {
         if(!jsonObject.contains("class")) {
             _deserializationError = Serializable::NoClassSpecified;
             return false;

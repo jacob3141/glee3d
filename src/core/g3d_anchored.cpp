@@ -21,6 +21,9 @@
 // Own includes
 #include "g3d_anchored.h"
 
+// Qt includes
+#include <QGLWidget>
+
 namespace Glee3D {
     Anchored::Anchored() {
         _position = RealVector3D(0.0, 0.0, 0.0);
@@ -36,5 +39,9 @@ namespace Glee3D {
 
     void Anchored::move(RealVector3D delta) {
         _position += delta;
+    }
+
+    void Anchored::applyTranslation() {
+        glTranslated(_position._x, _position._y, _position._z);
     }
 } // namespace Glee3D

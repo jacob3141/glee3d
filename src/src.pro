@@ -51,7 +51,6 @@ HEADERS += \
     core/g3d_material.h \
     core/g3d_mesh.h \
     core/g3d_matrixstate.h \
-    core/g3d_object.h \
     core/g3d_oriented.h \
     core/g3d_program.h \
     core/g3d_renderable.h \
@@ -67,7 +66,8 @@ HEADERS += \
     objects/g3d_cube.h \
     objects/g3d_cylinder.h \
     io/g3d_serializable.h \
-    io/g3d_objloader.h
+    io/g3d_objloader.h \
+    core/g3d_entity.h
 
 SOURCES += \
     effects/g3d_bloomeffect.cpp \
@@ -79,7 +79,6 @@ SOURCES += \
     core/g3d_material.cpp \
     core/g3d_matrixstate.cpp \
     core/g3d_mesh.cpp \
-    core/g3d_object.cpp \
     core/g3d_oriented.cpp \
     core/g3d_program.cpp \
     core/g3d_scene.cpp \
@@ -88,7 +87,8 @@ SOURCES += \
     core/g3d_texturestore.cpp \
     objects/g3d_cube.cpp \
     objects/g3d_cylinder.cpp \
-    io/g3d_objloader.cpp
+    io/g3d_objloader.cpp \
+    core/g3d_entity.cpp
 
 RESOURCES += \
     g3d.qrc

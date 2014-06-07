@@ -21,6 +21,9 @@
 #ifndef G3D_MATRIXSTATE_H
 #define G3D_MATRIXSTATE_H
 
+// Qt includes
+#include <QGLWidget>
+
 namespace Glee3D {
 
     struct Matrix {
@@ -37,35 +40,68 @@ namespace Glee3D {
       */
     class MatrixState {
     public:
-        enum MatrixType {
+        /**
+         * Describes the different data fields that can be backed up or
+         * restored.
+         */
+        enum DataType {
             Modelview   = 1 << 0,
             Projection  = 1 << 1,
             Texture     = 1 << 2,
-            Color       = 1 << 3
+            Color       = 1 << 3,
+            Mode        = 1 << 4
         };
 
-        MatrixState();
+        /**
+         * Automatic save and restore behaviour options.
+         */
+        enum Behaviour {
+            AutomaticSave       = 1 << 0,
+            AutomaticRestore    = 1 << 1
+        };
+
+        /**
+         * Creates a new matrix state.
+         * @param behaviour Save and restore behaviour.
+         */
+        MatrixState(int behaviour = AutomaticSave);
+
+        /** Copy constructor. */
         MatrixState(const MatrixState &other);
+
+        /**
+         * Destructor. If behaviour is AutomaticRestore, this will restore
+         * the matrices to the saved state.
+         */
         ~MatrixState();
 
-        void save(int matrixType = Modelview | Projection | Texture | Color);
-        void load(int matrixType = Modelview | Projection | Texture | Color);
+        /** Saves the current GL matrix state. */
+        void save(int dataType = Modelview | Projection | Texture | Color | Mode);
+
+        /** Restores the current GL matrix state. */
+        void restore(int dataType = Modelview | Projection | Texture | Color | Mode);
 
         void setModelviewMatrix(Matrix matrix);
         void setProjectionMatrix(Matrix matrix);
         void setTextureMatrix(Matrix matrix);
         void setColorMatrix(Matrix matrix);
+        void setMatrixMode(GLint mode);
 
         Matrix modelviewMatrix();
         Matrix projectionMatrix();
         Matrix textureMatrix();
         Matrix colorMatrix();
+        GLint  matrixMode();
 
     private:
+        int _behaviour;
+
         Matrix _modelviewMatrix;
         Matrix _projectionMatrix;
         Matrix _textureMatrix;
         Matrix _colorMatrix;
+
+        GLint _matrixMode;
     };
 
 } // namespace Glee3D

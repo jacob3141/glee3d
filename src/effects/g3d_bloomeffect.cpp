@@ -18,12 +18,12 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+// GL extension wrangler includes
+#include "GL/glew.h"
+
 // Own includes
 #include "g3d_bloomeffect.h"
 #include "core/g3d_matrixstate.h"
-
-// GL extension wrangler includes
-#include "GL/glew.h"
 
 // Standard includes
 #include <iostream>
@@ -214,7 +214,7 @@ void BloomEffect::apply(FrameBuffer *frameBuffer) {
       _passA[p]->copy(frameBuffer->width(), frameBuffer->height());
       glTranslatef(0, (GLfloat) _passA[p]->height() + 1, 0);
     }
-    matrixState.load();
+    matrixState.restore();
     glTranslatef((GLfloat) _passA[0]->width() + 1, 0, 0);
     for(int p = 0; p < _filterDepth; p++) {
       _passB[p]->copy(frameBuffer->width(), frameBuffer->height());
@@ -235,7 +235,7 @@ void BloomEffect::apply(FrameBuffer *frameBuffer) {
       _passA[p]->copy(frameBuffer->width(), frameBuffer->height());
       glTranslatef(0, (GLfloat) _passA[p]->height() + 1, 0);
     }
-    matrixState.load();
+    matrixState.restore();
     glTranslatef((GLfloat) _passA[0]->width() + 1, 0, 0);
 
     _combineProgram.insert();

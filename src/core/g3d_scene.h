@@ -22,7 +22,7 @@
 #define G3D_SCENE_H
 
 // Own includes
-#include "g3d_object.h"
+#include "g3d_entity.h"
 #include "g3d_camera.h"
 #include "g3d_lightsource.h"
 #include "g3d_vector3d.h"
@@ -65,23 +65,23 @@ namespace Glee3D {
           * Inserts an object into the scene.
           * @param object Object that shall be inserted.
           */
-        void insertObject(Object *object);
+        void insert(Entity *object);
 
         /**
           * Removes an object from the scene.
           * @param obejct Object that shall be removed.
           */
-        void removeObject(Object *object);
+        void remove(Entity *object);
 
-        void insertTerrain(Terrain *terrain);
+        void insert(Terrain *terrain);
 
-        void removeTerrain(Terrain *terrain);
+        void remove(Terrain *terrain);
 
         /**
           * Inserts a light source into the scene.
           * @param lightSource Light source that shall be inserted.
           */
-        void insertLightSource(LightSource *lightSource);
+        void insert(LightSource *lightSource);
 
         /**
           * Locks the scene. During the time a scene is locked it cannot
@@ -95,7 +95,7 @@ namespace Glee3D {
         void unlockScene();
 
         /** @returns All objects in this scene. */
-        QSet<Object*> objects();
+        QSet<Entity*> entities();
 
         /** @returns All light sources in this scene. */
         QSet<LightSource*> lightSources();
@@ -132,7 +132,7 @@ namespace Glee3D {
 
     protected:
         SkyBox *_skyBox;
-        QSet<Object*> _objects;
+        QSet<Entity*> _objects;
         QSet<LightSource*> _lightSources;
         QSet<Terrain*> _terrains;
 

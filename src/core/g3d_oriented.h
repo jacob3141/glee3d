@@ -63,6 +63,8 @@ namespace Glee3D {
         /** @returns the widget's up-vector (positive y direction). */
         RealVector3D upVector();
 
+        void applyRotation();
+
     protected:
         /** This property holds the rotation for the x, y and z axis in degrees. */
         RealVector3D _rotation;

@@ -55,8 +55,6 @@ namespace Glee3D {
             return _visible;
         }
 
-        virtual void applyModelViewMatrix() { }
-
         virtual void render(RenderMode renderMode = Renderable::Textured) = 0;
 
     protected:

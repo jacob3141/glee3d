@@ -116,7 +116,7 @@ void FrameBuffer::target() {
 
 void FrameBuffer::release() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    _previousMatrixState.load();
+    _previousMatrixState.restore();
 }
 
 void FrameBuffer::bindTexture() {
@@ -191,7 +191,7 @@ void FrameBuffer::copy(int width, int height) {
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 
-    matrixState.load();
+    matrixState.restore();
     glPopAttrib();
 }
 

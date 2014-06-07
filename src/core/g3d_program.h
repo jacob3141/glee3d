@@ -21,8 +21,10 @@
 #ifndef G3D_PROGRAM_H
 #define G3D_PROGRAM_H
 
-// OpenGL includes
+// GL extension wrangler includes
 #include "GL/glew.h"
+
+// OpenGL includes
 #include "GL/glext.h"
 
 // Qt includes

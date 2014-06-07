@@ -23,7 +23,7 @@
 
 namespace Glee3D {
     Cube::Cube()
-        : Object() {
+        : Entity() {
         setName("Cube");
     }
 

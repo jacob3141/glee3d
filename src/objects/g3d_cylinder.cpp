@@ -27,7 +27,7 @@
 
 namespace Glee3D {
     Cylinder::Cylinder()
-        : Object() {
+        : Entity() {
         setName("Cylinder");
     }
 

@@ -21,16 +21,17 @@
 // Own includes
 #include "g3d_matrixstate.h"
 
-// Qt includes
-#include <QGLWidget>
-
 namespace Glee3D {
 
-    MatrixState::MatrixState()
+    MatrixState::MatrixState(int behaviour)
         : _modelviewMatrix(),
           _projectionMatrix(),
           _textureMatrix(),
           _colorMatrix() {
+        _behaviour = behaviour;
+        if(_behaviour & AutomaticSave) {
+            save();
+        }
     }
 
     MatrixState::MatrixState(const MatrixState &other) {
@@ -38,54 +39,66 @@ namespace Glee3D {
         _projectionMatrix   = other._projectionMatrix;
         _textureMatrix      = other._textureMatrix;
         _colorMatrix        = other._colorMatrix;
+        _behaviour          = other._behaviour;
     }
 
     MatrixState::~MatrixState() {
+        if(_behaviour & AutomaticRestore) {
+            restore();
+        }
     }
 
-    void MatrixState::save(int matrixType) {
-        if(matrixType & Modelview) {
+    void MatrixState::save(int dataType) {
+        if(dataType & Modelview) {
             glGetDoublev(GL_MODELVIEW_MATRIX, _modelviewMatrix._data);
         }
 
-        if(matrixType & Projection) {
+        if(dataType & Projection) {
             glGetDoublev(GL_PROJECTION_MATRIX, _projectionMatrix._data);
         }
 
-        if(matrixType & Texture) {
+        if(dataType & Texture) {
             glGetDoublev(GL_TEXTURE_MATRIX, _textureMatrix._data);
         }
 
-        if(matrixType & Color) {
+        if(dataType & Color) {
             glGetDoublev(GL_COLOR_MATRIX, _colorMatrix._data);
+        }
+
+        if(dataType & Mode) {
+            glGetIntegerv(GL_MATRIX_MODE, &_matrixMode);
         }
     }
 
-    void MatrixState::load(int matrixType) {
-        GLint matrixMode;
-        glGetIntegerv(GL_MATRIX_MODE, &matrixMode);
+    void MatrixState::restore(int dataType) {
+        GLint previousMatrixMode;
+        glGetIntegerv(GL_MATRIX_MODE, &previousMatrixMode);
 
-        if(matrixType & Modelview) {
+        if(dataType & Modelview) {
             glMatrixMode(GL_MODELVIEW);
             glLoadMatrixd(_modelviewMatrix._data);
         }
 
-        if(matrixType & Projection) {
+        if(dataType & Projection) {
             glMatrixMode(GL_PROJECTION);
             glLoadMatrixd(_projectionMatrix._data);
         }
 
-        if(matrixType & Texture) {
+        if(dataType & Texture) {
             glMatrixMode(GL_TEXTURE);
             glLoadMatrixd(_textureMatrix._data);
         }
 
-        if(matrixType & Color) {
+        if(dataType & Color) {
             glMatrixMode(GL_COLOR);
             glLoadMatrixd(_colorMatrix._data);
         }
 
-        glMatrixMode(matrixMode);
+        if(dataType & Mode) {
+            glMatrixMode(_matrixMode);
+        } else {
+            glMatrixMode(previousMatrixMode);
+        }
     }
 
     void MatrixState::setModelviewMatrix(Matrix matrix) {
@@ -104,6 +117,10 @@ namespace Glee3D {
         _colorMatrix = matrix;
     }
 
+    void MatrixState::setMatrixMode(GLint mode) {
+        _matrixMode = mode;
+    }
+
     Matrix MatrixState::modelviewMatrix() {
         return _modelviewMatrix;
     }
@@ -118,6 +135,10 @@ namespace Glee3D {
 
     Matrix MatrixState::colorMatrix() {
         return _colorMatrix;
+    }
+
+    GLint MatrixState::matrixMode() {
+        return _matrixMode;
     }
 
 } // namespace Glee3D

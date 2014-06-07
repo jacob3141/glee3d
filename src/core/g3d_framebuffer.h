@@ -21,12 +21,12 @@
 #ifndef G3D_FRAMEBUFFER_H
 #define G3D_FRAMEBUFFER_H
 
+// GL extension wrangler includes
+#include "GL/glew.h"
+
 // Own includes
 #include "g3d_matrixstate.h"
 #include "g3d_rgbacolor.h"
-
-// OpenGL includes
-#include <GL/glew.h>
 
 // Qt includes
 #include <QRect>
