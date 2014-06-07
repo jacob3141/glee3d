@@ -36,6 +36,7 @@ namespace Glee3D {
           Texturizable(),
           Serializable() {
         _mesh = 0;
+        _parent = 0;
         _compiledMesh = 0;
         _selected = false;
     }
@@ -71,7 +72,9 @@ namespace Glee3D {
             _compiledMesh->render();
         }
 
-        matrixState.restore();
+        foreach(Entity* entity, _children) {
+            entity->render(renderMode);
+        }
     }
 
     bool Entity::selected() {
@@ -141,7 +144,10 @@ namespace Glee3D {
     }
 
     void Entity::subordinate(Entity *child) {
-
+        if(child) {
+            child->_parent = this;
+            _children.append(child);
+        }
     }
 
     QString Entity::className() {

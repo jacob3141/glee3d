@@ -43,7 +43,11 @@ WorldEditor::WorldEditor(QWidget *parent) :
     textureStore.loadTexture(*_display, "../../skybox/sky/zneg.png", "skybox-zneg");
     textureStore.loadTexture(*_display, "../../skybox/sky/zpos.png", "skybox-zpos");
 
+    textureStore.loadTexture(*_display, "../../../../assets/textures/blank.png", "blank");
+
     textureStore.loadTexture(*_display, "../../../../assets/textures/brushed-aluminium-1.jpg", "brushed-aluminium-1");
+    textureStore.loadTexture(*_display, "../../../../assets/textures/brushed-aluminium-2.jpg", "brushed-aluminium-2");
+    textureStore.loadTexture(*_display, "../../../../assets/textures/brushed-aluminium-3.jpg", "brushed-aluminium-3");
 
     _scene = new Scene();
     _display->setScene(_scene);

@@ -42,13 +42,13 @@ namespace Glee3D {
 
     void Scene::insert(Entity *object) {
         if(object) {
-            _objects.insert(object);
+            _entities.insert(object);
         }
     }
 
     void Scene::remove(Entity *object) {
         if(object) {
-            _objects.remove(object);
+            _entities.remove(object);
         }
     }
 
@@ -79,7 +79,7 @@ namespace Glee3D {
     }
 
     QSet<Entity*> Scene::entities() {
-        return _objects;
+        return _entities;
     }
 
     QSet<LightSource*> Scene::lightSources() {

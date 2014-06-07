@@ -132,7 +132,7 @@ namespace Glee3D {
 
     protected:
         SkyBox *_skyBox;
-        QSet<Entity*> _objects;
+        QSet<Entity*> _entities;
         QSet<LightSource*> _lightSources;
         QSet<Terrain*> _terrains;
 

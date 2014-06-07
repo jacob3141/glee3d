@@ -174,9 +174,6 @@ void BloomEffect::blur(FrameBuffer **from, FrameBuffer **to, Direction dir) {
 }
 
 void BloomEffect::apply(FrameBuffer *frameBuffer) {
-    glDisable(GL_LIGHTING);
-    glDisable(GL_DEPTH_TEST);
-
     // Downsample the scene into the source materials.
     frameBuffer->bindTexture();
     for(int p = 1; p < _filterDepth; p++) {

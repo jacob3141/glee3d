@@ -350,9 +350,8 @@ namespace Glee3D {
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
 
-        glShadeModel(GL_SMOOTH);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glPointSize(2.0);
+        glPointSize(1.0);
         glLineWidth(1.0);
     }
 } // namespace Glee3D

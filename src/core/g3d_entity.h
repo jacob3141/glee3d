@@ -33,6 +33,7 @@
 
 // Qt includes
 #include <QHash>
+#include <QList>
 
 /**
  * @namespace Glee3D
@@ -112,6 +113,7 @@ public:
     /** Sets the current mesh for this object. */
     void setMesh(Mesh *mesh);
 
+    /** Subordinates the given entity as a part of this entity. */
     void subordinate(Entity *child);
 
     /** @overload */
@@ -132,6 +134,7 @@ protected:
 
 private:
     Entity *_parent;
+    QList<Entity*> _children;
 };
 
 } // namespace Glee3D
