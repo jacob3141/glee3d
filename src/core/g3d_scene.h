@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -25,10 +25,11 @@
 #include "g3d_entity.h"
 #include "g3d_camera.h"
 #include "g3d_lightsource.h"
-#include "g3d_vector3d.h"
-#include "g3d_vector2d.h"
 #include "g3d_skybox.h"
 #include "g3d_terrain.h"
+#include "math/g3d_vector2d.h"
+#include "math/g3d_vector3d.h"
+#include "math/g3d_line3d.h"
 
 // Qt includes
 #include <QObject>

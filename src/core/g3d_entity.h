@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -25,11 +25,12 @@
 #include "g3d_anchored.h"
 #include "g3d_oriented.h"
 #include "g3d_material.h"
-#include "g3d_vector2d.h"
 #include "g3d_mesh.h"
-#include "io/g3d_serializable.h"
 #include "g3d_renderable.h"
 #include "g3d_texturizable.h"
+#include "math/g3d_vector2d.h"
+#include "math/g3d_line3d.h"
+#include "io/g3d_serializable.h"
 
 // Qt includes
 #include <QHash>

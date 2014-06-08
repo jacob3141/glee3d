@@ -60,14 +60,16 @@ HEADERS += \
     core/g3d_terrain.h \
     core/g3d_texturestore.h \
     core/g3d_texturizable.h \
-    core/g3d_vector2d.h \
-    core/g3d_vector3d.h \
-    core/g3d_vector4d.h \
     objects/g3d_cube.h \
     objects/g3d_cylinder.h \
     io/g3d_serializable.h \
     io/g3d_objloader.h \
-    core/g3d_entity.h
+    core/g3d_entity.h \
+    math/g3d_vector2d.h \
+    math/g3d_vector3d.h \
+    math/g3d_vector4d.h \
+    math/g3d_plane3d.h \
+    math/g3d_line3d.h
 
 SOURCES += \
     effects/g3d_bloomeffect.cpp \

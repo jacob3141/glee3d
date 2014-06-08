@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -23,11 +23,12 @@
 
 // Own includes
 #include "g3d_program.h"
-#include "effects/g3d_postrendereffect.h"
 #include "g3d_scene.h"
 #include "g3d_camera.h"
 #include "g3d_framebuffer.h"
 #include "g3d_program.h"
+#include "math/g3d_line3d.h"
+#include "effects/g3d_postrendereffect.h"
 
 // Qt includes
 #include <QGLWidget>

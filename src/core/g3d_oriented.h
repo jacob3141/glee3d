@@ -22,7 +22,7 @@
 #define G3D_ORIENTED_H
 
 // Own includes
-#include "g3d_vector3d.h"
+#include "math/g3d_vector3d.h"
 
 /**
  * @namespace Glee3D

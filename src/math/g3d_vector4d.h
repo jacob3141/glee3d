@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -18,11 +18,11 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_VECTOR2D_H
-#define G3D_VECTOR2D_H
+#ifndef G3D_VECTOR4D_H
+#define G3D_VECTOR4D_H
 
 // Own includes
-#include "io/g3d_serializable.h"
+#include "g3d_serializable.h"
 
 // C++ includes
 #include <math.h>
@@ -30,112 +30,112 @@
 namespace Glee3D {
 
 /**
-  * @class Vector2D
+  * @class Vector4D
   * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
   * @date 02.12.2012
   */
 template <typename NumberType>
-class Vector2D : public Serializable {
+class Vector4D : public Serializable {
 public:
-    Vector2D() {
+    Vector4D() {
         _x = 0.0;
         _y = 0.0;
+        _z = 0.0;
+        _w = 0.0;
     }
 
-    Vector2D(NumberType x, NumberType y) {
+    Vector4D(NumberType x, NumberType y, NumberType z, NumberType w) {
         _x = x;
         _y = y;
+        _z = z;
+        _w = w;
     }
 
     NumberType _x;
     NumberType _y;
+    NumberType _z;
+    NumberType _w;
 
     NumberType length() const {
-        return sqrt(_x * _x + _y * _y);
+        return sqrt(_x * _x + _y * _y + _z *_z + _w * _w);
     }
 
-    Vector2D& normalize() {
+    Vector4D& normalize() {
         NumberType _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
+            _z /= _length;
+            _w /= _length;
         }
         return *this;
     }
 
-    Vector2D& limit(Vector2D lower, Vector2D upper) {
-        if(_x < lower._x)
-            _x = lower._x;
-        if(_y < lower._y)
-            _y = lower._y;
-        if(_x > upper._x)
-            _x = upper._x;
-        if(_y > upper._y)
-            _y = upper._y;
-        return *this;
-    }
 
-    Vector2D& operator= (const Vector2D& other) {
+    Vector4D& operator= (const Vector4D& other) {
       if(this != &other) {
           _x = other._x;
           _y = other._y;
+          _z = other._z;
+          _w = other._w;
       }
       return *this;
     }
 
-    Vector2D operator* (NumberType scalar) const {
-        Vector2D result;
+    Vector4D operator* (NumberType scalar) const {
+        Vector4D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
+        result._z = this->_z * scalar;
+        result._w = this->_w * scalar;
         return result;
     }
 
-    Vector2D operator/ (NumberType scalar) const {
-        Vector2D result;
-        result._x = this->_x / scalar;
-        result._y = this->_y / scalar;
-        return result;
-    }
-
-    Vector2D operator+ (const Vector2D& other) const {
-        Vector2D result;
+    Vector4D operator+ (const Vector4D& other) const {
+        Vector4D result;
         result._x = this->_x + other._x;
         result._y = this->_y + other._y;
+        result._z = this->_z + other._z;
+        result._w = this->_w + other._w;
         return result;
     }
 
-    Vector2D& operator+= (const Vector2D& other) {
+    Vector4D& operator+= (const Vector4D& other) {
         this->_x += other._x;
         this->_y += other._y;
+        this->_z += other._z;
+        this->_w += other._w;
         return *this;
     }
 
-    Vector2D operator- (const Vector2D& other) const {
-        Vector2D result;
+    Vector4D operator- (const Vector4D& other) const {
+        Vector4D result;
         result._x = this->_x - other._x;
         result._y = this->_y - other._y;
+        result._z = this->_z - other._z;
+        result._w = this->_w - other._w;
         return result;
     }
 
-    Vector2D operator- () const {
-        Vector2D result;
+    Vector4D operator- () const {
+        Vector4D result;
         result._x = -this->_x;
         result._y = -this->_y;
+        result._z = -this->_z;
+        result._w = -this->_w;
         return result;
     }
 
-    Vector2D& operator-= (const Vector2D& other) {
+    Vector4D& operator-= (const Vector4D& other) {
         _x -= other._x;
         _y -= other._y;
+        _z -= other._z;
+        _w -= other._w;
         return *this;
-    }
-
-    bool operator== (const Vector2D& other) {
-        return (_x == other._x) && (_y == other._y);
     }
 
     QString className() {
-        return "Vector2D";
+        return "Vector4D";
     }
 
     QJsonObject serialize() {
@@ -143,6 +143,8 @@ public:
         jsonObject["class"] = className();
         jsonObject["x"] = (double)_x;
         jsonObject["y"] = (double)_y;
+        jsonObject["z"] = (double)_z;
+        jsonObject["w"] = (double)_w;
         return jsonObject;
     }
 
@@ -153,10 +155,14 @@ public:
         }
 
         if(jsonObject.contains("x")
-        && jsonObject.contains("y")) {
+        && jsonObject.contains("y")
+        && jsonObject.contains("z")
+        && jsonObject.contains("w")) {
             if(jsonObject["class"] == className()) {
                 _x = (NumberType)jsonObject["x"].toDouble();
                 _y = (NumberType)jsonObject["y"].toDouble();
+                _z = (NumberType)jsonObject["z"].toDouble();
+                _w = (NumberType)jsonObject["w"].toDouble();
                 _deserializationError = Serializable::NoError;
                 return true;
             } else {
@@ -170,9 +176,8 @@ public:
     }
 };
 
-typedef Vector2D<double> RealVector2D;
-typedef Vector2D<int> IntVector2D;
+typedef Vector4D<double> RealVector4D;
 
 } // namespace Glee3D
 
-#endif // G3D_VECTOR2D_H
+#endif // G3D_VECTOR4D_H

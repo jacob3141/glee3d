@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012 Jacob Dawid, jacob.dawid@cybercatalyst.net          //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -22,7 +22,7 @@
 #define G3D_ANCHORED_H
 
 // Own includes
-#include "g3d_vector3d.h"
+#include "math/g3d_vector3d.h"
 
 /**
  * @namespace Glee3D

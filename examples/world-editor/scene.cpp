@@ -21,11 +21,11 @@
 
 #include "core/g3d_texturestore.h"
 #include "core/g3d_scene.h"
-#include "core/g3d_vector2d.h"
 #include "core/g3d_rgbacolor.h"
 #include "core/g3d_skybox.h"
-#include "objects/g3d_cube.h"
 #include "core/g3d_terrain.h"
+#include "math/g3d_vector2d.h"
+#include "objects/g3d_cube.h"
 
 #include "scene.h"
 

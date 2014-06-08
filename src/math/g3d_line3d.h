@@ -18,69 +18,56 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_RGBACOLOR_H
-#define G3D_RGBACOLOR_H
+#ifndef G3D_LINE3D_H
+#define G3D_LINE3D_H
 
 // Own includes
+#include "math/g3d_vector3d.h"
 #include "io/g3d_serializable.h"
 
 namespace Glee3D {
     /**
-      * @struct RgbaColor
+      * @class Line3D
       * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
       * @date 02.12.2012
-      * Defines a color after the rgba color model.
       */
-    class RgbaColor : public Serializable {
+    template <typename NumberType>
+    class Line3D : public Serializable {
     public:
-        /** Initialization of color struct. */
-        RgbaColor() {
-            _red = 0.0;
-            _green = 0.0;
-            _blue = 0.0;
-            _alpha = 1.0;
+        Vector3D<NumberType> point(NumberType alpha) const {
+            return _positionVector + _directionVector * alpha;
         }
 
-        /** Initialization of color struct. */
-        RgbaColor(float red, float green, float blue, float alpha) {
-            _red = red;
-            _green = green;
-            _blue = blue;
-            _alpha = alpha;
-        }
-
-        /** @overload */
         QString className() {
-            return "RgbaColor";
+            return "Line3D";
         }
 
-        /** @overload */
         QJsonObject serialize() {
             QJsonObject jsonObject;
             jsonObject["class"] = className();
-            jsonObject["red"]   = _red;
-            jsonObject["green"] = _green;
-            jsonObject["blue"]  = _blue;
-            jsonObject["alpha"] = _alpha;
+            jsonObject["positionVector"] = _positionVector.serialize();
+            jsonObject["directionVector"] = _directionVector.serialize();
             return jsonObject;
         }
 
-        /** @overload */
         bool deserialize(QJsonObject jsonObject) {
             if(!jsonObject.contains("class")) {
                 _deserializationError = Serializable::NoClassSpecified;
                 return false;
             }
 
-            if(jsonObject.contains("red")
-            && jsonObject.contains("green")
-            && jsonObject.contains("blue")
-            && jsonObject.contains("alpha")) {
+            if(jsonObject.contains("positionVector")
+            && jsonObject.contains("directionVector")) {
                 if(jsonObject["class"] == className()) {
-                    _red    = (float)jsonObject["red"].toDouble();
-                    _green  = (float)jsonObject["green"].toDouble();
-                    _blue   = (float)jsonObject["blue"].toDouble();
-                    _alpha  = (float)jsonObject["alpha"].toDouble();
+                    if(!_positionVector.deserialize(jsonObject.value("positionVector").toObject())) {
+                        _deserializationError = _positionVector.deserializationError();
+                        return false;
+                    }
+
+                    if(!_directionVector.deserialize(jsonObject.value("directionVector").toObject())) {
+                        _deserializationError = _directionVector.deserializationError();
+                        return false;
+                    }
 
                     _deserializationError = Serializable::NoError;
                     return true;
@@ -94,12 +81,11 @@ namespace Glee3D {
             }
         }
 
-        float _red;
-        float _green;
-        float _blue;
-        float _alpha;
+        Vector3D<NumberType> _positionVector;
+        Vector3D<NumberType> _directionVector;
     };
 
+    typedef Line3D<double> RealLine3D;
 } // namespace Glee3D
 
-#endif // G3D_RGBACOLOR_H
+#endif // G3D_LINE3D_H
