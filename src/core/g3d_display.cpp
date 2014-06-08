@@ -145,7 +145,7 @@ namespace Glee3D {
         return point;
     }
 
-    void Display::initializeGL() {        
+    void Display::initializeGL() {
         GLenum result = glewInit();
         if(result != GLEW_OK) {
             std::cout << "Error initializing glew: " << (const char*)glewGetErrorString(result) << std::endl;

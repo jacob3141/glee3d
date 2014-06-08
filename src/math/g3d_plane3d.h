@@ -58,19 +58,46 @@ namespace Glee3D {
             }
         }
 
+        /**
+         * Calculates a specific point on the plane in plane coordinates. The
+         * unit is determined by the two direction vectors, alpha and beta being
+         * multipliers of these.
+         * @param alpha Multiplier for the first direction vector.
+         * @param beta Multiplier for the second direction vector.
+         * @returns the point on the plane.
+         */
         Vector3D<NumberType> point(NumberType alpha, NumberType beta) {
             return _positionVector + _directionVector1 * alpha + _directionVector2 * beta;
         }
 
-        Vector3D<NumberType> intersection(Line3D<NumberType> line) {
+        /**
+         * Calculates the intersection point of a line and this plane.
+         * @param line
+         * @param exists
+         * @return
+         */
+        Vector3D<NumberType> intersection(Line3D<NumberType> line, bool *exists = 0) {
             Vector3D<NumberType> planeNormal = _directionVector1.crossProduct(_directionVector2);
             NumberType numerator = planeNormal.scalarProduct(_positionVector) - planeNormal.scalarProduct(line._positionVector);
             NumberType denominator = planeNormal.scalarProduct(line._directionVector);
             if(denominator != 0.0) {
                 NumberType alpha = numerator / denominator;
+                if(exists) {
+                    (*exists) = true;
+                }
                 return line.point(alpha);
             }
+            if(exists) {
+                (*exists) = false;
+            }
             return Vector3D<NumberType>();
+        }
+
+        /**
+         * @returns the normalized plane normal.
+         */
+        Vector3D<NumberType> normal() {
+            return _directionVector1.crossProduct(_directionVector2).normalize();
         }
 
         QString className() {

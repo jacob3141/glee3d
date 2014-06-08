@@ -21,6 +21,9 @@
 #ifndef G3D_MESH_H
 #define G3D_MESH_H
 
+// GL extension wrangler includes
+#include "GL/glew.h"
+
 // Own includes
 #include "math/g3d_vector2d.h"
 #include "math/g3d_vector3d.h"
@@ -30,68 +33,10 @@
 #include <QGLWidget>
 #include <QJsonArray>
 
+#include <iostream>
+
 namespace Glee3D {
 
-/**
-  * @class CompiledMesh
-  * @author Jacob Dawid
-  * @date 09.12.2012
-  * A compiled mesh is a ready-to-render version of a mesh. A mesh
-  * has to be compiled into a CompiledMesh, which then has a render()
-  * method to draw the mesh.
-  */
-class CompiledMesh {
-    friend class Mesh;
-public:
-    CompiledMesh(int triangleCount) {
-        // Each triangle has three vertices.
-        _count = triangleCount * 3;
-
-        // Each triangle has three normals, of which each has three
-        // coordinate values.
-        _normals = new GLfloat[_count * 3];
-
-        // Each triangle has three vertices, of which each has three
-        // coordinate values.
-        _vertices = new GLfloat[_count * 3];
-
-        // Each triangle has three vertices, of which each has two
-        // coordinate values.
-        _texCoords = new GLfloat[_count * 2];
-    }
-
-    ~CompiledMesh() {
-        delete[] _normals;
-        delete[] _vertices;
-        delete[] _texCoords;
-    }
-
-    inline void render() {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glEnableClientState(GL_NORMAL_ARRAY);
-
-        glVertexPointer(3, GL_FLOAT, 0, _vertices);
-        glTexCoordPointer(2, GL_FLOAT, 0, _texCoords);
-        glNormalPointer(GL_FLOAT, 0, _normals);
-        glDrawArrays(GL_TRIANGLES, 0, _count);
-
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        glDisableClientState(GL_NORMAL_ARRAY);
-    }
-
-    inline double collisionRadius() {
-        return _collisionRadius;
-    }
-
-private:
-    int _count;
-    GLfloat *_normals;
-    GLfloat *_vertices;
-    GLfloat *_texCoords;
-    double _collisionRadius;
-};
 
 struct Triangle : public Serializable {
     Triangle() {
@@ -154,6 +99,7 @@ struct Triangle : public Serializable {
   * Defines a mesh.
   */
 class Mesh : public Serializable {
+friend class CompiledMesh;
 public:
     /**
       * Creates a new mesh.
@@ -175,12 +121,6 @@ public:
       * @param triangleCount The number triangles.
       */
     void create(int vertexCount, int triangleCount);
-
-    /**
-      * Compiles the mesh into a ready-to-render version.
-      * @returns the compiled mesh.
-      */
-    CompiledMesh *compile();
 
     /**
       * Sets the vertex data for the specified index.

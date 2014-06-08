@@ -63,7 +63,5 @@ namespace Glee3D {
         _mesh->setTextureCoordinates(5, RealVector2D( 1.0, 0.0));
         _mesh->setTextureCoordinates(6, RealVector2D( 1.0, 1.0));
         _mesh->setTextureCoordinates(7, RealVector2D( 0.0, 1.0));
-
-        compile();
     }
 } // namespace Glee3D

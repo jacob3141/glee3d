@@ -98,7 +98,5 @@ namespace Glee3D {
         _mesh->setTriangle(count,
             Glee3D::Triangle(segments * 2 + 1, i + 1, i + segments));
         count++;
-
-        compile();
     }
 } // namespace Glee3D

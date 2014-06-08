@@ -64,6 +64,10 @@ namespace Glee3D {
         if(!_visible)
             return;
 
+        if(!_compiledMesh) {
+            compile();
+        }
+
         if(_compiledMesh) {
             if(_material) {
                 _material->activate();
@@ -130,7 +134,7 @@ namespace Glee3D {
         }
 
         if(_mesh) {
-            _compiledMesh = _mesh->compile();
+            _compiledMesh = new CompiledMesh(_mesh);
         }
     }
 
@@ -140,7 +144,6 @@ namespace Glee3D {
 
     void Entity::setMesh(Mesh *mesh) {
         _mesh = mesh;
-        compile();
     }
 
     void Entity::subordinate(Entity *child) {
