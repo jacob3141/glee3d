@@ -28,6 +28,7 @@
 #include "math/g3d_vector2d.h"
 #include "math/g3d_vector3d.h"
 #include "io/g3d_serializable.h"
+#include "g3d_logging.h"
 
 // Qt includes
 #include <QGLWidget>
@@ -36,7 +37,6 @@
 #include <iostream>
 
 namespace Glee3D {
-
 
 struct Triangle : public Serializable {
     Triangle() {
@@ -98,7 +98,9 @@ struct Triangle : public Serializable {
   * @date 09.12.2012
   * Defines a mesh.
   */
-class Mesh : public Serializable {
+class Mesh
+    : public Serializable,
+      public Logging {
 friend class CompiledMesh;
 public:
     /**

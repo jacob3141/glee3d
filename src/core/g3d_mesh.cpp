@@ -23,7 +23,8 @@
 
 namespace Glee3D {
     Mesh::Mesh()
-        : Serializable() {
+        : Serializable(),
+          Logging("Mesh") {
         _vertices = 0;
         _triangles = 0;
         _textureCoordinates = 0;
@@ -33,7 +34,8 @@ namespace Glee3D {
     }
 
     Mesh::Mesh(int vertexCount, int triangleCount)
-        : Serializable() {
+        : Serializable(),
+          Logging("Mesh") {
         _vertices = 0;
         _triangles = 0;
         _textureCoordinates = 0;

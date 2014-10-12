@@ -26,18 +26,20 @@
 
 namespace Glee3D {
 
-    TextureStore::TextureStore() {
+    TextureStore::TextureStore()
+        : Logging("TextureStore") {
     }
 
     bool TextureStore::loadTexture(Display& display, QString fileName, QString textureId) {
         LoadedTexture loadedTexture;
         display.makeCurrent();
         if(loadedTexture._image.load(fileName)) {
+            information(QString("Loaded texture: %1").arg(fileName));
             loadedTexture._glHandle = display.bindTexture(loadedTexture._image);
             _loadedTextures[textureId] = loadedTexture;
             return true;
         } else {
-            std::cout << "Error loading texture: " << fileName.toStdString() << std::endl;
+            error(QString("Failed loading texture: %1").arg(fileName));
             return false;
         }
     }

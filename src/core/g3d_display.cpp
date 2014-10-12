@@ -33,7 +33,8 @@
 
 namespace Glee3D {
     Display::Display(QWidget *parent)
-        : QGLWidget(parent) {
+        : QGLWidget(parent),
+          Logging("Display") {
 
         if(parent) {
             parent->setFocusProxy(this);
@@ -146,19 +147,24 @@ namespace Glee3D {
     }
 
     void Display::initializeGL() {
+        information("Initializing GLEW.");
         GLenum result = glewInit();
         if(result != GLEW_OK) {
-            std::cout << "Error initializing glew: " << (const char*)glewGetErrorString(result) << std::endl;
+            error((const char*)glewGetErrorString(result));
         } else {
-            std::cout << "glew initialized successfully." << std::endl;
+            information("GLEW initialized successfully.");
         }
 
         if(glewIsSupported("GL_VERSION_2_0")) {
-            std::cout << "OpenGL 2.0 supported\n" << std::endl;
+            information("OpenGL 2.0 supported");
+        } else {
+            error("OpenGL 2.0 not supported.");
         }
 
         if(!GLEW_EXT_framebuffer_object) {
-            std::cout << "Framebuffer objects have to be supported." << std::endl;
+            error("Framebuffer objects have to be supported.");
+        } else {
+            information("Framebuffer objects supported.");
         }
 
         configureOpenGL();
@@ -167,14 +173,14 @@ namespace Glee3D {
             effect->initialize();
         }
 
+        information("Building per pixel renderer.");
         if(!_renderProgram.build(":/shaders/glsl/perpixellighting.vert.glsl",
                                  ":/shaders/glsl/perpixellighting.frag.glsl")) {
-            std::cout << "Error building GL render program." << std::endl;
+           error("Failed building GL render program.");
         }
     }
 
     void Display::resizeGL(int w, int h) {
-        //std::cout << "Resizing to " << w << "x" << h << std::endl;
         glViewport(0, 0, (GLint)w, (GLint)h);
         if(_activeCamera) {
             _activeCamera->setAspectRatio(w, h);
@@ -234,7 +240,6 @@ namespace Glee3D {
         }
 
         _frameBuffer->release();
-        _renderProgram.eject();
 
         foreach(PostRenderEffect *effect, _postRenderEffects) {
             effect->apply(_frameBuffer);

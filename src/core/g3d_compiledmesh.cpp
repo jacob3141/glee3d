@@ -22,12 +22,14 @@
 #include "g3d_compiledmesh.h"
 
 namespace Glee3D {
-    CompiledMesh::CompiledMesh(Mesh *mesh) {
+    CompiledMesh::CompiledMesh(Mesh *mesh)
+        : Logging("CompiledMesh") {
         if(!mesh) {
             Q_ASSERT(false);
+            error("A compiled mesh cannot be created with a null mesh.");
             return;
         }
-        preCompile(mesh->_triangleCount);
+        allocateMemory(mesh->_triangleCount);
 
         // Determine collision radius
         double maxDistance = 0.0;
@@ -109,7 +111,7 @@ namespace Glee3D {
         glDeleteBuffers(1, &_texCoordsVBOHandle);
     }
 
-    void CompiledMesh::preCompile(int triangleCount) {
+    void CompiledMesh::allocateMemory(int triangleCount) {
         // Each triangle has three vertices.
         _count = triangleCount * 3;
 

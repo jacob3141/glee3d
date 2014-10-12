@@ -23,6 +23,7 @@
 
 // Own includes
 #include "g3d_rgbacolor.h"
+#include "g3d_logging.h"
 #include "io/g3d_serializable.h"
 
 // Qt includes
@@ -35,7 +36,9 @@ namespace Glee3D {
       * @date 02.12.2012
       * Defines a material.
       */
-    class Material : public Serializable {
+    class Material :
+        public Serializable,
+        public Logging {
     public:
         enum StandardMaterial{
             BlackRubber,

@@ -129,7 +129,8 @@ namespace Glee3D {
     }
 
     Material::Material()
-        : Serializable() {
+        : Serializable(),
+          Logging("Material") {
         _textureId          = "";
         _ambientReflection  = RgbaColor();
         _diffuseReflection  = RgbaColor();
@@ -143,7 +144,9 @@ namespace Glee3D {
         RgbaColor diffuseReflection,
         RgbaColor specularReflection,
         float shininess,
-        RgbaColor emission) {
+        RgbaColor emission)
+        : Serializable(),
+          Logging("Material") {
         _textureId = textureId;
         _ambientReflection = ambientReflection;
         _diffuseReflection = diffuseReflection;

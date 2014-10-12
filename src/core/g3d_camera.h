@@ -25,6 +25,7 @@
 #include "g3d_anchored.h"
 #include "g3d_matrixstate.h"
 #include "g3d_oriented.h"
+#include "g3d_logging.h"
 
 /**
  * @namespace Glee3D
@@ -39,7 +40,9 @@ namespace Glee3D {
       */
     class Camera :
         public Anchored,
-        public Oriented {
+        public Oriented,
+        public Logging {
+
     public:
         /**
           * @brief Creates a new camera.
@@ -88,6 +91,8 @@ namespace Glee3D {
           * @param units Distance that camera shall be moved.
           */
         void moveForward(double units);
+
+
 
     private:
         double _near;

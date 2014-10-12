@@ -27,6 +27,7 @@
 #include "g3d_camera.h"
 #include "g3d_framebuffer.h"
 #include "g3d_program.h"
+#include "g3d_logging.h"
 #include "math/g3d_line3d.h"
 #include "effects/g3d_postrendereffect.h"
 
@@ -50,7 +51,9 @@ namespace Glee3D {
       * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
       * @date 02.12.2012
       */
-    class Display : public QGLWidget {
+    class Display :
+        public QGLWidget,
+        public Logging {
         Q_OBJECT
     public:
         /**

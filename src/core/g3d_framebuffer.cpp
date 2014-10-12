@@ -27,7 +27,8 @@
 
 namespace Glee3D {
 
-FrameBuffer::FrameBuffer(int width, int height, int properties) {
+FrameBuffer::FrameBuffer(int width, int height, int properties)
+    : Logging("FrameBuffer") {
     _properties = properties;
     _width = width;
     _height = height;

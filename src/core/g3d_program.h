@@ -27,6 +27,9 @@
 // OpenGL includes
 #include "GL/glext.h"
 
+// Own includes
+#include "g3d_logging.h"
+
 // Qt includes
 #include <QString>
 
@@ -41,7 +44,7 @@ namespace Glee3D {
   * with the GL shading language (GLSL). Different types of shaders
   * can be rewritten, compiled and linked into a program.
   */
-class Program {
+class Program : public Logging {
 public:
     /** @enum ShaderType */
     enum ShaderType {

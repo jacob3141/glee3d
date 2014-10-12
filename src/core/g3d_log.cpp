@@ -19,66 +19,37 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // Own includes
-#include "g3d_camera.h"
+#include "g3d_log.h"
 
 // Qt includes
-#include <QGLWidget>
-
-// GL utilities includes
-#include "GL/glu.h"
+#include <QDebug>
 
 namespace Glee3D {
-    Camera::Camera()
-        : Anchored(),
-          Oriented(),
-          Logging("Camera") {
-        _near = 0.1;
-        _far = 100000.0;
-        _fieldOfView = 45.0;
-        _aspectRatio = 0.75;
 
-        _lookAt = RealVector3D(0.0, 0.0, 0.0);
-    }
+Log *Log::instance()
+{
+    static Log* log = new Log();
+    return log;
+}
 
-    void Camera::applyCameraMatrix() {
-        // Generate camera matrices.
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        gluPerspective(_fieldOfView, _aspectRatio, _near, _far);
+Log::Log()
+{
+}
 
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        gluLookAt(_position._x, _position._y, _position._z,
-                  _lookAt._x, _lookAt._y, _lookAt._z,
-                  upVector()._x, upVector()._y, upVector()._z);
-    }
+void Log::information(QString message)
+{
+    qDebug() << "Info: " << message;
+}
 
-    MatrixState Camera::cameraMatrixState() {
-        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
-        applyCameraMatrix();
-        return MatrixState();
-    }
+void Log::warning(QString message)
+{
+    qDebug() << "Warning: " << message;
+}
 
-    void Camera::setAspectRatio(int width, int height) {
-        _aspectRatio = (double)width / (double)height;
-    }
+void Log::error(QString message)
+{
+    qDebug() << "Error: " << message;
+}
 
-    void Camera::setFieldOfView(double fieldOfView) {
-        _fieldOfView = fieldOfView;
-    }
 
-    void Camera::setLookAt(RealVector3D target) {
-        _lookAt = target;
-    }
-
-    RealVector3D Camera::lookAt() {
-        return _lookAt;
-    }
-
-    void Camera::moveForward(double units) {
-        RealVector3D direction = _lookAt - _position;
-        direction.normalize();
-        _position += direction * units;
-        _lookAt += direction * units;
-    }
 } // namespace Glee3D

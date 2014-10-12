@@ -23,7 +23,8 @@
 
 namespace Glee3D {
     LightSource::LightSource()
-        : Anchored() {
+        : Anchored(),
+          Logging("LightSource") {
         _lightSourceType = Punctual;
         _switchedOn = true;
     }

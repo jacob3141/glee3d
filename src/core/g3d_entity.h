@@ -29,6 +29,7 @@
 #include "g3d_compiledmesh.h"
 #include "g3d_renderable.h"
 #include "g3d_texturizable.h"
+#include "g3d_logging.h"
 #include "math/g3d_vector2d.h"
 #include "math/g3d_line3d.h"
 #include "io/g3d_serializable.h"
@@ -54,11 +55,12 @@ namespace Glee3D {
   * have been assigned to.
   */
 class Entity :
-        public Anchored,
-        public Oriented,
-        public Renderable,
-        public Texturizable,
-        public Serializable {
+    public Anchored,
+    public Oriented,
+    public Renderable,
+    public Texturizable,
+    public Serializable,
+    public Logging {
 public:
     /** Creates a new object for the virtual 3D space. */
     Entity();

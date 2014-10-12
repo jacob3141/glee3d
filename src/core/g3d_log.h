@@ -18,46 +18,36 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_COMPILEDMESH_H
-#define G3D_COMPILEDMESH_H
+#ifndef G3D_LOG_H
+#define G3D_LOG_H
 
-// Own includes
-#include "g3d_mesh.h"
-#include "g3d_logging.h"
+// Qt includes
+#include <QString>
 
 namespace Glee3D {
-    /**
-      * @class CompiledMesh
-      * @author Jacob Dawid
-      * @date 09.12.2012
-      * A compiled mesh is a ready-to-render version of a mesh. A mesh
-      * has to be compiled into a CompiledMesh, which then has a render()
-      * method to draw the mesh.
-      */
-    class CompiledMesh :
-        public Logging {
-    public:
-        CompiledMesh(Mesh *mesh);
-        ~CompiledMesh();
 
-        void allocateMemory(int triangleCount);
-        void postCompile();
+/**
+ * Central log singleton. Usually, you should never deal with this class,
+ * rather you are supposed to subclass the Logging class which will offer you
+ * logging methods related to each instance.
+ * @see Logging
+ */
+class Log
+{
+friend class Logging;
+public:
+    static Log *instance();
 
-        void render();
+protected:
+    void information(QString message);
+    void warning(QString message);
+    void error(QString message);
 
-        double collisionRadius();
+private:
 
-    private:
-        int _count;
-        GLfloat *_normals;
-        GLfloat *_vertices;
-        GLfloat *_texCoords;
-        GLuint   _normalsVBOHandle;
-        GLuint   _verticesVBOHandle;
-        GLuint   _texCoordsVBOHandle;
-        double   _collisionRadius;
-    };
+    Log();
+};
 
-} // namespace Glee3D
+}
 
-#endif // G3D_COMPILEDMESH_H
+#endif // G3D_LOG_H

@@ -70,7 +70,9 @@ HEADERS += \
     math/g3d_vector4d.h \
     math/g3d_plane3d.h \
     math/g3d_line3d.h \
-    core/g3d_compiledmesh.h
+    core/g3d_compiledmesh.h \
+    core/g3d_log.h \
+    core/g3d_logging.h
 
 SOURCES += \
     effects/g3d_bloomeffect.cpp \
@@ -92,7 +94,8 @@ SOURCES += \
     objects/g3d_cylinder.cpp \
     io/g3d_objloader.cpp \
     core/g3d_entity.cpp \
-    core/g3d_compiledmesh.cpp
+    core/g3d_compiledmesh.cpp \
+    core/g3d_log.cpp
 
 RESOURCES += \
     g3d.qrc

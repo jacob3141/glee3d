@@ -34,7 +34,8 @@ namespace Glee3D {
           Oriented(),
           Renderable(),
           Texturizable(),
-          Serializable() {
+          Serializable(),
+          Logging("Entity") {
         _mesh = 0;
         _parent = 0;
         _compiledMesh = 0;

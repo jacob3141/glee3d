@@ -18,67 +18,44 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
+#ifndef G3D_LOGGING_H
+#define G3D_LOGGING_H
+
 // Own includes
-#include "g3d_camera.h"
+#include "g3d_log.h"
 
 // Qt includes
-#include <QGLWidget>
-
-// GL utilities includes
-#include "GL/glu.h"
+#include <QString>
 
 namespace Glee3D {
-    Camera::Camera()
-        : Anchored(),
-          Oriented(),
-          Logging("Camera") {
-        _near = 0.1;
-        _far = 100000.0;
-        _fieldOfView = 45.0;
-        _aspectRatio = 0.75;
 
-        _lookAt = RealVector3D(0.0, 0.0, 0.0);
+class Logging {
+public:
+    Logging(QString className) : _className(className) { information("Created object."); }
+    virtual ~Logging() { information("Destroyed object."); }
+
+    virtual QString identifier() { return QString("%1").arg((long)this); }
+
+    void information(QString message) {
+        Log::instance()->information(addObjectInfo(message));
     }
 
-    void Camera::applyCameraMatrix() {
-        // Generate camera matrices.
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        gluPerspective(_fieldOfView, _aspectRatio, _near, _far);
-
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        gluLookAt(_position._x, _position._y, _position._z,
-                  _lookAt._x, _lookAt._y, _lookAt._z,
-                  upVector()._x, upVector()._y, upVector()._z);
+    void warning(QString message) {
+        Log::instance()->warning(addObjectInfo(message));
     }
 
-    MatrixState Camera::cameraMatrixState() {
-        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
-        applyCameraMatrix();
-        return MatrixState();
+    void error(QString message) {
+        Log::instance()->error(addObjectInfo(message));
     }
 
-    void Camera::setAspectRatio(int width, int height) {
-        _aspectRatio = (double)width / (double)height;
+private:
+    QString addObjectInfo(QString message) {
+        return QString("[%1(%2)] %3").arg(_className).arg(identifier()).arg(message);
     }
 
-    void Camera::setFieldOfView(double fieldOfView) {
-        _fieldOfView = fieldOfView;
-    }
+    QString _className;
+};
 
-    void Camera::setLookAt(RealVector3D target) {
-        _lookAt = target;
-    }
+}
 
-    RealVector3D Camera::lookAt() {
-        return _lookAt;
-    }
-
-    void Camera::moveForward(double units) {
-        RealVector3D direction = _lookAt - _position;
-        direction.normalize();
-        _position += direction * units;
-        _lookAt += direction * units;
-    }
-} // namespace Glee3D
+#endif // G3D_LOGGING_H

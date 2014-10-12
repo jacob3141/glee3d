@@ -23,6 +23,7 @@
 
 // Own includes
 #include "g3d_display.h"
+#include "g3d_logging.h"
 
 // Qt includes
 #include <QString>
@@ -31,7 +32,7 @@
 
 namespace Glee3D {
 
-class TextureStore {
+class TextureStore : public Logging {
 public:
     struct LoadedTexture {
         QImage _image;

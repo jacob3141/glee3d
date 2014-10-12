@@ -27,6 +27,7 @@
 // Own includes
 #include "g3d_matrixstate.h"
 #include "g3d_rgbacolor.h"
+#include "g3d_logging.h"
 
 // Qt includes
 #include <QRect>
@@ -45,7 +46,7 @@ namespace Glee3D {
   * linked to a texture. This makes it possible to draw contents offscreen and
   * then use these contents as a texture again to draw them on another target.
   */
-class FrameBuffer {
+class FrameBuffer : public Logging {
 public:
     /** @enum FrameBufferProperties */
     enum FrameBufferProperties {

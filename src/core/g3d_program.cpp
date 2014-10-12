@@ -30,7 +30,8 @@
 
 namespace Glee3D {
 
-Program::Program() {
+Program::Program()
+    : Logging("Program") {
     _glProgram = 0;
     _glVertexShader = 0;
     _glFragmentShader = 0;
@@ -44,22 +45,26 @@ bool Program::build(QString vertexShaderFileName, QString fragmentShaderFileName
     vertexShaderFile.open(QFile::ReadOnly);
     if(vertexShaderFile.isOpen()) {
         if(!compile(vertexShaderFile.readAll(), Vertex)) {
+            error("Failed to compile vertex shader.");
             return false;
         }
 
         vertexShaderFile.close();
     } else {
+        error("Failed to open vertex shader file.");
         return false;
     }
 
     fragmentShaderFile.open(QFile::ReadOnly);
     if(fragmentShaderFile.isOpen()) {
         if(!compile(fragmentShaderFile.readAll(), Fragment)) {
+            error("Failed to compile fragment shader.");
             return false;
         }
 
         fragmentShaderFile.close();
     } else {
+        error("Failed to open fragment shader file.");
         return false;
     }
 
@@ -72,7 +77,7 @@ bool Program::build(QString vertexShaderFileName, QString fragmentShaderFileName
 bool Program::compile(QString shaderSource, ShaderType shaderType) {
     if(!shaderSource.isEmpty()) {
         GLint success;
-        GLchar buf[2048];
+        GLchar errorInfo[2048];
 
         switch(shaderType) {
             case Vertex: {
@@ -87,8 +92,8 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
                 glCompileShaderARB(_glVertexShader);
                 glGetShaderiv(_glVertexShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
-                    glGetShaderInfoLog(_glVertexShader, sizeof(buf), 0, buf);
-                    std::cout << "Error compiling vertex shader: " << buf << std::endl;
+                    glGetShaderInfoLog(_glVertexShader, sizeof(errorInfo), 0, errorInfo);
+                    error(errorInfo);
                     return false;
                 }
             } break;
@@ -105,22 +110,24 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
                 glCompileShaderARB(_glFragmentShader);
                 glGetShaderiv(_glFragmentShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
-                    glGetShaderInfoLog(_glFragmentShader, sizeof(buf), 0, buf);
-                    std::cout << "Error compiling fragment shader: " << buf << std::endl;
+                    glGetShaderInfoLog(_glFragmentShader, sizeof(errorInfo), 0, errorInfo);
+                    error(errorInfo);
                     return false;
                 }
             } break;
         }
     } else {
-        std::cout << "Warning: No shader source provided for compilation." << std::endl;
+        warning("Warning: No shader source provided for compilation.");
         return false;
     }
+
+    information("Successfully compiled shader source.");
     return true;
 }
 
 bool Program::link() {
     GLint success;
-    GLchar buf[256];
+    GLchar errorInfo[256];
     _glProgram = glCreateProgramObjectARB();
 
     // REVIEW: Does a values >= 0 really mean the shader is valid? Probably be
@@ -134,10 +141,11 @@ bool Program::link() {
     glLinkProgramARB(_glProgram);
     glGetProgramiv(_glProgram, GL_LINK_STATUS, &success);
     if(!success) {
-        glGetProgramInfoLog(_glProgram, sizeof(buf), 0, buf);
-        std::cout << "Error linking shader program: " << buf << std::endl;
+        glGetProgramInfoLog(_glProgram, sizeof(errorInfo), 0, errorInfo);
+        error(errorInfo);
         return false;
     }
+    information("Successfully linked shader program.");
     return true;
 }
 

@@ -24,6 +24,7 @@
 // Own includes
 #include "g3d_anchored.h"
 #include "g3d_rgbacolor.h"
+#include "g3d_logging.h"
 #include "io/g3d_serializable.h"
 
 // Qt includes
@@ -36,7 +37,10 @@ namespace Glee3D {
   * @date 02.12.2012
   * Represents a light source in the virtual environment.
   */
-class LightSource : public Anchored, public Serializable {
+class LightSource :
+    public Anchored,
+    public Serializable,
+    public Logging {
 public:
     enum LightSourceType {
         Punctual,
