@@ -102,7 +102,7 @@ FrameBuffer::FrameBuffer(int width, int height, int properties)
             "unsupported format"  // GL_FRAMEBUFFER_UNSUPPORTED_EXT......................The combination of internal formats of the attached images does not violate an implementation-dependent set of restrictions.
         };
         status -= GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT;
-        std::cout << "Incomplete framebuffer object due to " << enums[status] << std::endl;
+        error(QString("Incomplete framebuffer object due to %1.").arg(enums[status]));
     }
 }
 

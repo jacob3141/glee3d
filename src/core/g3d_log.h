@@ -35,19 +35,33 @@ namespace Glee3D {
 class Log
 {
 friend class Logging;
-public:
-    static Log *instance();
-
 protected:
+    /**
+     * Logs information messages. These are used to reassure that certain actions
+     * could be completed successfully.
+     */
     void information(QString message);
+
+    /**
+     * Warning to do not necessarily mean a task cannot be completed, but these
+     * should be avoided whenever possible.
+     */
     void warning(QString message);
+
+    /**
+     * An error message indicates that a certain action has failed and will lead
+     * to erroneous behaviour.
+     */
     void error(QString message);
 
-private:
+    /** @returns the singleton instance of the log object. */
+    static Log *instance();
 
+private:
+    /** Singleton */
     Log();
 };
 
-}
+} // namespace Glee3D
 
 #endif // G3D_LOG_H
