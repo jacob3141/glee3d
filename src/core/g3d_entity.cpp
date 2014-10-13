@@ -25,9 +25,6 @@
 // Qt includes
 #include <QGLWidget>
 
-// OpenGL includes
-#include "GL/glu.h"
-
 namespace Glee3D {
     Entity::Entity()
         : Anchored(),

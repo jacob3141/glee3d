@@ -33,19 +33,39 @@ namespace Glee3D {
       * A compiled mesh is a ready-to-render version of a mesh. A mesh
       * has to be compiled into a CompiledMesh, which then has a render()
       * method to draw the mesh.
+      *
+      * Compiled meshes have already been loaded to the graphics card and
+      * will be be rendered using vertex buffer objects directly on the card.
       */
     class CompiledMesh :
         public Logging {
     public:
+        /** Create a compiled mesh from the given mesh. */
         CompiledMesh(Mesh *mesh);
+
+        /** Destructor */
         ~CompiledMesh();
 
-        void allocateMemory(int triangleCount);
-        void postCompile();
-
+        /** Render the compiled mesh. */
         void render();
 
+        /**
+         * @returns the calculated collision radius for this mesh. This is
+         * typically used in collision detection algorithms, where you first
+         * want to check whether an object lies in the collision radius of
+         * another object before executing more expensive algorithms.
+         */
         double collisionRadius();
+
+    protected:
+        /** Allocate the needed memory. */
+        void allocateMemory(int triangleCount);
+
+        /**
+         * Perform post compilation steps, for example uploading data to the
+         * graphics card.
+         */
+        void postCompile();
 
     private:
         int _count;

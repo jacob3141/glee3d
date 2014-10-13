@@ -21,6 +21,9 @@
 // Own includes
 #include "g3d_mesh.h"
 
+// Qt includes
+#include <QGLWidget>
+
 namespace Glee3D {
     Mesh::Mesh()
         : Serializable(),

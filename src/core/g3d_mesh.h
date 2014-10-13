@@ -31,7 +31,6 @@
 #include "g3d_logging.h"
 
 // Qt includes
-#include <QGLWidget>
 #include <QJsonArray>
 
 #include <iostream>

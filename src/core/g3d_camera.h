@@ -92,8 +92,6 @@ namespace Glee3D {
           */
         void moveForward(double units);
 
-
-
     private:
         double _near;
         double _far;

@@ -22,9 +22,6 @@
 #include "g3d_skybox.h"
 #include "g3d_scene.h"
 
-// GL utilities includes
-#include "GL/glu.h"
-
 namespace Glee3D {
     SkyBox::SkyBox()
         : Renderable() {
