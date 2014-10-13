@@ -42,7 +42,6 @@ CONFIG(debug, debug|release) {
 
 HEADERS += \
     effects/g3d_postrendereffect.h \
-    effects/g3d_bloomeffect.h \
     core/g3d_anchored.h \
     core/g3d_camera.h \
     core/g3d_framebuffer.h \
@@ -75,7 +74,6 @@ HEADERS += \
     core/g3d_logging.h
 
 SOURCES += \
-    effects/g3d_bloomeffect.cpp \
     core/g3d_anchored.cpp \
     core/g3d_camera.cpp \
     core/g3d_display.cpp \
