@@ -20,12 +20,10 @@
 
 // Own includes
 #include "g3d_camera.h"
+#include "g3d_utilities.h"
 
 // Qt includes
 #include <QGLWidget>
-
-// GL utilities includes
-#include "GL/glu.h"
 
 namespace Glee3D {
     Camera::Camera()
@@ -44,13 +42,11 @@ namespace Glee3D {
         // Generate camera matrices.
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective(_fieldOfView, _aspectRatio, _near, _far);
+        Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far);
 
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        gluLookAt(_position._x, _position._y, _position._z,
-                  _lookAt._x, _lookAt._y, _lookAt._z,
-                  upVector()._x, upVector()._y, upVector()._z);
+        Utilities::lookAt(_position, _lookAt, upVector());
     }
 
     MatrixState Camera::cameraMatrixState() {

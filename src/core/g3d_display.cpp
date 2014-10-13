@@ -23,10 +23,7 @@
 #include "g3d_skybox.h"
 #include "g3d_matrixstate.h"
 #include "g3d_texturestore.h"
-
-// GL utilities includes
-#include "GL/glu.h"
-#include "GL/glut.h"
+#include "g3d_utilities.h"
 
 // Standard includes
 #include <iostream>
@@ -101,22 +98,18 @@ namespace Glee3D {
         RealVector3D frontPlanePoint, backPlanePoint;
 
         // Get the point at the front plane of the viewing frustrum.
-        gluUnProject((GLdouble)displayPoint.x(),
-                     (GLdouble)(viewport[3] - displayPoint.y()),
-                     0.0,
-                     cameraMatrixState.modelviewMatrix()._data,
-                     cameraMatrixState.projectionMatrix()._data,
-                     viewport,
-                     &frontPlanePoint._x, &frontPlanePoint._y, &frontPlanePoint._z);
+        Utilities::unproject(RealVector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 0.0),
+                cameraMatrixState.modelviewMatrix(),
+                cameraMatrixState.projectionMatrix(),
+                viewport,
+                frontPlanePoint);
 
         // Get the point at the back plane of the viewing frustrum.
-        gluUnProject((GLdouble)displayPoint.x(),
-                     (GLdouble)(viewport[3] - displayPoint.y()),
-                     1.0,
-                     cameraMatrixState.modelviewMatrix()._data,
-                     cameraMatrixState.projectionMatrix()._data,
-                     viewport,
-                     &backPlanePoint._x, &backPlanePoint._y, &backPlanePoint._z);
+        Utilities::unproject(RealVector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 1.0),
+                cameraMatrixState.modelviewMatrix(),
+                cameraMatrixState.projectionMatrix(),
+                viewport,
+                backPlanePoint);
 
         // Calculate position and direction vector.
         line._positionVector = frontPlanePoint;
@@ -138,11 +131,11 @@ namespace Glee3D {
         glReadPixels((int)x, (int)y, 1, 1, GL_DEPTH_COMPONENT, GL_DOUBLE, &z);
 
         // Get the point at the front plane of the viewing frustrum.
-        gluUnProject(x, y, z,
-                     cameraMatrixState.modelviewMatrix()._data,
-                     cameraMatrixState.projectionMatrix()._data,
-                     viewport,
-                     &point._x, &point._y, &point._z);
+        Utilities::unproject(RealVector3D(x, y, z),
+                             cameraMatrixState.modelviewMatrix(),
+                             cameraMatrixState.projectionMatrix(),
+                             viewport,
+                             point);
         return point;
     }
 

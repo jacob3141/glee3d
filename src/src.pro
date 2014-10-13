@@ -71,7 +71,8 @@ HEADERS += \
     math/g3d_line3d.h \
     core/g3d_compiledmesh.h \
     core/g3d_log.h \
-    core/g3d_logging.h
+    core/g3d_logging.h \
+    core/g3d_utilities.h
 
 SOURCES += \
     core/g3d_anchored.cpp \

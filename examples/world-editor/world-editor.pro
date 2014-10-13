@@ -41,11 +41,11 @@ CONFIG(debug, debug|release) {
 }
 
 unix {
-    LIBS += -lglut -lGLU -lGLEW
+    LIBS += -lGLEW
 }
 
 win32 {
-    LIBS += -lglu32 -lopengl32 -lGLEW
+    LIBS += -lopengl32 -lGLEW
 }
 
 HEADERS += \
