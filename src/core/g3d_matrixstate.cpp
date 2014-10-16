@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@omg-it.works          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -50,19 +50,19 @@ namespace Glee3D {
 
     void MatrixState::save(int dataType) {
         if(dataType & Modelview) {
-            glGetDoublev(GL_MODELVIEW_MATRIX, _modelviewMatrix._data);
+            glGetDoublev(GL_MODELVIEW_MATRIX, _modelviewMatrix.data());
         }
 
         if(dataType & Projection) {
-            glGetDoublev(GL_PROJECTION_MATRIX, _projectionMatrix._data);
+            glGetDoublev(GL_PROJECTION_MATRIX, _projectionMatrix.data());
         }
 
         if(dataType & Texture) {
-            glGetDoublev(GL_TEXTURE_MATRIX, _textureMatrix._data);
+            glGetDoublev(GL_TEXTURE_MATRIX, _textureMatrix.data());
         }
 
         if(dataType & Color) {
-            glGetDoublev(GL_COLOR_MATRIX, _colorMatrix._data);
+            glGetDoublev(GL_COLOR_MATRIX, _colorMatrix.data());
         }
 
         if(dataType & Mode) {
@@ -76,22 +76,22 @@ namespace Glee3D {
 
         if(dataType & Modelview) {
             glMatrixMode(GL_MODELVIEW);
-            glLoadMatrixd(_modelviewMatrix._data);
+            glLoadMatrixd(_modelviewMatrix.data());
         }
 
         if(dataType & Projection) {
             glMatrixMode(GL_PROJECTION);
-            glLoadMatrixd(_projectionMatrix._data);
+            glLoadMatrixd(_projectionMatrix.data());
         }
 
         if(dataType & Texture) {
             glMatrixMode(GL_TEXTURE);
-            glLoadMatrixd(_textureMatrix._data);
+            glLoadMatrixd(_textureMatrix.data());
         }
 
         if(dataType & Color) {
             glMatrixMode(GL_COLOR);
-            glLoadMatrixd(_colorMatrix._data);
+            glLoadMatrixd(_colorMatrix.data());
         }
 
         if(dataType & Mode) {
@@ -101,19 +101,19 @@ namespace Glee3D {
         }
     }
 
-    void MatrixState::setModelviewMatrix(Matrix matrix) {
+    void MatrixState::setModelviewMatrix(Matrix4x4 matrix) {
         _modelviewMatrix = matrix;
     }
 
-    void MatrixState::setProjectionMatrix(Matrix matrix) {
+    void MatrixState::setProjectionMatrix(Matrix4x4 matrix) {
         _projectionMatrix = matrix;
     }
 
-    void MatrixState::setTextureMatrix(Matrix matrix) {
+    void MatrixState::setTextureMatrix(Matrix4x4 matrix) {
         _textureMatrix = matrix;
     }
 
-    void MatrixState::setColorMatrix(Matrix matrix) {
+    void MatrixState::setColorMatrix(Matrix4x4 matrix) {
         _colorMatrix = matrix;
     }
 
@@ -121,19 +121,19 @@ namespace Glee3D {
         _matrixMode = mode;
     }
 
-    Matrix MatrixState::modelviewMatrix() {
+    Matrix4x4 MatrixState::modelviewMatrix() {
         return _modelviewMatrix;
     }
 
-    Matrix MatrixState::projectionMatrix() {
+    Matrix4x4 MatrixState::projectionMatrix() {
         return _projectionMatrix;
     }
 
-    Matrix MatrixState::textureMatrix() {
+    Matrix4x4 MatrixState::textureMatrix() {
         return _textureMatrix;
     }
 
-    Matrix MatrixState::colorMatrix() {
+    Matrix4x4 MatrixState::colorMatrix() {
         return _colorMatrix;
     }
 

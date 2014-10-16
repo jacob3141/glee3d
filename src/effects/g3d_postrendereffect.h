@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@omg-it.works          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -32,7 +32,7 @@ namespace Glee3D {
 
 /**
   * @class
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @author Jacob Dawid (jacob.dawid@omg-it.works)
   * @date 02.12.2012
   */
 class PostRenderEffect {

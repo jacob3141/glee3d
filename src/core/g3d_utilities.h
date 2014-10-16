@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@omg-it.works          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -23,11 +23,7 @@
 
 // Own includes
 #include "math/g3d_vector3d.h"
-#include "math/g3d_vector4d.h"
-#include "core/g3d_matrixstate.h"
-
-// Qt includes
-#include <QGLWidget>
+#include "math/g3d_matrix4x4.h"
 
 namespace Glee3D {
 
@@ -43,96 +39,27 @@ public:
      * @param near
      * @param far
      */
-    static void perspective(
-        double fieldOfView,
-        double aspectRatio,
-        double near,
-        double far) {
-
-        double xmin, xmax, ymin, ymax;
-        ymax = near * tan(fieldOfView * M_PI / 360.0);
-        ymin = -ymax;
-        xmin = ymin * aspectRatio;
-        xmax = ymax * aspectRatio;
-
-        glFrustum(xmin, xmax, ymin, ymax, near, far);
-    }
+    static void perspective(double fieldOfView,
+                            double aspectRatio,
+                            double near,
+                            double far);
 
     /**
      * Reimplementation of gluLookAt.
-     * @param eye
-     * @param center
-     * @param up
+     * @param eye Position of the eye.
+     * @param center Position that the eye is targeting.
+     * @param up Orientation vector that defines like the viewer is headed.
+     * @returns the corresponding modelview matrix.
      */
-    static void lookAt(
-        RealVector3D eye,
-        RealVector3D center,
-        RealVector3D up) {
+    static Matrix4x4 lookAtModelviewMatrix(RealVector3D eye,
+                                           RealVector3D center,
+                                           RealVector3D up);
 
-        RealVector3D forward = center - eye;
-        forward.normalize();
-        RealVector3D side = forward.crossProduct(up);
-        side.normalize();
-        up = side.crossProduct(forward);
-
-        Matrix matrix = Matrix::identity();
-
-        matrix._data[0]  = side._x;
-        matrix._data[4]  = side._y;
-        matrix._data[8]  = side._z;
-
-        matrix._data[1]  = up._x;
-        matrix._data[5]  = up._y;
-        matrix._data[9]  = up._z;
-
-        matrix._data[2]  = -forward._x;
-        matrix._data[6]  = -forward._y;
-        matrix._data[10] = -forward._z;
-
-        glMultMatrixd(&matrix._data[0]);
-        glTranslated(-eye._x, -eye._y, -eye._z);
-    }
-
-    static bool unproject(
-        RealVector3D window,
-        Matrix modelMatrix,
-        Matrix projectionMatrix,
-        const GLint viewport[4],
-        RealVector3D &result) {
-        Matrix finalMatrix = modelMatrix.multiplicate(projectionMatrix);
-        Matrix invertedMatrix;
-        if(!finalMatrix.invert(&invertedMatrix)) {
-            return false;
-        }
-
-        RealVector4D in;
-
-        in._x = window._x;
-        in._y = window._y;
-        in._z = window._z;
-        in._w = 1.0;
-
-        /* Map x and y from window coordinates */
-        in._x = (in._x - viewport[0]) / viewport[2];
-        in._y = (in._y - viewport[1]) / viewport[3];
-
-        /* Map to range -1 to 1 */
-        in._x = in._x * 2.0 - 1.0;
-        in._y = in._y * 2.0 - 1.0;
-        in._z = in._z * 2.0 - 1.0;
-
-        RealVector4D out = invertedMatrix.multiplicate(in);
-
-        if(out._w == 0.0) {
-            return false;
-        }
-
-        result._x = out._x / out._w;
-        result._y = out._y / out._w;
-        result._z = out._z / out._w;
-
-        return true;
-    }
+    static bool unproject(RealVector3D window,
+                          Matrix4x4 modelMatrix,
+                          Matrix4x4 projectionMatrix,
+                          const int viewport[4],
+                          RealVector3D &result);
 };
 
 } // namespace Glee3D

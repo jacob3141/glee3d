@@ -72,7 +72,8 @@ HEADERS += \
     core/g3d_compiledmesh.h \
     core/g3d_log.h \
     core/g3d_logging.h \
-    core/g3d_utilities.h
+    core/g3d_utilities.h \
+    math/g3d_matrix4x4.h
 
 SOURCES += \
     core/g3d_anchored.cpp \
@@ -94,7 +95,8 @@ SOURCES += \
     io/g3d_objloader.cpp \
     core/g3d_entity.cpp \
     core/g3d_compiledmesh.cpp \
-    core/g3d_log.cpp
+    core/g3d_log.cpp \
+    core/g3d_utilities.cpp
 
 RESOURCES += \
     g3d.qrc

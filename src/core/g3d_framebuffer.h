@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@omg-it.works          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -35,7 +35,7 @@
 namespace Glee3D {
 /**
   * @class FrameBuffer
-  * @author Jacob Dawid (jacob.dawid@cybercatalyst.net)
+  * @author Jacob Dawid (jacob.dawid@omg-it.works)
   * @date 02.12.2012
   * Makes it easier to handle framebuffers by hiding a lot of OpenGL's
   * details in a single object. The term "target" describes a render target.

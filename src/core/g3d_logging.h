@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@omg-it.works          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -31,8 +31,26 @@ namespace Glee3D {
 
 class Logging {
 public:
-    Logging(QString className) : _className(className) { information("Created object."); }
-    virtual ~Logging() { information("Destroyed object."); }
+    enum NotificationEvents {
+        None        = 0x00,
+        OnCreate    = 0x01,
+        OnDestroy   = 0x02
+    };
+
+    Logging(QString className,
+            NotificationEvents notificationEvents = None) :
+        _className(className),
+        _notificationEvents(notificationEvents) {
+        if(_notificationEvents & OnCreate) {
+            information("Created object.");
+        }
+    }
+
+    virtual ~Logging() {
+        if(_notificationEvents & OnDestroy) {
+            information("Destroyed object.");
+        }
+    }
 
     virtual QString identifier() { return QString("%1").arg((long)this); }
 
@@ -54,6 +72,7 @@ private:
     }
 
     QString _className;
+    NotificationEvents _notificationEvents;
 };
 
 }

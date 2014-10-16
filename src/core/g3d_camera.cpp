@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                           //
 //    This file is part of glee3d.                                           //
-//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@cybercatalyst.net     //
+//    Copyright (C) 2012-2014 Jacob Dawid, jacob.dawid@omg-it.works          //
 //                                                                           //
 //    glee3d is free software: you can redistribute it and/or modify         //
 //    it under the terms of the GNU General Public License as published by   //
@@ -45,8 +45,8 @@ namespace Glee3D {
         Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far);
 
         glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        Utilities::lookAt(_position, _lookAt, upVector());
+        glLoadIdentity(); 
+        glLoadMatrixd(Utilities::lookAt(_position, _lookAt, upVector()).data());
     }
 
     MatrixState Camera::cameraMatrixState() {
