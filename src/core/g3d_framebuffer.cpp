@@ -25,6 +25,9 @@
 // Standard includes
 #include <iostream>
 
+// Qt includes
+#include <QGLWidget>
+
 namespace Glee3D {
 
 FrameBuffer::FrameBuffer(int width, int height, int properties)

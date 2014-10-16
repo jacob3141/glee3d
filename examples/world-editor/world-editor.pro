@@ -40,12 +40,8 @@ CONFIG(debug, debug|release) {
     DEFINES += DEBUG
 }
 
-unix {
-    LIBS += -lGLEW
-}
-
 win32 {
-    LIBS += -lopengl32 -lGLEW
+    LIBS += -lopengl32
 }
 
 HEADERS += \

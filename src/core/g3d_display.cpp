@@ -140,26 +140,6 @@ namespace Glee3D {
     }
 
     void Display::initializeGL() {
-        information("Initializing GLEW.");
-        GLenum result = glewInit();
-        if(result != GLEW_OK) {
-            error((const char*)glewGetErrorString(result));
-        } else {
-            information("GLEW initialized successfully.");
-        }
-
-        if(glewIsSupported("GL_VERSION_2_0")) {
-            information("OpenGL 2.0 supported");
-        } else {
-            error("OpenGL 2.0 not supported.");
-        }
-
-        if(!GLEW_EXT_framebuffer_object) {
-            error("Framebuffer objects have to be supported.");
-        } else {
-            information("Framebuffer objects supported.");
-        }
-
         configureOpenGL();
 
         foreach(PostRenderEffect *effect, _postRenderEffects) {

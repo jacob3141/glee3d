@@ -25,6 +25,9 @@
 #include "g3d_mesh.h"
 #include "g3d_logging.h"
 
+// Qt includes
+#include <QGLWidget>
+
 namespace Glee3D {
     /**
       * @class CompiledMesh

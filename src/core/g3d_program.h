@@ -21,17 +21,12 @@
 #ifndef G3D_PROGRAM_H
 #define G3D_PROGRAM_H
 
-// GL extension wrangler includes
-#include "GL/glew.h"
-
-// OpenGL includes
-#include "GL/glext.h"
-
 // Own includes
 #include "g3d_logging.h"
 
 // Qt includes
 #include <QString>
+#include <QGLWidget>
 
 #define GLSL(code) #code
 

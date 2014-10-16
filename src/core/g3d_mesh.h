@@ -21,9 +21,6 @@
 #ifndef G3D_MESH_H
 #define G3D_MESH_H
 
-// GL extension wrangler includes
-#include "GL/glew.h"
-
 // Own includes
 #include "math/g3d_vector2d.h"
 #include "math/g3d_vector3d.h"
