@@ -27,97 +27,97 @@
 namespace Glee3D {
 
 Vector2D::Vector2D() {
-    _x = 0.0;
-    _y = 0.0;
+    _data[0] = 0.0;
+    _data[1] = 0.0;
 }
 
 Vector2D::Vector2D(double x, double y) {
-    _x = x;
-    _y = y;
+    _data[0] = x;
+    _data[1] = y;
 }
 
 double Vector2D::length() const {
-    return sqrt(_x * _x + _y * _y);
+    return sqrt(_data[0] * _data[0] + _data[1] * _data[1]);
 }
 
 Vector2D& Vector2D::normalize() {
     double _length = length();
     if(_length > 0) {
-        _x /= _length;
-        _y /= _length;
+        _data[0] /= _length;
+        _data[1] /= _length;
     }
     return *this;
 }
 
 Vector2D& Vector2D::limit(Vector2D lower, Vector2D upper) {
-    if(_x < lower._x)
-        _x = lower._x;
-    if(_y < lower._y)
-        _y = lower._y;
-    if(_x > upper._x)
-        _x = upper._x;
-    if(_y > upper._y)
-        _y = upper._y;
+    if(_data[0] < lower._data[0])
+        _data[0] = lower._data[0];
+    if(_data[1] < lower._data[1])
+        _data[1] = lower._data[1];
+    if(_data[0] > upper._data[0])
+        _data[0] = upper._data[0];
+    if(_data[1] > upper._data[1])
+        _data[1] = upper._data[1];
     return *this;
 }
 
 Vector2D& Vector2D::operator= (const Vector2D& other) {
   if(this != &other) {
-      _x = other._x;
-      _y = other._y;
+      _data[0] = other._data[0];
+      _data[1] = other._data[1];
   }
   return *this;
 }
 
 Vector2D Vector2D::operator* (double scalar) const {
     Vector2D result;
-    result._x = this->_x * scalar;
-    result._y = this->_y * scalar;
+    result._data[0] = this->_data[0] * scalar;
+    result._data[1] = this->_data[1] * scalar;
     return result;
 }
 
 Vector2D Vector2D::operator/ (double scalar) const {
     Vector2D result;
-    result._x = this->_x / scalar;
-    result._y = this->_y / scalar;
+    result._data[0] = this->_data[0] / scalar;
+    result._data[1] = this->_data[1] / scalar;
     return result;
 }
 
 Vector2D Vector2D::operator+ (const Vector2D& other) const {
     Vector2D result;
-    result._x = this->_x + other._x;
-    result._y = this->_y + other._y;
+    result._data[0] = this->_data[0] + other._data[0];
+    result._data[1] = this->_data[1] + other._data[1];
     return result;
 }
 
 Vector2D& Vector2D::operator+= (const Vector2D& other) {
-    this->_x += other._x;
-    this->_y += other._y;
+    this->_data[0] += other._data[0];
+    this->_data[1] += other._data[1];
     return *this;
 }
 
 Vector2D Vector2D::operator- (const Vector2D& other) const {
     Vector2D result;
-    result._x = this->_x - other._x;
-    result._y = this->_y - other._y;
+    result._data[0] = this->_data[0] - other._data[0];
+    result._data[1] = this->_data[1] - other._data[1];
     return result;
 }
 
 Vector2D Vector2D::operator- () const {
     Vector2D result;
-    result._x = -this->_x;
-    result._y = -this->_y;
+    result._data[0] = -this->_data[0];
+    result._data[1] = -this->_data[1];
     return result;
 }
 
 Vector2D& Vector2D::operator-= (const Vector2D& other) {
-    _x -= other._x;
-    _y -= other._y;
+    _data[0] -= other._data[0];
+    _data[1] -= other._data[1];
     return *this;
 }
 
 bool Vector2D::operator== (const Vector2D& other) {
-    return (_x == other._x) && (_y == other._y);
+    return (_data[0] == other._data[0]) && (_data[1] == other._data[1]);
 }
 
 QString Vector2D::className() {
@@ -127,8 +127,8 @@ QString Vector2D::className() {
 QJsonObject Vector2D::serialize() {
     QJsonObject jsonObject;
     jsonObject["class"] = className();
-    jsonObject["x"] = (double)_x;
-    jsonObject["y"] = (double)_y;
+    jsonObject["x"] = (double)_data[0];
+    jsonObject["y"] = (double)_data[1];
     return jsonObject;
 }
 
@@ -141,8 +141,8 @@ bool Vector2D::deserialize(QJsonObject jsonObject) {
     if(jsonObject.contains("x")
     && jsonObject.contains("y")) {
         if(jsonObject["class"] == className()) {
-            _x = (double)jsonObject["x"].toDouble();
-            _y = (double)jsonObject["y"].toDouble();
+            _data[0] = (double)jsonObject["x"].toDouble();
+            _data[1] = (double)jsonObject["y"].toDouble();
             _deserializationError = Serializable::NoError;
             return true;
         } else {
@@ -153,6 +153,26 @@ bool Vector2D::deserialize(QJsonObject jsonObject) {
         _deserializationError = Serializable::MissingElements;
         return false;
     }
+}
+
+double *Vector2D::data() {
+    return _data;
+}
+
+double Vector2D::x() {
+    return _data[0];
+}
+
+double Vector2D::y() {
+    return _data[1];
+}
+
+void Vector2D::setX(double x) {
+    _data[0] = x;
+}
+
+void Vector2D::setY(double y) {
+    _data[1] = y;
 }
 
 } // namespace Glee3D

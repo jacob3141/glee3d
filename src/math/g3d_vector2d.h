@@ -54,8 +54,16 @@ public:
     QJsonObject serialize();
     bool deserialize(QJsonObject jsonObject);
 
-    double _x;
-    double _y;
+    double *data();
+
+    double x();
+    double y();
+
+    void setX(double x);
+    void setY(double y);
+
+private:
+    double _data[2];
 };
 
 } // namespace Glee3D

@@ -84,12 +84,12 @@ namespace Glee3D {
             _vertices[i * 9 + 7] = mesh->_vertices[i3]._y;
             _vertices[i * 9 + 8] = mesh->_vertices[i3]._z;
 
-            _texCoords[i * 6 + 0] = mesh->_textureCoordinates[i1]._x;
-            _texCoords[i * 6 + 1] = mesh->_textureCoordinates[i1]._y;
-            _texCoords[i * 6 + 2] = mesh->_textureCoordinates[i2]._x;
-            _texCoords[i * 6 + 3] = mesh->_textureCoordinates[i2]._y;
-            _texCoords[i * 6 + 4] = mesh->_textureCoordinates[i3]._x;
-            _texCoords[i * 6 + 5] = mesh->_textureCoordinates[i3]._y;
+            _texCoords[i * 6 + 0] = mesh->_textureCoordinates[i1].x();
+            _texCoords[i * 6 + 1] = mesh->_textureCoordinates[i1].y();
+            _texCoords[i * 6 + 2] = mesh->_textureCoordinates[i2].x();
+            _texCoords[i * 6 + 3] = mesh->_textureCoordinates[i2].y();
+            _texCoords[i * 6 + 4] = mesh->_textureCoordinates[i3].x();
+            _texCoords[i * 6 + 5] = mesh->_textureCoordinates[i3].y();
 
             _normals[i * 9 + 0] = vertexJointNormal[i1]._x;
             _normals[i * 9 + 1] = vertexJointNormal[i1]._y;
