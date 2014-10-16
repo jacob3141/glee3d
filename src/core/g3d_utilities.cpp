@@ -90,11 +90,7 @@ Matrix4x4 Utilities::lookAt(
     Vector3D left = forward.crossProduct(up).normalize();
     up = left.crossProduct(forward);
 
-    Matrix4x4 modelViewMatrix;
-    modelViewMatrix.addTranslation(-eye);
-    modelViewMatrix.addRotation(left, up, -forward);
-
-    return modelViewMatrix;
+    return Matrix4x4().withTranslation(-eye).withRotation(left, up, -forward);
 }
 
 bool Utilities::unproject(Vector3D window,

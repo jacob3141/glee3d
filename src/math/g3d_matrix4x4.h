@@ -303,27 +303,55 @@ public:
         _data[14] = translation._z;
     }
 
-    void addRotation(Vector3D xAxis,
-                     Vector3D yAxis,
-                     Vector3D zAxis) {
+    /**
+     * Creates a rotation matrix with the given values and multiplies
+     * it on this matrix.
+     * @attention Please understand that consecutive operations will be
+     * processed in reverse order, ie. the action you apply last will be
+     * executed first. If you have a translation T and a rotation R and
+     * you do C = I x T x R, the rotation will take place first, then the
+     * translation.
+     * @param xAxis Relative x-axis of the rotated coordinate system.
+     * @param yAxis Relative y-axis of the rotated coordinate system.
+     * @param zAxis Relative z-axis of the rotated coordinate system.
+     * @returns a reference to itself, so you can chain calls.
+     */
+    Matrix4x4& withRotation(Vector3D xAxis,
+                            Vector3D yAxis,
+                            Vector3D zAxis) {
         Matrix4x4 rotationMatrix;
         rotationMatrix.setXAxis(xAxis);
         rotationMatrix.setYAxis(yAxis);
         rotationMatrix.setZAxis(zAxis);
-        (*this) = multiplicate(rotationMatrix);
+        return (*this) = multiplicate(rotationMatrix);
     }
 
-    void addTranslation(Vector3D translation) {
+    /**
+     * Creates a translation matrix with the given value and multiplies
+     * it on this matrix.
+     * @attention Please understand that consecutive operations will be
+     * processed in reverse order, ie. the action you apply last will be
+     * executed first. If you have a translation T and a rotation R and
+     * you do C = I x T x R, the rotation will take place first, then the
+     * translation.
+     * @param translation The relative translation vector.
+     * @returns a reference to itself, so you can chain calls.
+     */
+    Matrix4x4&  withTranslation(Vector3D translation) {
         Matrix4x4 translationMatrix;
         translationMatrix.setTranslation(translation);
-        (*this) = multiplicate(translationMatrix);
+        return (*this) = multiplicate(translationMatrix);
     }
 
 private:
     /**
      * @attention data is order column-wise, which can lead to confusion
      * when operating on this with OpenGL function, ie. index 0-3 represent
-     * the first column, not the first row.
+     * the first column, not the first row, like this:
+     *  0  4  8  12
+     *  1  5  9  13
+     *  2  6  10 14
+     *  3  7  11 15
      */
     double _data[16];
 };
