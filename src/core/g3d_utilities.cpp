@@ -91,8 +91,8 @@ Matrix4x4 Utilities::lookAt(
     up = left.crossProduct(forward);
 
     Matrix4x4 modelViewMatrix;
-    modelViewMatrix.addRotation(left, up, -forward);
     modelViewMatrix.addTranslation(-eye);
+    modelViewMatrix.addRotation(left, up, -forward);
 
     return modelViewMatrix;
 }
@@ -103,7 +103,7 @@ bool Utilities::unproject(Vector3D window,
     const int viewport[],
     Vector3D &result) {
 
-    Matrix4x4 finalMatrix = projectionMatrix.multiplicate(modelMatrix);
+    Matrix4x4 finalMatrix = modelMatrix.multiplicate(projectionMatrix);
     Matrix4x4 invertedMatrix;
     if(!finalMatrix.invert(&invertedMatrix)) {
         return false;

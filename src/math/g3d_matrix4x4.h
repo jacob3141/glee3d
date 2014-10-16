@@ -119,11 +119,11 @@ public:
 
         for(i = 0; i < 4; i++) {
             for(j = 0; j < 4; j++) {
-                result._data[i*4+j] =
-                        with._data[i*4+0]*_data[0*4+j] +
-                        with._data[i*4+1]*_data[1*4+j] +
-                        with._data[i*4+2]*_data[2*4+j] +
-                        with._data[i*4+3]*_data[3*4+j];
+                result._data[i * 4 + j] =
+                        _data[i * 4 + 0] * with._data[0 * 4 + j] +
+                        _data[i * 4 + 1] * with._data[1 * 4 + j] +
+                        _data[i * 4 + 2] * with._data[2 * 4 + j] +
+                        _data[i * 4 + 3] * with._data[3 * 4 + j];
             }
         }
         return result;
