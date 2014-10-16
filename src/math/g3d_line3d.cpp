@@ -18,47 +18,56 @@
 //                                                                           //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef G3D_VECTOR4D_H
-#define G3D_VECTOR4D_H
-
 // Own includes
-#include "io/g3d_serializable.h"
-
-// C++ includes
-#include <math.h>
+#include "math/g3d_line3d.h"
 
 namespace Glee3D {
 
-/**
-  * @class Vector4D
-  * @author Jacob Dawid (jacob.dawid@omg-it.works)
-  * @date 02.12.2012
-  */
-class Vector4D : public Serializable {
-public:
-    Vector4D();
-    Vector4D(double x, double y, double z, double w);
+Vector3D Line3D::point(double alpha) const {
+    return _positionVector + _directionVector * alpha;
+}
 
-    double length() const;
-    Vector4D& normalize();
-    Vector4D& operator= (const Vector4D& other);
-    Vector4D operator* (double scalar) const;
-    Vector4D operator+ (const Vector4D& other) const;
-    Vector4D& operator+= (const Vector4D& other);
-    Vector4D operator- (const Vector4D& other) const;
-    Vector4D operator- () const ;
-    Vector4D& operator-= (const Vector4D& other);
+QString Line3D::className() {
+    return "Line3D";
+}
 
-    QString className();
-    QJsonObject serialize();
-    bool deserialize(QJsonObject jsonObject);
+QJsonObject Line3D::serialize() {
+    QJsonObject jsonObject;
+    jsonObject["class"] = className();
+    jsonObject["positionVector"] = _positionVector.serialize();
+    jsonObject["directionVector"] = _directionVector.serialize();
+    return jsonObject;
+}
 
-    double _x;
-    double _y;
-    double _z;
-    double _w;
-};
+bool Line3D::deserialize(QJsonObject jsonObject) {
+    if(!jsonObject.contains("class")) {
+        _deserializationError = Serializable::NoClassSpecified;
+        return false;
+    }
+
+    if(jsonObject.contains("positionVector")
+    && jsonObject.contains("directionVector")) {
+        if(jsonObject["class"] == className()) {
+            if(!_positionVector.deserialize(jsonObject.value("positionVector").toObject())) {
+                _deserializationError = _positionVector.deserializationError();
+                return false;
+            }
+
+            if(!_directionVector.deserialize(jsonObject.value("directionVector").toObject())) {
+                _deserializationError = _directionVector.deserializationError();
+                return false;
+            }
+
+            _deserializationError = Serializable::NoError;
+            return true;
+        } else {
+            _deserializationError = Serializable::WrongClass;
+            return false;
+        }
+    } else {
+        _deserializationError = Serializable::MissingElements;
+        return false;
+    }
+}
 
 } // namespace Glee3D
-
-#endif // G3D_VECTOR4D_H

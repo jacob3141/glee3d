@@ -96,7 +96,13 @@ SOURCES += \
     core/g3d_entity.cpp \
     core/g3d_compiledmesh.cpp \
     core/g3d_log.cpp \
-    core/g3d_utilities.cpp
+    core/g3d_utilities.cpp \
+    math/g3d_matrix4x4.cpp \
+    math/g3d_line3d.cpp \
+    math/g3d_plane3d.cpp \
+    math/g3d_vector2d.cpp \
+    math/g3d_vector3d.cpp \
+    math/g3d_vector4d.cpp
 
 RESOURCES += \
     g3d.qrc

@@ -42,21 +42,7 @@ namespace Glee3D {
         Plane3D(Vector3D v1,
                 Vector3D v2,
                 Vector3D v3,
-                ConstructionMode constructionMode = ThreeVectors) {
-            switch(constructionMode) {
-            case ThreeVectors:
-                _positionVector = v1;
-                _directionVector1 = v2 - v1;
-                _directionVector2 = v3 - v1;
-                break;
-            case PositionAndDirectionVectors:
-                _positionVector = v1;
-                _directionVector1 = v2;
-                _directionVector2 =  v3;
-                break;
-            }
-        }
-
+                ConstructionMode constructionMode = ThreeVectors);
         /**
          * Calculates a specific point on the plane in plane coordinates. The
          * unit is determined by the two direction vectors, alpha and beta being
@@ -65,9 +51,7 @@ namespace Glee3D {
          * @param beta Multiplier for the second direction vector.
          * @returns the point on the plane.
          */
-        Vector3D point(double alpha, double beta) {
-            return _positionVector + _directionVector1 * alpha + _directionVector2 * beta;
-        }
+        Vector3D point(double alpha, double beta);
 
         /**
          * Calculates the intersection point of a line and this plane.
@@ -75,78 +59,16 @@ namespace Glee3D {
          * @param exists
          * @return
          */
-        Vector3D intersection(Line3D<double> line, bool *exists = 0) {
-            Vector3D planeNormal = _directionVector1.crossProduct(_directionVector2);
-            double numerator = planeNormal.scalarProduct(_positionVector) - planeNormal.scalarProduct(line._positionVector);
-            double denominator = planeNormal.scalarProduct(line._directionVector);
-            if(denominator != 0.0) {
-                double alpha = numerator / denominator;
-                if(exists) {
-                    (*exists) = true;
-                }
-                return line.point(alpha);
-            }
-            if(exists) {
-                (*exists) = false;
-            }
-            return Vector3D();
-        }
+        Vector3D intersection(Line3D line, bool *exists = 0);
 
         /**
          * @returns the normalized plane normal.
          */
-        Vector3D normal() {
-            return _directionVector1.crossProduct(_directionVector2).normalize();
-        }
+        Vector3D normal();
 
-        QString className() {
-            return "Plane3D";
-        }
-
-        QJsonObject serialize() {
-            QJsonObject jsonObject;
-            jsonObject["class"] = className();
-            jsonObject["positionVector"] = _positionVector.serialize();
-            jsonObject["directionVector1"] = _directionVector1.serialize();
-            jsonObject["directionVector2"] = _directionVector2.serialize();
-            return jsonObject;
-        }
-
-        bool deserialize(QJsonObject jsonObject) {
-            if(!jsonObject.contains("class")) {
-                _deserializationError = Serializable::NoClassSpecified;
-                return false;
-            }
-
-            if(jsonObject.contains("positionVector")
-            && jsonObject.contains("directionVector")) {
-                if(jsonObject["class"] == className()) {
-                    if(!_positionVector.deserialize(jsonObject.value("positionVector").toObject())) {
-                        _deserializationError = _positionVector.deserializationError();
-                        return false;
-                    }
-
-                    if(!_directionVector1.deserialize(jsonObject.value("directionVector1").toObject())) {
-                        _deserializationError = _directionVector1.deserializationError();
-                        return false;
-                    }
-
-                    if(!_directionVector2.deserialize(jsonObject.value("directionVector2").toObject())) {
-                        _deserializationError = _directionVector2.deserializationError();
-                        return false;
-                    }
-
-                    _deserializationError = Serializable::NoError;
-                    return true;
-                } else {
-                    _deserializationError = Serializable::WrongClass;
-                    return false;
-                }
-            } else {
-                _deserializationError = Serializable::MissingElements;
-                return false;
-            }
-        }
+        QString className();
+        QJsonObject serialize();
+        bool deserialize(QJsonObject jsonObject);
 
         Vector3D _positionVector;
         Vector3D _directionVector1;
