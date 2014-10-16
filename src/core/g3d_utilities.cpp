@@ -27,7 +27,7 @@
 
 namespace Glee3D {
 
-void Utilities::perspective(
+Matrix4x4 Utilities::perspective(
     double fieldOfView,
     double aspectRatio,
     double near,
@@ -39,7 +39,46 @@ void Utilities::perspective(
     xmin = ymin * aspectRatio;
     xmax = ymax * aspectRatio;
 
-    glFrustum(xmin, xmax, ymin, ymax, near, far);
+    return frustum(xmin, xmax, ymin, ymax, near, far);
+}
+
+Matrix4x4 Utilities::frustum(
+    double left,
+    double right,
+    double bottom,
+    double top,
+    double near,
+    double far) {
+    Matrix4x4 perspectiveMatrix;
+    double *data = perspectiveMatrix.data();
+    data[0]  = 2.0 * near / (right - left);
+    data[5]  = 2.0 * near / (top - bottom);
+    data[8]  = (right + left) / (right - left);
+    data[9]  = (top + bottom) / (top - bottom);
+    data[10] = - (far + near) / (far - near);
+    data[11] = -1.0;
+    data[14] = - (2.0 * far * near) / (far - near);
+    data[15] = 0.0;
+    return perspectiveMatrix;
+}
+
+Matrix4x4 Utilities::ortho(
+    double left,
+    double right,
+    double bottom,
+    double top,
+    double near,
+    double far) {
+    Matrix4x4 perspectiveMatrix;
+    double *data = perspectiveMatrix.data();
+    data[0]  = 2.0 / (right - left);
+    data[5]  = 2.0 / (top - bottom);
+    data[10] = -2.0 / (far - near);
+    data[12] = - (right + left) / (right - left);
+    data[13] = - (top + bottom) / (top - bottom);
+    data[14] = - (far + near) / (far - near);
+    data[15] = 1.0;
+    return perspectiveMatrix;
 }
 
 Matrix4x4 Utilities::lookAt(

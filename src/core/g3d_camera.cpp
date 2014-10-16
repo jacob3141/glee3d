@@ -41,12 +41,10 @@ namespace Glee3D {
     void Camera::applyCameraMatrix() {
         // Generate camera matrices.
         glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far);
+        glLoadMatrixd(Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far).data());
 
         glMatrixMode(GL_MODELVIEW);
-        Matrix4x4 m = Utilities::lookAt(_position, _lookAt, upVector());
-        glLoadMatrixd(m.data());
+        glLoadMatrixd(Utilities::lookAt(_position, _lookAt, upVector()).data());
     }
 
     MatrixState Camera::cameraMatrixState() {

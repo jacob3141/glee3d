@@ -213,7 +213,7 @@ public:
             warning(QString("Accessing matrix outside of range: %1/%2").arg(row).arg(column));
             return 0.0;
         }
-        return _data[column + row * 4];
+        return _data[column * 4 + row];
     }
 
     /**
@@ -228,7 +228,7 @@ public:
             warning(QString("Accessing matrix outside of range: %1/%2").arg(row).arg(column));
             return;
         }
-        _data[column + row * 4] = value;
+        _data[column * 4 + row] = value;
     }
 
     /**

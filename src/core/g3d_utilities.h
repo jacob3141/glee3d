@@ -38,12 +38,46 @@ public:
      * @param aspectRatio
      * @param near
      * @param far
+     * @returns the corresponding perspective matrix.
      */
-    static void perspective(double fieldOfView,
-                            double aspectRatio,
-                            double near,
-                            double far);
+    static Matrix4x4 perspective(double fieldOfView,
+                                 double aspectRatio,
+                                 double near,
+                                 double far);
 
+    /**
+     * Reimplementation of glFrustum.
+     * @param left
+     * @param right
+     * @param bottom
+     * @param top
+     * @param near
+     * @param far
+     * @returns the perspective matrix.
+     */
+    static Matrix4x4 frustum(double left,
+                             double right,
+                             double bottom,
+                             double top,
+                             double near,
+                             double far);
+
+    /**
+     * Reimplementation of glOrtho.
+     * @param left
+     * @param right
+     * @param bottom
+     * @param top
+     * @param near
+     * @param far
+     * @returns the perspective matrix.
+     */
+    static Matrix4x4 ortho(double left,
+                           double right,
+                           double bottom,
+                           double top,
+                           double near,
+                           double far);
     /**
      * Reimplementation of gluLookAt.
      * @param eye Position of the eye.

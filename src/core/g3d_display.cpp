@@ -191,7 +191,6 @@ namespace Glee3D {
             _scene->lockScene();
             if(_activeCamera) {
                 _activeCamera->applyCameraMatrix();
-
                 SkyBox *s = _scene->skyBox();
                 if(s) {
                     MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
