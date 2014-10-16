@@ -33,14 +33,14 @@ namespace Glee3D {
     void Cube::generate(double edgeLength, double scaleX, double scaleY, double scaleZ) {
         _mesh = new Mesh(8, 12);
         double k = edgeLength / 2;
-        _mesh->setVertex(0, RealVector3D(-k * scaleX, -k * scaleY, -k * scaleZ));
-        _mesh->setVertex(1, RealVector3D(+k * scaleX, -k * scaleY, -k * scaleZ));
-        _mesh->setVertex(2, RealVector3D(+k * scaleX, +k * scaleY, -k * scaleZ));
-        _mesh->setVertex(3, RealVector3D(-k * scaleX, +k * scaleY, -k * scaleZ));
-        _mesh->setVertex(4, RealVector3D(-k * scaleX, -k * scaleY, +k * scaleZ));
-        _mesh->setVertex(5, RealVector3D(+k * scaleX, -k * scaleY, +k * scaleZ));
-        _mesh->setVertex(6, RealVector3D(+k * scaleX, +k * scaleY, +k * scaleZ));
-        _mesh->setVertex(7, RealVector3D(-k * scaleX, +k * scaleY, +k * scaleZ));
+        _mesh->setVertex(0, Vector3D(-k * scaleX, -k * scaleY, -k * scaleZ));
+        _mesh->setVertex(1, Vector3D(+k * scaleX, -k * scaleY, -k * scaleZ));
+        _mesh->setVertex(2, Vector3D(+k * scaleX, +k * scaleY, -k * scaleZ));
+        _mesh->setVertex(3, Vector3D(-k * scaleX, +k * scaleY, -k * scaleZ));
+        _mesh->setVertex(4, Vector3D(-k * scaleX, -k * scaleY, +k * scaleZ));
+        _mesh->setVertex(5, Vector3D(+k * scaleX, -k * scaleY, +k * scaleZ));
+        _mesh->setVertex(6, Vector3D(+k * scaleX, +k * scaleY, +k * scaleZ));
+        _mesh->setVertex(7, Vector3D(-k * scaleX, +k * scaleY, +k * scaleZ));
 
         _mesh->setTriangle(0, Triangle(2, 1, 0));
         _mesh->setTriangle(1, Triangle(3, 2, 0));
@@ -55,13 +55,13 @@ namespace Glee3D {
         _mesh->setTriangle(10, Triangle(1, 4, 0));
         _mesh->setTriangle(11, Triangle(5, 4, 1));
 
-        _mesh->setTextureCoordinates(0, RealVector2D( 0.25, 0.25));
-        _mesh->setTextureCoordinates(1, RealVector2D( 0.75, 0.25));
-        _mesh->setTextureCoordinates(2, RealVector2D( 0.75, 0.75));
-        _mesh->setTextureCoordinates(3, RealVector2D( 0.25, 0.75));
-        _mesh->setTextureCoordinates(4, RealVector2D( 0.0, 0.0));
-        _mesh->setTextureCoordinates(5, RealVector2D( 1.0, 0.0));
-        _mesh->setTextureCoordinates(6, RealVector2D( 1.0, 1.0));
-        _mesh->setTextureCoordinates(7, RealVector2D( 0.0, 1.0));
+        _mesh->setTextureCoordinates(0, Vector2D( 0.25, 0.25));
+        _mesh->setTextureCoordinates(1, Vector2D( 0.75, 0.25));
+        _mesh->setTextureCoordinates(2, Vector2D( 0.75, 0.75));
+        _mesh->setTextureCoordinates(3, Vector2D( 0.25, 0.75));
+        _mesh->setTextureCoordinates(4, Vector2D( 0.0, 0.0));
+        _mesh->setTextureCoordinates(5, Vector2D( 1.0, 0.0));
+        _mesh->setTextureCoordinates(6, Vector2D( 1.0, 1.0));
+        _mesh->setTextureCoordinates(7, Vector2D( 0.0, 1.0));
     }
 } // namespace Glee3D

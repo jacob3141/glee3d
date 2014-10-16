@@ -93,10 +93,10 @@ namespace Glee3D {
          * @param displayPoint
          * @return
          */
-        RealLine3D ray(QPoint displayPoint);
+        Line3D ray(QPoint displayPoint);
 
         /** Constructs a point based on the information in the depth buffer. */
-        RealVector3D point(QPoint displayPoint);
+        Vector3D point(QPoint displayPoint);
 
     signals:
         /** This signal will be emitted whenever a new fps value is available. */

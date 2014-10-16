@@ -35,7 +35,7 @@ namespace Glee3D {
         _fieldOfView = 45.0;
         _aspectRatio = 0.75;
 
-        _lookAt = RealVector3D(0.0, 0.0, 0.0);
+        _lookAt = Vector3D(0.0, 0.0, 0.0);
     }
 
     void Camera::applyCameraMatrix() {
@@ -45,8 +45,8 @@ namespace Glee3D {
         Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far);
 
         glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity(); 
-        glLoadMatrixd(Utilities::lookAtModelviewMatrix(_position, _lookAt, upVector()).data());
+        Matrix4x4 m = Utilities::lookAt(_position, _lookAt, upVector());
+        glLoadMatrixd(m.data());
     }
 
     MatrixState Camera::cameraMatrixState() {
@@ -63,16 +63,16 @@ namespace Glee3D {
         _fieldOfView = fieldOfView;
     }
 
-    void Camera::setLookAt(RealVector3D target) {
+    void Camera::setLookAt(Vector3D target) {
         _lookAt = target;
     }
 
-    RealVector3D Camera::lookAt() {
+    Vector3D Camera::lookAt() {
         return _lookAt;
     }
 
     void Camera::moveForward(double units) {
-        RealVector3D direction = _lookAt - _position;
+        Vector3D direction = _lookAt - _position;
         direction.normalize();
         _position += direction * units;
         _lookAt += direction * units;

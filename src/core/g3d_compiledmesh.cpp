@@ -42,7 +42,7 @@ namespace Glee3D {
         _collisionRadius = maxDistance;
 
         // Compute surface normals.
-        RealVector3D *surfaceNormals = new RealVector3D[mesh->_triangleCount];
+        Vector3D *surfaceNormals = new Vector3D[mesh->_triangleCount];
         for(int i = 0; i < mesh->_triangleCount; i++) {
             int i1 = mesh->_triangles[i]._indices[0];
             int i2 = mesh->_triangles[i]._indices[1];
@@ -54,9 +54,9 @@ namespace Glee3D {
         }
 
         // Calculate vertex joint normals for smooth shadowing
-        RealVector3D vertexJointNormal[mesh->_vertexCount];
+        Vector3D vertexJointNormal[mesh->_vertexCount];
         for(int i = 0; i < mesh->_vertexCount; i++) {
-            RealVector3D cumulatedJointNormal;
+            Vector3D cumulatedJointNormal;
             for(int j = 0; j < mesh->_triangleCount; j++) {
                 if(mesh->_triangles[j]._indices[0] == i
                 || mesh->_triangles[j]._indices[1] == i

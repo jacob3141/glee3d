@@ -26,18 +26,18 @@
 
 namespace Glee3D {
     Anchored::Anchored() {
-        _position = RealVector3D(0.0, 0.0, 0.0);
+        _position = Vector3D(0.0, 0.0, 0.0);
     }
 
-    RealVector3D Anchored::position() {
+    Vector3D Anchored::position() {
         return _position;
     }
 
-    void Anchored::setPosition(RealVector3D position) {
+    void Anchored::setPosition(Vector3D position) {
         _position = position;
     }
 
-    void Anchored::move(RealVector3D delta) {
+    void Anchored::move(Vector3D delta) {
         _position += delta;
     }
 

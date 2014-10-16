@@ -88,24 +88,24 @@ namespace Glee3D {
         _postRenderEffects.append(effect);
     }
 
-    RealLine3D Display::ray(QPoint displayPoint) {
-        RealLine3D line;
+    Line3D Display::ray(QPoint displayPoint) {
+        Line3D line;
 
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];        
         glGetIntegerv(GL_VIEWPORT, viewport);
         MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
-        RealVector3D frontPlanePoint, backPlanePoint;
+        Vector3D frontPlanePoint, backPlanePoint;
 
         // Get the point at the front plane of the viewing frustrum.
-        Utilities::unproject(RealVector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 0.0),
+        Utilities::unproject(Vector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 0.0),
                 cameraMatrixState.modelviewMatrix(),
                 cameraMatrixState.projectionMatrix(),
                 viewport,
                 frontPlanePoint);
 
         // Get the point at the back plane of the viewing frustrum.
-        Utilities::unproject(RealVector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 1.0),
+        Utilities::unproject(Vector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 1.0),
                 cameraMatrixState.modelviewMatrix(),
                 cameraMatrixState.projectionMatrix(),
                 viewport,
@@ -117,12 +117,12 @@ namespace Glee3D {
         return line;
     }
 
-    RealVector3D Display::point(QPoint displayPoint) {
+    Vector3D Display::point(QPoint displayPoint) {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];
         glGetIntegerv(GL_VIEWPORT, viewport);
         MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
-        RealVector3D point;
+        Vector3D point;
 
         GLdouble x = (GLdouble)displayPoint.x();
         GLdouble y = (GLdouble)(viewport[3] - displayPoint.y());
@@ -131,7 +131,7 @@ namespace Glee3D {
         glReadPixels((int)x, (int)y, 1, 1, GL_DEPTH_COMPONENT, GL_DOUBLE, &z);
 
         // Get the point at the front plane of the viewing frustrum.
-        Utilities::unproject(RealVector3D(x, y, z),
+        Utilities::unproject(Vector3D(x, y, z),
                              cameraMatrixState.modelviewMatrix(),
                              cameraMatrixState.projectionMatrix(),
                              viewport,

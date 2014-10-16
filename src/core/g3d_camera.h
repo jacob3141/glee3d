@@ -81,10 +81,10 @@ namespace Glee3D {
           * in the virtual space.
           * @param target Point at which the camera is directed.
           */
-        void setLookAt(RealVector3D target);
+        void setLookAt(Vector3D target);
 
         /** @returns Look-At-vector. */
-        RealVector3D lookAt();
+        Vector3D lookAt();
 
         /**
           * Moves the camera into the direction that it is looking.
@@ -98,7 +98,7 @@ namespace Glee3D {
         double _fieldOfView;
         double _aspectRatio;
 
-        RealVector3D _lookAt;
+        Vector3D _lookAt;
     };
 } // namespace Glee3D
 

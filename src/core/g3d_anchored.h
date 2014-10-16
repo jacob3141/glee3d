@@ -44,23 +44,23 @@ namespace Glee3D {
         Anchored();
 
         /** @returns Position of this entity in relation to its parent. */
-        RealVector3D position();
+        Vector3D position();
 
         /** Set the position of this entitiy in relation to its parent.
           * @param position Position that shall be set for this entity.
           */
-        void setPosition(RealVector3D position);
+        void setPosition(Vector3D position);
 
         /** Moves this entity in relation to its parent.
           * @param delta Distance that this entity shall be moved.
           */
-        void move(RealVector3D delta);
+        void move(Vector3D delta);
 
         void applyTranslation();
 
     protected:
         /** Position for this widget. */
-        RealVector3D _position;
+        Vector3D _position;
     };
 } // namespace Glee3D
 

@@ -108,25 +108,25 @@ namespace Glee3D {
             Q_UNUSED(activeCamera);
         }
 
-        virtual void select(RealLine3D ray, RealVector3D point) {
+        virtual void select(Line3D ray, Vector3D point) {
             Q_UNUSED(ray);
             Q_UNUSED(point);
         }
 
-        virtual void hover(RealLine3D ray, RealVector3D point) {
+        virtual void hover(Line3D ray, Vector3D point) {
             Q_UNUSED(ray);
             Q_UNUSED(point);
         }
 
-        virtual void drag(RealLine3D fromRay, RealLine3D toRay,
-                          RealVector3D fromPoint, RealVector3D toPoint) {
+        virtual void drag(Line3D fromRay, Line3D toRay,
+                          Vector3D fromPoint, Vector3D toPoint) {
             Q_UNUSED(fromRay);
             Q_UNUSED(toRay);
             Q_UNUSED(fromPoint);
             Q_UNUSED(toPoint);
         }
 
-        virtual void endDrag(RealLine3D ray, RealVector3D point) {
+        virtual void endDrag(Line3D ray, Vector3D point) {
             Q_UNUSED(ray);
             Q_UNUSED(point);
         }

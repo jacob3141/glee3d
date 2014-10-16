@@ -101,7 +101,7 @@ namespace Glee3D {
         _specularLight = specularLight;
     }
 
-    void LightSource::setSpotDirecton(RealVector3D spotDirection) {
+    void LightSource::setSpotDirecton(Vector3D spotDirection) {
         _spotDirection = spotDirection;
     }
 
@@ -113,7 +113,7 @@ namespace Glee3D {
         _spotExponent = spotExponent;
     }
 
-    RealVector3D LightSource::spotDirection() {
+    Vector3D LightSource::spotDirection() {
         return _spotDirection;
     }
 

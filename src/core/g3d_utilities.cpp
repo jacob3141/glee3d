@@ -42,13 +42,13 @@ void Utilities::perspective(
     glFrustum(xmin, xmax, ymin, ymax, near, far);
 }
 
-Matrix4x4 Utilities::lookAtModelviewMatrix(
-    RealVector3D eye,
-    RealVector3D center,
-    RealVector3D up) {
+Matrix4x4 Utilities::lookAt(
+    Vector3D eye,
+    Vector3D center,
+    Vector3D up) {
 
-    RealVector3D forward = (center - eye).normalize();
-    RealVector3D left = forward.crossProduct(up).normalize();
+    Vector3D forward = (center - eye).normalize();
+    Vector3D left = forward.crossProduct(up).normalize();
     up = left.crossProduct(forward);
 
     Matrix4x4 modelViewMatrix;
@@ -58,11 +58,11 @@ Matrix4x4 Utilities::lookAtModelviewMatrix(
     return modelViewMatrix;
 }
 
-bool Utilities::unproject(RealVector3D window,
+bool Utilities::unproject(Vector3D window,
     Matrix4x4 modelMatrix,
     Matrix4x4 projectionMatrix,
     const int viewport[],
-    RealVector3D &result) {
+    Vector3D &result) {
 
     Matrix4x4 finalMatrix = projectionMatrix.multiplicate(modelMatrix);
     Matrix4x4 invertedMatrix;
@@ -70,7 +70,7 @@ bool Utilities::unproject(RealVector3D window,
         return false;
     }
 
-    RealVector4D in;
+    Vector4D in;
 
     in._x = window._x;
     in._y = window._y;
@@ -86,7 +86,7 @@ bool Utilities::unproject(RealVector3D window,
     in._y = in._y * 2.0 - 1.0;
     in._z = in._z * 2.0 - 1.0;
 
-    RealVector4D out = invertedMatrix.multiplicate(in);
+    Vector4D out = invertedMatrix.multiplicate(in);
 
     if(out._w == 0.0) {
         return false;

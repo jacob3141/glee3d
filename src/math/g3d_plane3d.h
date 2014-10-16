@@ -32,7 +32,6 @@ namespace Glee3D {
       * @author Jacob Dawid (jacob.dawid@omg-it.works)
       * @date 02.12.2012
       */
-    template <typename NumberType>
     class Plane3D : public Serializable {
     public:
         enum ConstructionMode {
@@ -40,9 +39,9 @@ namespace Glee3D {
             PositionAndDirectionVectors
         };
 
-        Plane3D(Vector3D<NumberType> v1,
-                Vector3D<NumberType> v2,
-                Vector3D<NumberType> v3,
+        Plane3D(Vector3D v1,
+                Vector3D v2,
+                Vector3D v3,
                 ConstructionMode constructionMode = ThreeVectors) {
             switch(constructionMode) {
             case ThreeVectors:
@@ -66,7 +65,7 @@ namespace Glee3D {
          * @param beta Multiplier for the second direction vector.
          * @returns the point on the plane.
          */
-        Vector3D<NumberType> point(NumberType alpha, NumberType beta) {
+        Vector3D point(double alpha, double beta) {
             return _positionVector + _directionVector1 * alpha + _directionVector2 * beta;
         }
 
@@ -76,12 +75,12 @@ namespace Glee3D {
          * @param exists
          * @return
          */
-        Vector3D<NumberType> intersection(Line3D<NumberType> line, bool *exists = 0) {
-            Vector3D<NumberType> planeNormal = _directionVector1.crossProduct(_directionVector2);
-            NumberType numerator = planeNormal.scalarProduct(_positionVector) - planeNormal.scalarProduct(line._positionVector);
-            NumberType denominator = planeNormal.scalarProduct(line._directionVector);
+        Vector3D intersection(Line3D<double> line, bool *exists = 0) {
+            Vector3D planeNormal = _directionVector1.crossProduct(_directionVector2);
+            double numerator = planeNormal.scalarProduct(_positionVector) - planeNormal.scalarProduct(line._positionVector);
+            double denominator = planeNormal.scalarProduct(line._directionVector);
             if(denominator != 0.0) {
-                NumberType alpha = numerator / denominator;
+                double alpha = numerator / denominator;
                 if(exists) {
                     (*exists) = true;
                 }
@@ -90,13 +89,13 @@ namespace Glee3D {
             if(exists) {
                 (*exists) = false;
             }
-            return Vector3D<NumberType>();
+            return Vector3D();
         }
 
         /**
          * @returns the normalized plane normal.
          */
-        Vector3D<NumberType> normal() {
+        Vector3D normal() {
             return _directionVector1.crossProduct(_directionVector2).normalize();
         }
 
@@ -149,11 +148,10 @@ namespace Glee3D {
             }
         }
 
-        Vector3D<NumberType> _positionVector;
-        Vector3D<NumberType> _directionVector1;
-        Vector3D<NumberType> _directionVector2;
+        Vector3D _positionVector;
+        Vector3D _directionVector1;
+        Vector3D _directionVector2;
     };
-    typedef Plane3D<double> RealPlane3D;
 } // namespace Glee3D;
 
 #endif // G3D_PLANE3D_H

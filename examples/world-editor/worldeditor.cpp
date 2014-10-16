@@ -32,8 +32,8 @@ WorldEditor::WorldEditor(QWidget *parent) :
     ui->setupUi(this);
 
     _display = new Glee3D::Display(this);
-    _display->activeCamera()->setPosition(Glee3D::RealVector3D(0.0, 200.0, 10.0));
-    _display->activeCamera()->setLookAt(Glee3D::RealVector3D(0.0, 0.0, 0.0));
+    _display->activeCamera()->setPosition(Glee3D::Vector3D(0.0, 200.0, 10.0));
+    _display->activeCamera()->setLookAt(Glee3D::Vector3D(0.0, 0.0, 0.0));
 
     Glee3D::TextureStore& textureStore = Glee3D::TextureStore::instance();
     textureStore.loadTexture(*_display, "../../skybox/sky/xneg.png", "skybox-xneg");

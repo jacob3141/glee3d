@@ -44,30 +44,30 @@ namespace Glee3D {
         /** Sets the rotation for this widget.
           * @param value Vector containing angles for all three axes in degrees.
           */
-        void setRotation(RealVector3D value);
+        void setRotation(Vector3D value);
 
         /** @returns the widget's rotation for all three axes in degrees. */
-        RealVector3D rotation();
+        Vector3D rotation();
 
         /** Rotates the widget based on the current rotation state.
           * @param delta Vector containing angles for all three axes in degrees.
           */
-        void rotate(RealVector3D delta);
+        void rotate(Vector3D delta);
 
         /** @returns the widget's side-vector (positive x direction). */
-        RealVector3D sideVector();
+        Vector3D sideVector();
 
         /** @returns the widget's front-vector (positive z direction). */
-        RealVector3D frontVector();
+        Vector3D frontVector();
 
         /** @returns the widget's up-vector (positive y direction). */
-        RealVector3D upVector();
+        Vector3D upVector();
 
         void applyRotation();
 
     protected:
         /** This property holds the rotation for the x, y and z axis in degrees. */
-        RealVector3D _rotation;
+        Vector3D _rotation;
     };
 
 } // namespace Glee3D

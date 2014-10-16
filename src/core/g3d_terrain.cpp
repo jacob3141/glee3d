@@ -94,22 +94,22 @@ namespace Glee3D {
             }
         }
 
-        QMap<QPair<int, int>, RealVector3D> surfaceNormals;
+        QMap<QPair<int, int>, Vector3D> surfaceNormals;
         for(int y = 0; y < _height - 1; y++) {
             for(int x = 0; x < _width - 1; x++) {
-                RealVector3D v1 = RealVector3D(
+                Vector3D v1 = Vector3D(
                                             0,
                                             _terrain[QPair<int, int>(x, y + 1)] -
                                             _terrain[QPair<int, int>(x, y)],
                                             (float)(y + 1) * 10.0 - (float)y * 10.0);
 
-                RealVector3D v2 = RealVector3D(
+                Vector3D v2 = Vector3D(
                                             (float)(x + 1) * 10.0 - (float)x * 10.0,
                                             _terrain[QPair<int, int>(x + 1, y)] -
                                             _terrain[QPair<int, int>(x, y)],
                                             0);
 
-                RealVector3D normal = v1.crossProduct(v2);
+                Vector3D normal = v1.crossProduct(v2);
                 normal.normalize();
                 surfaceNormals[QPair<int, int>(x, y)] = normal;
             }
@@ -118,7 +118,7 @@ namespace Glee3D {
         // Now compute vertex normals for smooth shading
         for(int y = 0; y < _height; y++) {
             for(int x = 0; x < _width; x++) {
-                RealVector3D vertexNormal;
+                Vector3D vertexNormal;
                 if(x == 0 && y == 0) {
                     vertexNormal = surfaceNormals[QPair<int, int>(0, 0)];
                 } else if(x > 0 && x < (_width - 1) && y == 0) {
@@ -163,10 +163,10 @@ namespace Glee3D {
                 QPair<int, int> p3(x + 1, y + 1);
                 QPair<int, int> p4(x + 1, y);
 
-                RealVector3D n1 = _normals[p1];
-                RealVector3D n2 = _normals[p2];
-                RealVector3D n3 = _normals[p3];
-                RealVector3D n4 = _normals[p4];
+                Vector3D n1 = _normals[p1];
+                Vector3D n2 = _normals[p2];
+                Vector3D n3 = _normals[p3];
+                Vector3D n4 = _normals[p4];
 
                 float tileID = 0; //_tileIDs[p1];
 

@@ -42,7 +42,7 @@ QList<Mesh*> ObjLoader::readObjFile(QString fileName) {
         return QList<Mesh*>();
     }
 
-    QList<RealVector3D> vertices;
+    QList<Vector3D> vertices;
     QList<Triangle> triangles;
 
     // Remove all comments from the file.

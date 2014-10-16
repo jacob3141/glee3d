@@ -34,7 +34,6 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@omg-it.works)
   * @date 02.12.2012
   */
-template <typename NumberType>
 class Vector2D : public Serializable {
 public:
     Vector2D() {
@@ -42,20 +41,20 @@ public:
         _y = 0.0;
     }
 
-    Vector2D(NumberType x, NumberType y) {
+    Vector2D(double x, double y) {
         _x = x;
         _y = y;
     }
 
-    NumberType _x;
-    NumberType _y;
+    double _x;
+    double _y;
 
-    NumberType length() const {
+    double length() const {
         return sqrt(_x * _x + _y * _y);
     }
 
     Vector2D& normalize() {
-        NumberType _length = length();
+        double _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
@@ -83,14 +82,14 @@ public:
       return *this;
     }
 
-    Vector2D operator* (NumberType scalar) const {
+    Vector2D operator* (double scalar) const {
         Vector2D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
         return result;
     }
 
-    Vector2D operator/ (NumberType scalar) const {
+    Vector2D operator/ (double scalar) const {
         Vector2D result;
         result._x = this->_x / scalar;
         result._y = this->_y / scalar;
@@ -155,8 +154,8 @@ public:
         if(jsonObject.contains("x")
         && jsonObject.contains("y")) {
             if(jsonObject["class"] == className()) {
-                _x = (NumberType)jsonObject["x"].toDouble();
-                _y = (NumberType)jsonObject["y"].toDouble();
+                _x = (double)jsonObject["x"].toDouble();
+                _y = (double)jsonObject["y"].toDouble();
                 _deserializationError = Serializable::NoError;
                 return true;
             } else {
@@ -169,9 +168,6 @@ public:
         }
     }
 };
-
-typedef Vector2D<double> RealVector2D;
-typedef Vector2D<int> IntVector2D;
 
 } // namespace Glee3D
 

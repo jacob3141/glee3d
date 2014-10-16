@@ -35,30 +35,30 @@ namespace Glee3D {
         _mesh = new Glee3D::Mesh(segments * 2 + 2, segments * 2 + segments * 6);
         for(int i = 0; i < segments; i++) {
             double alpha = (double)i / (double)segments * 2.0 * M_PI;
-            _mesh->setVertex(i, Glee3D::RealVector3D(
+            _mesh->setVertex(i, Glee3D::Vector3D(
                 cos(alpha) * radius,
                 - height / 2,
                 sin(alpha) * radius));
 
-            _mesh->setVertex(i + segments, Glee3D::RealVector3D(
+            _mesh->setVertex(i + segments, Glee3D::Vector3D(
                 cos(alpha) * radius,
                 + height / 2,
                 sin(alpha) * radius));
 
-            _mesh->setTextureCoordinates(i, Glee3D::RealVector2D(0.0, 0.0));
-            _mesh->setTextureCoordinates(i + segments, Glee3D::RealVector2D(
+            _mesh->setTextureCoordinates(i, Glee3D::Vector2D(0.0, 0.0));
+            _mesh->setTextureCoordinates(i + segments, Glee3D::Vector2D(
                 cos(alpha) / 2.0 + 0.5, sin(alpha) / 2.0 + 0.5));
         }
 
-        _mesh->setVertex(segments * 2, Glee3D::RealVector3D(
+        _mesh->setVertex(segments * 2, Glee3D::Vector3D(
             0.0, - height / 2, 0.0));
         _mesh->setTextureCoordinates(segments * 2,
-            Glee3D::RealVector2D(0.5, 0.5));
+            Glee3D::Vector2D(0.5, 0.5));
 
-        _mesh->setVertex(segments * 2 + 1, Glee3D::RealVector3D(
+        _mesh->setVertex(segments * 2 + 1, Glee3D::Vector3D(
             0.0, + height / 2, 0.0));
         _mesh->setTextureCoordinates(segments * 2 + 1,
-            Glee3D::RealVector2D(0.5, 0.5));
+            Glee3D::Vector2D(0.5, 0.5));
 
         int i;
         int count = 0;

@@ -134,8 +134,8 @@ public:
      * @param with The vector to multiplicate with.
      * @returns the resulting vector.
      */
-    RealVector4D multiplicate(RealVector4D with) {
-        RealVector4D result;
+    Vector4D multiplicate(Vector4D with) {
+        Vector4D result;
 
         result._x = with._x * _data[0] + with._y * _data[4] + with._z * _data[8] + with._w * _data[12];
         result._y = with._x * _data[1] + with._y * _data[5] + with._z * _data[9] + with._w * _data[13];
@@ -246,14 +246,14 @@ public:
      * Sets the x axis in a right-handed coordinate system.
      * @param axis The axis vector.
      */
-    void setXAxis(RealVector3D axis) {
+    void setXAxis(Vector3D axis) {
         setLeft(axis);
     }
 
     /**
      * Same as setXAxis();
      */
-    void setLeft(RealVector3D left) {
+    void setLeft(Vector3D left) {
         _data[0] = left._x;
         _data[4] = left._y;
         _data[8] = left._z;
@@ -263,14 +263,14 @@ public:
      * Sets the y axis in a right-handed coordinate system.
      * @param axis The axis vector.
      */
-    void setYAxis(RealVector3D axis) {
+    void setYAxis(Vector3D axis) {
         setUp(axis);
     }
 
     /**
      * Same as setYAxis();
      */
-    void setUp(RealVector3D up) {
+    void setUp(Vector3D up) {
         _data[1] = up._x;
         _data[5] = up._y;
         _data[9] = up._z;
@@ -280,14 +280,14 @@ public:
      * Sets the z axis in a right-handed coordinate system.
      * @param axis The axis vector.
      */
-    void setZAxis(RealVector3D axis) {
+    void setZAxis(Vector3D axis) {
         setForward(axis);
     }
 
     /**
      * Same as setZAxis();
      */
-    void setForward(RealVector3D forward) {
+    void setForward(Vector3D forward) {
         _data[2] = forward._x;
         _data[6] = forward._y;
         _data[10] = forward._z;
@@ -297,26 +297,26 @@ public:
      * Sets the translation vector.
      * @param translation The translation vector.
      */
-    void setTranslation(RealVector3D translation) {
+    void setTranslation(Vector3D translation) {
         _data[12] = translation._x;
         _data[13] = translation._y;
         _data[14] = translation._z;
     }
 
-    void addRotation(RealVector3D xAxis,
-                     RealVector3D yAxis,
-                     RealVector3D zAxis) {
+    void addRotation(Vector3D xAxis,
+                     Vector3D yAxis,
+                     Vector3D zAxis) {
         Matrix4x4 rotationMatrix;
         rotationMatrix.setXAxis(xAxis);
         rotationMatrix.setYAxis(yAxis);
         rotationMatrix.setZAxis(zAxis);
-        this->multiplicate(rotationMatrix);
+        (*this) = multiplicate(rotationMatrix);
     }
 
-    void addTranslation(RealVector3D translation) {
+    void addTranslation(Vector3D translation) {
         Matrix4x4 translationMatrix;
         translationMatrix.setTranslation(translation);
-        this->multiplicate(translationMatrix);
+        (*this) = multiplicate(translationMatrix);
     }
 
 private:

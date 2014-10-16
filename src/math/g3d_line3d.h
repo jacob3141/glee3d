@@ -31,10 +31,9 @@ namespace Glee3D {
       * @author Jacob Dawid (jacob.dawid@omg-it.works)
       * @date 02.12.2012
       */
-    template <typename NumberType>
     class Line3D : public Serializable {
     public:
-        Vector3D<NumberType> point(NumberType alpha) const {
+        Vector3D point(double alpha) const {
             return _positionVector + _directionVector * alpha;
         }
 
@@ -81,11 +80,10 @@ namespace Glee3D {
             }
         }
 
-        Vector3D<NumberType> _positionVector;
-        Vector3D<NumberType> _directionVector;
+        Vector3D _positionVector;
+        Vector3D _directionVector;
     };
 
-    typedef Line3D<double> RealLine3D;
 } // namespace Glee3D
 
 #endif // G3D_LINE3D_H

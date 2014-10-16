@@ -37,7 +37,6 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@omg-it.works)
   * @date 02.12.2012
   */
-template <typename NumberType>
 class Vector3D : public Serializable {
 public:
     Vector3D() {
@@ -46,22 +45,22 @@ public:
         _z = 0.0;
     }
 
-    Vector3D(NumberType x, NumberType y, NumberType z) {
+    Vector3D(double x, double y, double z) {
         _x = x;
         _y = y;
         _z = z;
     }
 
-    NumberType _x;
-    NumberType _y;
-    NumberType _z;
+    double _x;
+    double _y;
+    double _z;
 
-    NumberType length() const {
+    double length() const {
         return sqrt(_x * _x + _y * _y + _z *_z);
     }
 
     Vector3D& normalize() {
-        NumberType _length = length();
+        double _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
@@ -78,7 +77,7 @@ public:
         return result;
     }
 
-    NumberType scalarProduct(const Vector3D& other) const {
+    double scalarProduct(const Vector3D& other) const {
         return this->_x * other._x + this->_y * other._y + this->_z * other._z;
     }
 
@@ -91,7 +90,7 @@ public:
       return *this;
     }
 
-    Vector3D operator* (NumberType scalar) const {
+    Vector3D operator* (double scalar) const {
         Vector3D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
@@ -160,9 +159,9 @@ public:
         && jsonObject.contains("y")
         && jsonObject.contains("z")) {
             if(jsonObject["class"] == className()) {
-                _x = (NumberType)jsonObject["x"].toDouble();
-                _y = (NumberType)jsonObject["y"].toDouble();
-                _z = (NumberType)jsonObject["z"].toDouble();
+                _x = (double)jsonObject["x"].toDouble();
+                _y = (double)jsonObject["y"].toDouble();
+                _z = (double)jsonObject["z"].toDouble();
                 _deserializationError = Serializable::NoError;
                 return true;
             } else {
@@ -176,7 +175,6 @@ public:
     }
 };
 
-typedef Vector3D<double> RealVector3D;
 } // namespace Glee3D
 
 #endif // G3D_VECTOR3D_H

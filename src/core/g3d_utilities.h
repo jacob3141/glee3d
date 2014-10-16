@@ -51,15 +51,15 @@ public:
      * @param up Orientation vector that defines like the viewer is headed.
      * @returns the corresponding modelview matrix.
      */
-    static Matrix4x4 lookAtModelviewMatrix(RealVector3D eye,
-                                           RealVector3D center,
-                                           RealVector3D up);
+    static Matrix4x4 lookAt(Vector3D eye,
+                                           Vector3D center,
+                                           Vector3D up);
 
-    static bool unproject(RealVector3D window,
+    static bool unproject(Vector3D window,
                           Matrix4x4 modelMatrix,
                           Matrix4x4 projectionMatrix,
                           const int viewport[4],
-                          RealVector3D &result);
+                          Vector3D &result);
 };
 
 } // namespace Glee3D

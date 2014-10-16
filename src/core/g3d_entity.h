@@ -103,7 +103,7 @@ public:
       * @param line Collision line.
       * @returns true, when this object collides with the given line.
       */
-    bool collides(const RealLine3D& line);
+    bool collides(const Line3D& line);
 
     /** Compiles the current object, ie. prepares the object information for
       * fast rendering. This is supposed to be called before the object will

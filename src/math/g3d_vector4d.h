@@ -34,7 +34,6 @@ namespace Glee3D {
   * @author Jacob Dawid (jacob.dawid@omg-it.works)
   * @date 02.12.2012
   */
-template <typename NumberType>
 class Vector4D : public Serializable {
 public:
     Vector4D() {
@@ -44,24 +43,24 @@ public:
         _w = 0.0;
     }
 
-    Vector4D(NumberType x, NumberType y, NumberType z, NumberType w) {
+    Vector4D(double x, double y, double z, double w) {
         _x = x;
         _y = y;
         _z = z;
         _w = w;
     }
 
-    NumberType _x;
-    NumberType _y;
-    NumberType _z;
-    NumberType _w;
+    double _x;
+    double _y;
+    double _z;
+    double _w;
 
-    NumberType length() const {
+    double length() const {
         return sqrt(_x * _x + _y * _y + _z *_z + _w * _w);
     }
 
     Vector4D& normalize() {
-        NumberType _length = length();
+        double _length = length();
         if(_length > 0) {
             _x /= _length;
             _y /= _length;
@@ -82,7 +81,7 @@ public:
       return *this;
     }
 
-    Vector4D operator* (NumberType scalar) const {
+    Vector4D operator* (double scalar) const {
         Vector4D result;
         result._x = this->_x * scalar;
         result._y = this->_y * scalar;
@@ -159,10 +158,10 @@ public:
         && jsonObject.contains("z")
         && jsonObject.contains("w")) {
             if(jsonObject["class"] == className()) {
-                _x = (NumberType)jsonObject["x"].toDouble();
-                _y = (NumberType)jsonObject["y"].toDouble();
-                _z = (NumberType)jsonObject["z"].toDouble();
-                _w = (NumberType)jsonObject["w"].toDouble();
+                _x = (double)jsonObject["x"].toDouble();
+                _y = (double)jsonObject["y"].toDouble();
+                _z = (double)jsonObject["z"].toDouble();
+                _w = (double)jsonObject["w"].toDouble();
                 _deserializationError = Serializable::NoError;
                 return true;
             } else {
@@ -175,8 +174,6 @@ public:
         }
     }
 };
-
-typedef Vector4D<double> RealVector4D;
 
 } // namespace Glee3D
 

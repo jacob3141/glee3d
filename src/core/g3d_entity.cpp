@@ -95,7 +95,7 @@ namespace Glee3D {
         _position += (- frontVector() * units);
     }
 
-    bool Entity::collides(const RealLine3D& line) {
+    bool Entity::collides(const Line3D& line) {
         if(!_compiledMesh)
             return false;
 
@@ -110,8 +110,8 @@ namespace Glee3D {
 //                int i2 = _triangles[i]._indices[1];
 //                int i3 = _triangles[i]._indices[2];
 
-//                RealPlane3D p(_vertices[i1], _vertices[i2], _vertices[i3]);
-//                RealVector3D i = p.intersection(line);
+//                Plane3D p(_vertices[i1], _vertices[i2], _vertices[i3]);
+//                Vector3D i = p.intersection(line);
 //                double alpha = i._x / p._directionVector1._x;
 //                double beta  = i._x / p._directionVector2._x;
 

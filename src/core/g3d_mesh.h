@@ -128,7 +128,7 @@ public:
       * @param index Index of vertex.
       * @param vertex Vertex data.
       */
-    void setVertex(int index, RealVector3D vertex);
+    void setVertex(int index, Vector3D vertex);
 
     /**
       * Sets the triangle for the specified index.
@@ -142,16 +142,16 @@ public:
       * @param index Index of vertex.
       * @param textureCoordinates Texture coordinates.
       */
-    void setTextureCoordinates(int index, RealVector2D textureCoordinates);
+    void setTextureCoordinates(int index, Vector2D textureCoordinates);
 
     /** @returns the vertex of the specified index. */
-    RealVector3D vertex(int index);
+    Vector3D vertex(int index);
 
     /** @returns the triangle of the specified index. */
     Triangle triangle(int index);
 
     /** @returns the texture coordinates of the specified index. */
-    RealVector2D textureCoordinates(int index);
+    Vector2D textureCoordinates(int index);
 
     /** @overload */
     QString className();
@@ -169,9 +169,9 @@ private:
     int _vertexCount;
     int _triangleCount;
 
-    RealVector3D *_vertices;
+    Vector3D *_vertices;
     Triangle *_triangles;
-    RealVector2D *_textureCoordinates;
+    Vector2D *_textureCoordinates;
 };
 
 } // namespace Glee3D

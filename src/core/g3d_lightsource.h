@@ -104,7 +104,7 @@ public:
       * @note This will only affect spotlights.
       * @see LightSourceType
       */
-    void setSpotDirecton(RealVector3D spotDirection);
+    void setSpotDirecton(Vector3D spotDirection);
 
     /**
       * Sets the spots cutoff.
@@ -123,7 +123,7 @@ public:
     void setSpotExponent(double spotExponent);
 
     /** @returns The spots direction. */
-    RealVector3D spotDirection();
+    Vector3D spotDirection();
 
     /** @returns The spots cutoff. */
     double spotCutoff();
@@ -159,7 +159,7 @@ private:
     RgbaColor _diffuseLight;
     RgbaColor _specularLight;
 
-    RealVector3D _spotDirection;
+    Vector3D _spotDirection;
     double _spotCutoff;
     double _spotExponent;
 

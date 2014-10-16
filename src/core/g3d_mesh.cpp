@@ -56,7 +56,7 @@ namespace Glee3D {
         allocateMemory();
     }
 
-    void Mesh::setVertex(int index, RealVector3D vertex) {
+    void Mesh::setVertex(int index, Vector3D vertex) {
         _vertices[index] = vertex;
     }
 
@@ -64,11 +64,11 @@ namespace Glee3D {
         _triangles[index] = triangle;
     }
 
-    void Mesh::setTextureCoordinates(int index, RealVector2D textureCoordinates) {
+    void Mesh::setTextureCoordinates(int index, Vector2D textureCoordinates) {
         _textureCoordinates[index] = textureCoordinates;
     }
 
-    RealVector3D Mesh::vertex(int index) {
+    Vector3D Mesh::vertex(int index) {
         return _vertices[index];
     }
 
@@ -76,7 +76,7 @@ namespace Glee3D {
         return _triangles[index];
     }
 
-    RealVector2D Mesh::textureCoordinates(int index) {
+    Vector2D Mesh::textureCoordinates(int index) {
         return _textureCoordinates[index];
     }
 
@@ -176,8 +176,8 @@ namespace Glee3D {
 
     void Mesh::allocateMemory() {
         freeMemory();
-        _vertices = new RealVector3D[_vertexCount];
-        _textureCoordinates = new RealVector2D[_vertexCount];
+        _vertices = new Vector3D[_vertexCount];
+        _textureCoordinates = new Vector2D[_vertexCount];
         _triangles = new Triangle[_triangleCount];
 
         int i;

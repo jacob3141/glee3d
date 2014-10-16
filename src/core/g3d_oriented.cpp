@@ -27,17 +27,17 @@
 
 namespace Glee3D {
     Oriented::Oriented() {
-        _rotation = RealVector3D(0.0, 0.0, 0.0);
+        _rotation = Vector3D(0.0, 0.0, 0.0);
     }
 
     Oriented::~Oriented() {
     }
 
-    void Oriented::setRotation(RealVector3D value) {
+    void Oriented::setRotation(Vector3D value) {
         _rotation = value;
     }
 
-    void Oriented::rotate(RealVector3D delta) {
+    void Oriented::rotate(Vector3D delta) {
         // Rescue the modelview matrix, so we can restore it after we're done
         MatrixState matrixState;
         matrixState.save();
@@ -76,18 +76,18 @@ namespace Glee3D {
         matrixState.restore();
     }
 
-    RealVector3D Oriented::rotation() {
+    Vector3D Oriented::rotation() {
         return _rotation;
     }
 
-    RealVector3D Oriented::sideVector() {
+    Vector3D Oriented::sideVector() {
         // TODO: This method is broken and needs a rewrite.
-        return RealVector3D();
+        return Vector3D();
     }
 
-    RealVector3D Oriented::frontVector() {
+    Vector3D Oriented::frontVector() {
         // TODO: This method is broken and needs a rewrite.
-        RealVector3D result;
+        Vector3D result;
         double rot_x = _rotation._x * 2 * M_PI / 360.0;
         double rot_y = _rotation._y * 2 * M_PI / 360.0;
 
@@ -97,9 +97,9 @@ namespace Glee3D {
         return result;
     }
 
-    RealVector3D Oriented::upVector() {
+    Vector3D Oriented::upVector() {
         // TODO: This method is broken and needs a rewrite.
-        RealVector3D result;
+        Vector3D result;
         double rot_x = _rotation._x * 2 * M_PI / 360.0;
         double rot_y = _rotation._y * 2 * M_PI / 360.0;
         double rot_z = _rotation._z * 2 * M_PI / 360.0;

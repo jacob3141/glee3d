@@ -28,7 +28,7 @@ class Scene : public Glee3D::Scene {
 public:
     Scene();
 
-    void hover(Glee3D::RealLine3D ray, Glee3D::RealVector3D point);
+    void hover(Glee3D::Line3D ray, Glee3D::Vector3D point);
 
     void processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCamera);
 

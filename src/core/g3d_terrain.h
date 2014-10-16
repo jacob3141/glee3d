@@ -85,7 +85,7 @@ namespace Glee3D {
         float _scale;
         QHash<QPair<int, int>, float> _terrain;
         QHash<QPair<int, int>, int> _tileIDs;
-        QHash<QPair<int, int>, RealVector3D> _normals;
+        QHash<QPair<int, int>, Vector3D> _normals;
         float _tilingOffset;
         int _width;
         int _height;
