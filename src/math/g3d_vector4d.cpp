@@ -24,116 +24,116 @@
 namespace Glee3D {
 
 Vector4D::Vector4D() {
-    _x = 0.0;
-    _y = 0.0;
-    _z = 0.0;
-    _w = 0.0;
+    _data[0] = 0.0;
+    _data[1] = 0.0;
+    _data[2] = 0.0;
+    _data[3] = 0.0;
 }
 
 Vector4D::Vector4D(double x, double y, double z, double w) {
-    _x = x;
-    _y = y;
-    _z = z;
-    _w = w;
+    _data[0] = x;
+    _data[1] = y;
+    _data[2] = z;
+    _data[3] = w;
 }
 
 Vector4D::Vector4D(Vector3D v3d, double w) {
-    _x = v3d.x();
-    _y = v3d.y();
-    _z = v3d.z();
-    _w = w;
+    _data[0] = v3d.x();
+    _data[1] = v3d.y();
+    _data[2] = v3d.z();
+    _data[3] = w;
 }
 
 Vector4D::Vector4D(Vector2D v2d, double z, double w) {
-    _x = v2d.x();
-    _y = v2d.y();
-    _z = z;
-    _w = w;
+    _data[0] = v2d.x();
+    _data[1] = v2d.y();
+    _data[2] = z;
+    _data[3] = w;
 }
 
 double Vector4D::length() const {
-    return sqrt(_x * _x + _y * _y + _z *_z + _w * _w);
+    return sqrt(_data[0] * _data[0] + _data[1] * _data[1] + _data[2] *_data[2] + _data[3] * _data[3]);
 }
 
 Vector4D& Vector4D::normalize() {
     double _length = length();
     if(_length > 0) {
-        _x /= _length;
-        _y /= _length;
-        _z /= _length;
-        _w /= _length;
+        _data[0] /= _length;
+        _data[1] /= _length;
+        _data[2] /= _length;
+        _data[3] /= _length;
     }
     return *this;
 }
 
 Vector4D& Vector4D::operator= (const Vector4D& other) {
   if(this != &other) {
-      _x = other._x;
-      _y = other._y;
-      _z = other._z;
-      _w = other._w;
+      _data[0] = other._data[0];
+      _data[1] = other._data[1];
+      _data[2] = other._data[2];
+      _data[3] = other._data[3];
   }
   return *this;
 }
 
 Vector4D Vector4D::operator* (double scalar) const {
     Vector4D result;
-    result._x = this->_x * scalar;
-    result._y = this->_y * scalar;
-    result._z = this->_z * scalar;
-    result._w = this->_w * scalar;
+    result._data[0] = this->_data[0] * scalar;
+    result._data[1] = this->_data[1] * scalar;
+    result._data[2] = this->_data[2] * scalar;
+    result._data[3] = this->_data[3] * scalar;
     return result;
 }
 
 Vector4D Vector4D::operator+ (const Vector4D& other) const {
     Vector4D result;
-    result._x = this->_x + other._x;
-    result._y = this->_y + other._y;
-    result._z = this->_z + other._z;
-    result._w = this->_w + other._w;
+    result._data[0] = this->_data[0] + other._data[0];
+    result._data[1] = this->_data[1] + other._data[1];
+    result._data[2] = this->_data[2] + other._data[2];
+    result._data[3] = this->_data[3] + other._data[3];
     return result;
 }
 
 Vector4D& Vector4D::operator+= (const Vector4D& other) {
-    this->_x += other._x;
-    this->_y += other._y;
-    this->_z += other._z;
-    this->_w += other._w;
+    this->_data[0] += other._data[0];
+    this->_data[1] += other._data[1];
+    this->_data[2] += other._data[2];
+    this->_data[3] += other._data[3];
     return *this;
 }
 
 Vector4D Vector4D::operator- (const Vector4D& other) const {
     Vector4D result;
-    result._x = this->_x - other._x;
-    result._y = this->_y - other._y;
-    result._z = this->_z - other._z;
-    result._w = this->_w - other._w;
+    result._data[0] = this->_data[0] - other._data[0];
+    result._data[1] = this->_data[1] - other._data[1];
+    result._data[2] = this->_data[2] - other._data[2];
+    result._data[3] = this->_data[3] - other._data[3];
     return result;
 }
 
 Vector4D Vector4D::operator- () const {
     Vector4D result;
-    result._x = -this->_x;
-    result._y = -this->_y;
-    result._z = -this->_z;
-    result._w = -this->_w;
+    result._data[0] = -this->_data[0];
+    result._data[1] = -this->_data[1];
+    result._data[2] = -this->_data[2];
+    result._data[3] = -this->_data[3];
     return result;
 }
 
 Vector4D& Vector4D::operator-= (const Vector4D& other) {
-    _x -= other._x;
-    _y -= other._y;
-    _z -= other._z;
-    _w -= other._w;
+    _data[0] -= other._data[0];
+    _data[1] -= other._data[1];
+    _data[2] -= other._data[2];
+    _data[3] -= other._data[3];
     return *this;
 }
 
 
 Vector3D Vector4D::toVector3D(bool divideByW) {
     if(divideByW) {
-        return Vector3D(_x / _w, _y / _w, _z / _w);
+        return Vector3D(_data[0] / _data[3], _data[1] / _data[3], _data[2] / _data[3]);
     } else {
-        return Vector3D(_x, _y, _z);
+        return Vector3D(_data[0], _data[1], _data[2]);
     }
 }
 
@@ -144,10 +144,10 @@ QString Vector4D::className() {
 QJsonObject Vector4D::serialize() {
     QJsonObject jsonObject;
     jsonObject["class"] = className();
-    jsonObject["x"] = (double)_x;
-    jsonObject["y"] = (double)_y;
-    jsonObject["z"] = (double)_z;
-    jsonObject["w"] = (double)_w;
+    jsonObject["x"] = (double)_data[0];
+    jsonObject["y"] = (double)_data[1];
+    jsonObject["z"] = (double)_data[2];
+    jsonObject["w"] = (double)_data[3];
     return jsonObject;
 }
 
@@ -162,10 +162,10 @@ bool Vector4D::deserialize(QJsonObject jsonObject) {
     && jsonObject.contains("z")
     && jsonObject.contains("w")) {
         if(jsonObject["class"] == className()) {
-            _x = (double)jsonObject["x"].toDouble();
-            _y = (double)jsonObject["y"].toDouble();
-            _z = (double)jsonObject["z"].toDouble();
-            _w = (double)jsonObject["w"].toDouble();
+            _data[0] = (double)jsonObject["x"].toDouble();
+            _data[1] = (double)jsonObject["y"].toDouble();
+            _data[2] = (double)jsonObject["z"].toDouble();
+            _data[3] = (double)jsonObject["w"].toDouble();
             _deserializationError = Serializable::NoError;
             return true;
         } else {
@@ -176,6 +176,42 @@ bool Vector4D::deserialize(QJsonObject jsonObject) {
         _deserializationError = Serializable::MissingElements;
         return false;
     }
+}
+
+double *Vector4D::data() {
+    return _data;
+}
+
+double Vector4D::x() {
+    return _data[0];
+}
+
+double Vector4D::y() {
+    return _data[1];
+}
+
+double Vector4D::z() {
+    return _data[2];
+}
+
+double Vector4D::w() {
+    return _data[3];
+}
+
+void Vector4D::setX(double x) {
+    _data[0] = x;
+}
+
+void Vector4D::setY(double y) {
+    _data[1] = y;
+}
+
+void Vector4D::setZ(double z) {
+    _data[2] = z;
+}
+
+void Vector4D::setW(double w) {
+    _data[3] = w;
 }
 
 } // namespace Glee3D

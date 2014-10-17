@@ -23,6 +23,8 @@
 
 // Qt includes
 #include <QFile>
+#include <QRegExp>
+#include <QStringList>
 
 namespace Glee3D {
 

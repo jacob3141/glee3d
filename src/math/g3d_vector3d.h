@@ -23,12 +23,7 @@
 
 // Own includes
 #include "io/g3d_serializable.h"
-
-// Qt includes
-#include <QDebug>
-
-// C++ includes
-#include <math.h>
+#include "math/g3d_vector2d.h"
 
 namespace Glee3D {
 
@@ -41,6 +36,7 @@ class Vector3D : public Serializable {
 public:
     Vector3D();
     Vector3D(double x, double y, double z);
+    Vector3D(Vector2D v2d, double z);
 
     double length() const;
     Vector3D& normalize();

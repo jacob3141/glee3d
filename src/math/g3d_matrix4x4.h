@@ -146,6 +146,8 @@ public:
                             Vector3D yAxis,
                             Vector3D zAxis);
 
+    Matrix4x4& withRotation(double angle, Vector3D around);
+
     /**
      * Creates a translation matrix with the given value and multiplies
      * it on this matrix.

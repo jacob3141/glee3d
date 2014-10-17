@@ -116,10 +116,10 @@ Matrix4x4 Matrix4x4::multiplicate(Matrix4x4 with) {
 Vector4D Matrix4x4::multiplicate(Vector4D with) {
     Vector4D result;
 
-    result._x = with._x * _data[0] + with._y * _data[4] + with._z * _data[8] + with._w * _data[12];
-    result._y = with._x * _data[1] + with._y * _data[5] + with._z * _data[9] + with._w * _data[13];
-    result._z = with._x * _data[2] + with._y * _data[6] + with._z * _data[10] + with._w * _data[14];
-    result._w = with._x * _data[3] + with._y * _data[7] + with._z * _data[11] + with._w * _data[15];
+    result.setX(with.x() * _data[0] + with.y() * _data[4] + with.z() * _data[8] + with.w() * _data[12]);
+    result.setY(with.x() * _data[1] + with.y() * _data[5] + with.z() * _data[9] + with.w() * _data[13]);
+    result.setZ(with.x() * _data[2] + with.y() * _data[6] + with.z() * _data[10] + with.w() * _data[14]);
+    result.setW(with.x() * _data[3] + with.y() * _data[7] + with.z() * _data[11] + with.w() * _data[15]);
 
     return result;
 }
@@ -237,6 +237,38 @@ Matrix4x4& Matrix4x4::withRotation(Vector3D xAxis,
     rotationMatrix.setXAxis(xAxis);
     rotationMatrix.setYAxis(yAxis);
     rotationMatrix.setZAxis(zAxis);
+    return (*this) = multiplicate(rotationMatrix);
+}
+
+Matrix4x4& Matrix4x4::withRotation(double angle, Vector3D around) {
+    double angleInRadians = angle * M_PI / 180.0;
+
+    double s = sin(angleInRadians);
+    double c = cos(angleInRadians);
+
+    around.normalize();
+
+    double xy = around.x() * around.y();
+    double yz = around.y() * around.z();
+    double zx = around.z() * around.x();
+
+    double xs = around.x() * s;
+    double ys = around.y() * s;
+    double zs = around.z() * s;
+
+    Matrix4x4 rotationMatrix;
+    rotationMatrix._data[0] = ((1.0 - c) * around.x() * around.x()) + c;
+    rotationMatrix._data[1] = ((1.0 - c) * xy) + zs;
+    rotationMatrix._data[2] = ((1.0 - c) * zx) - ys;
+
+    rotationMatrix._data[4] = ((1.0 - c) * xy) - zs;
+    rotationMatrix._data[5] = ((1.0 - c) * around.y() * around.y()) + c;
+    rotationMatrix._data[6] = ((1.0 - c) * yz) + xs;
+
+    rotationMatrix._data[8] = ((1.0 - c) * zx) + ys;
+    rotationMatrix._data[9] = ((1.0 - c) * yz) - xs;
+    rotationMatrix._data[10] = ((1.0 - c) * around.z() * around.z()) + c;
+
     return (*this) = multiplicate(rotationMatrix);
 }
 

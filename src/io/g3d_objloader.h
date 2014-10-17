@@ -23,6 +23,7 @@
 
 // Own includes
 #include "core/g3d_mesh.h"
+#include <math.h>
 
 // Qt includes
 #include <QString>

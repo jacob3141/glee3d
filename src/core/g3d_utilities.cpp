@@ -108,17 +108,17 @@ bool Utilities::unproject(Vector3D window,
     Vector4D in(window, 1.0);
 
     /* Map x and y from window coordinates */
-    in._x = (in._x - viewport[0]) / viewport[2];
-    in._y = (in._y - viewport[1]) / viewport[3];
+    in.setX((in.x() - viewport[0]) / viewport[2]);
+    in.setY((in.y() - viewport[1]) / viewport[3]);
 
     /* Map to range -1 to 1 */
-    in._x = in._x * 2.0 - 1.0;
-    in._y = in._y * 2.0 - 1.0;
-    in._z = in._z * 2.0 - 1.0;
+    in.setX(in.x() * 2.0 - 1.0);
+    in.setY(in.y() * 2.0 - 1.0);
+    in.setZ(in.z() * 2.0 - 1.0);
 
     Vector4D out = invertedMatrix.multiplicate(in);
 
-    if(out._w == 0.0) {
+    if(out.w() == 0.0) {
         return false;
     }
 

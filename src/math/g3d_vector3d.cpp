@@ -21,6 +21,9 @@
 // Own includes
 #include "g3d_vector3d.h"
 
+// Standard includes
+#include <math.h>
+
 namespace Glee3D {
 
 Vector3D::Vector3D() {
@@ -32,6 +35,13 @@ Vector3D::Vector3D() {
 Vector3D::Vector3D(double x, double y, double z) {
     _data[0] = x;
     _data[1] = y;
+    _data[2] = z;
+}
+
+
+Vector3D::Vector3D(Vector2D v2d, double z) {
+    _data[0] = v2d.x();
+    _data[1] = v2d.y();
     _data[2] = z;
 }
 
