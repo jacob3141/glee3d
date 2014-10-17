@@ -199,9 +199,9 @@ void Matrix4x4::setXAxis(Vector3D axis) {
 }
 
 void Matrix4x4::setLeft(Vector3D left) {
-    _data[0] = left._x;
-    _data[4] = left._y;
-    _data[8] = left._z;
+    _data[0] = left.x();
+    _data[4] = left.y();
+    _data[8] = left.z();
 }
 
 void Matrix4x4::setYAxis(Vector3D axis) {
@@ -209,9 +209,9 @@ void Matrix4x4::setYAxis(Vector3D axis) {
 }
 
 void Matrix4x4::setUp(Vector3D up) {
-    _data[1] = up._x;
-    _data[5] = up._y;
-    _data[9] = up._z;
+    _data[1] = up.x();
+    _data[5] = up.y();
+    _data[9] = up.z();
 }
 
 void Matrix4x4::setZAxis(Vector3D axis) {
@@ -219,15 +219,15 @@ void Matrix4x4::setZAxis(Vector3D axis) {
 }
 
 void Matrix4x4::setForward(Vector3D forward) {
-    _data[2] = forward._x;
-    _data[6] = forward._y;
-    _data[10] = forward._z;
+    _data[2] = forward.x();
+    _data[6] = forward.y();
+    _data[10] = forward.z();
 }
 
 void Matrix4x4::setTranslation(Vector3D translation) {
-    _data[12] = translation._x;
-    _data[13] = translation._y;
-    _data[14] = translation._z;
+    _data[12] = translation.x();
+    _data[13] = translation.y();
+    _data[14] = translation.z();
 }
 
 Matrix4x4& Matrix4x4::withRotation(Vector3D xAxis,

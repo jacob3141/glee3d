@@ -175,9 +175,9 @@ namespace Glee3D {
                 if(s) {
                     MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
                     glMatrixMode(GL_MODELVIEW);
-                    glTranslated(_activeCamera->position()._x,
-                                 _activeCamera->position()._y,
-                                 _activeCamera->position()._z);
+                    glTranslated(_activeCamera->position().x(),
+                                 _activeCamera->position().y(),
+                                 _activeCamera->position().z());
                     s->render();
                 }
 

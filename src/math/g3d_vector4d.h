@@ -23,6 +23,8 @@
 
 // Own includes
 #include "io/g3d_serializable.h"
+#include "math/g3d_vector2d.h"
+#include "math/g3d_vector3d.h"
 
 // C++ includes
 #include <math.h>
@@ -38,6 +40,8 @@ class Vector4D : public Serializable {
 public:
     Vector4D();
     Vector4D(double x, double y, double z, double w);
+    Vector4D(Vector3D v3d, double w = 1.0);
+    Vector4D(Vector2D v2d, double z = 0.0, double w = 1.0);
 
     double length() const;
     Vector4D& normalize();
@@ -48,6 +52,8 @@ public:
     Vector4D operator- (const Vector4D& other) const;
     Vector4D operator- () const ;
     Vector4D& operator-= (const Vector4D& other);
+
+    Vector3D toVector3D(bool divideByW = true);
 
     QString className();
     QJsonObject serialize();

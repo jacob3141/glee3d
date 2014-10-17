@@ -74,15 +74,15 @@ namespace Glee3D {
             int i2 = mesh->_triangles[i]._indices[1];
             int i3 = mesh->_triangles[i]._indices[2];
 
-            _vertices[i * 9 + 0] = mesh->_vertices[i1]._x;
-            _vertices[i * 9 + 1] = mesh->_vertices[i1]._y;
-            _vertices[i * 9 + 2] = mesh->_vertices[i1]._z;
-            _vertices[i * 9 + 3] = mesh->_vertices[i2]._x;
-            _vertices[i * 9 + 4] = mesh->_vertices[i2]._y;
-            _vertices[i * 9 + 5] = mesh->_vertices[i2]._z;
-            _vertices[i * 9 + 6] = mesh->_vertices[i3]._x;
-            _vertices[i * 9 + 7] = mesh->_vertices[i3]._y;
-            _vertices[i * 9 + 8] = mesh->_vertices[i3]._z;
+            _vertices[i * 9 + 0] = mesh->_vertices[i1].x();
+            _vertices[i * 9 + 1] = mesh->_vertices[i1].y();
+            _vertices[i * 9 + 2] = mesh->_vertices[i1].z();
+            _vertices[i * 9 + 3] = mesh->_vertices[i2].x();
+            _vertices[i * 9 + 4] = mesh->_vertices[i2].y();
+            _vertices[i * 9 + 5] = mesh->_vertices[i2].z();
+            _vertices[i * 9 + 6] = mesh->_vertices[i3].x();
+            _vertices[i * 9 + 7] = mesh->_vertices[i3].y();
+            _vertices[i * 9 + 8] = mesh->_vertices[i3].z();
 
             _texCoords[i * 6 + 0] = mesh->_textureCoordinates[i1].x();
             _texCoords[i * 6 + 1] = mesh->_textureCoordinates[i1].y();
@@ -91,15 +91,15 @@ namespace Glee3D {
             _texCoords[i * 6 + 4] = mesh->_textureCoordinates[i3].x();
             _texCoords[i * 6 + 5] = mesh->_textureCoordinates[i3].y();
 
-            _normals[i * 9 + 0] = vertexJointNormal[i1]._x;
-            _normals[i * 9 + 1] = vertexJointNormal[i1]._y;
-            _normals[i * 9 + 2] = vertexJointNormal[i1]._z;
-            _normals[i * 9 + 3] = vertexJointNormal[i2]._x;
-            _normals[i * 9 + 4] = vertexJointNormal[i2]._y;
-            _normals[i * 9 + 5] = vertexJointNormal[i2]._z;
-            _normals[i * 9 + 6] = vertexJointNormal[i3]._x;
-            _normals[i * 9 + 7] = vertexJointNormal[i3]._y;
-            _normals[i * 9 + 8] = vertexJointNormal[i3]._z;
+            _normals[i * 9 + 0] = vertexJointNormal[i1].x();
+            _normals[i * 9 + 1] = vertexJointNormal[i1].y();
+            _normals[i * 9 + 2] = vertexJointNormal[i1].z();
+            _normals[i * 9 + 3] = vertexJointNormal[i2].x();
+            _normals[i * 9 + 4] = vertexJointNormal[i2].y();
+            _normals[i * 9 + 5] = vertexJointNormal[i2].z();
+            _normals[i * 9 + 6] = vertexJointNormal[i3].x();
+            _normals[i * 9 + 7] = vertexJointNormal[i3].y();
+            _normals[i * 9 + 8] = vertexJointNormal[i3].z();
         }
 
         postCompile();

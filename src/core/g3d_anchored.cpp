@@ -42,6 +42,6 @@ namespace Glee3D {
     }
 
     void Anchored::applyTranslation() {
-        glTranslated(_position._x, _position._y, _position._z);
+        glTranslated(_position.x(), _position.y(), _position.z());
     }
 } // namespace Glee3D

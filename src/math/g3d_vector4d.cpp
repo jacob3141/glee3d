@@ -37,6 +37,20 @@ Vector4D::Vector4D(double x, double y, double z, double w) {
     _w = w;
 }
 
+Vector4D::Vector4D(Vector3D v3d, double w) {
+    _x = v3d.x();
+    _y = v3d.y();
+    _z = v3d.z();
+    _w = w;
+}
+
+Vector4D::Vector4D(Vector2D v2d, double z, double w) {
+    _x = v2d.x();
+    _y = v2d.y();
+    _z = z;
+    _w = w;
+}
+
 double Vector4D::length() const {
     return sqrt(_x * _x + _y * _y + _z *_z + _w * _w);
 }
@@ -112,6 +126,15 @@ Vector4D& Vector4D::operator-= (const Vector4D& other) {
     _z -= other._z;
     _w -= other._w;
     return *this;
+}
+
+
+Vector3D Vector4D::toVector3D(bool divideByW) {
+    if(divideByW) {
+        return Vector3D(_x / _w, _y / _w, _z / _w);
+    } else {
+        return Vector3D(_x, _y, _z);
+    }
 }
 
 QString Vector4D::className() {

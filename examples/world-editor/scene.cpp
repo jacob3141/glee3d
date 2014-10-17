@@ -114,27 +114,27 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
     }
 
     if(keyStatusMap[Qt::Key_E]) {
-        activeCamera->move(Glee3D::Vector3D(0.0, -0.2 * activeCamera->position()._y, 0.0));
+        activeCamera->move(Glee3D::Vector3D(0.0, -0.2 * activeCamera->position().y(), 0.0));
     }
 
     if(keyStatusMap[Qt::Key_Q]) {
-        activeCamera->move(Glee3D::Vector3D(0.0, 0.2 * activeCamera->position()._y, 0.0));
+        activeCamera->move(Glee3D::Vector3D(0.0, 0.2 * activeCamera->position().y(), 0.0));
     }
 
     if(keyStatusMap[Qt::Key_W]) {
-        activeCamera->move(Glee3D::Vector3D(0.0, 0.0, -0.1 * activeCamera->position()._y));
+        activeCamera->move(Glee3D::Vector3D(0.0, 0.0, -0.1 * activeCamera->position().y()));
     }
 
     if(keyStatusMap[Qt::Key_S]) {
-        activeCamera->move(Glee3D::Vector3D(0.0, 0.0, 0.1 * activeCamera->position()._y));
+        activeCamera->move(Glee3D::Vector3D(0.0, 0.0, 0.1 * activeCamera->position().y()));
     }
 
     if(keyStatusMap[Qt::Key_A]) {
-        activeCamera->move(Glee3D::Vector3D(-0.1 * activeCamera->position()._y, 0.0, 0.0));
+        activeCamera->move(Glee3D::Vector3D(-0.1 * activeCamera->position().y(), 0.0, 0.0));
     }
 
     if(keyStatusMap[Qt::Key_D]) {
-        activeCamera->move(Glee3D::Vector3D(0.1 * activeCamera->position()._y, 0.0, 0.0));
+        activeCamera->move(Glee3D::Vector3D(0.1 * activeCamera->position().y(), 0.0, 0.0));
     }
 
     activeCamera->setLookAt(activeCamera->position() + Glee3D::Vector3D(0, -2, -1));

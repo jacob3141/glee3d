@@ -61,9 +61,9 @@ namespace Glee3D {
                                     _specularLight._alpha };
         glLightfv(glLight, GL_SPECULAR, specularLight);
 
-        GLfloat position[] = { (GLfloat)_position._x,
-                               (GLfloat)_position._y,
-                               (GLfloat)_position._z,
+        GLfloat position[] = { (GLfloat)_position.x(),
+                               (GLfloat)_position.y(),
+                               (GLfloat)_position.z(),
                                1.0f };
         glLightfv(glLight, GL_POSITION, position);
 
@@ -72,9 +72,9 @@ namespace Glee3D {
             } break;
 
             case Spotlight: {
-                GLfloat spotDirection[] = { (GLfloat)_spotDirection._x,
-                                            (GLfloat)_spotDirection._y,
-                                            (GLfloat)_spotDirection._z,
+                GLfloat spotDirection[] = { (GLfloat)_spotDirection.x(),
+                                            (GLfloat)_spotDirection.y(),
+                                            (GLfloat)_spotDirection.z(),
                                             0.0f };
                 glLightfv(glLight, GL_SPOT_DIRECTION, spotDirection);
                 glLightf(glLight, GL_SPOT_CUTOFF, _spotCutoff);

@@ -176,9 +176,9 @@ namespace Glee3D {
                 _vertexBuffer[vtx(i, 2)] = (GLfloat)(y * _scale);
                 _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID;
                 _textureCoordinatesBuffer[tex(i, 1)] = 0.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n1._x;
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n1._y;
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n1._z;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n1.x();
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n1.y();
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n1.z();
                 i++;
 
                 //
@@ -187,9 +187,9 @@ namespace Glee3D {
                 _vertexBuffer[vtx(i, 2)] = (GLfloat)((y + 1) * _scale);
                 _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID;
                 _textureCoordinatesBuffer[tex(i, 1)] = 1.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n2._x;
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n2._y;
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n2._z;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n2.x();
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n2.y();
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n2.z();
                 i++;
 
                 //
@@ -198,9 +198,9 @@ namespace Glee3D {
                 _vertexBuffer[vtx(i, 2)] = (GLfloat)((y + 1) * _scale);
                 _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID + _tilingOffset;
                 _textureCoordinatesBuffer[tex(i, 1)] = 1.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n3._x;
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n3._y;
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n3._z;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n3.x();
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n3.y();
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n3.z();
                 i++;
 
                 //
@@ -209,9 +209,9 @@ namespace Glee3D {
                 _vertexBuffer[vtx(i, 2)] = (GLfloat)(y * _scale);
                 _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID + _tilingOffset;
                 _textureCoordinatesBuffer[tex(i, 1)] = 0.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n4._x;
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n4._y;
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n4._z;
+                _normalsBuffer[nml(i, 0)] = (GLfloat)n4.x();
+                _normalsBuffer[nml(i, 1)] = (GLfloat)n4.y();
+                _normalsBuffer[nml(i, 2)] = (GLfloat)n4.z();
                 i++;
             }
         }

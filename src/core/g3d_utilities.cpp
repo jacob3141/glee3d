@@ -105,12 +105,7 @@ bool Utilities::unproject(Vector3D window,
         return false;
     }
 
-    Vector4D in;
-
-    in._x = window._x;
-    in._y = window._y;
-    in._z = window._z;
-    in._w = 1.0;
+    Vector4D in(window, 1.0);
 
     /* Map x and y from window coordinates */
     in._x = (in._x - viewport[0]) / viewport[2];
@@ -127,10 +122,7 @@ bool Utilities::unproject(Vector3D window,
         return false;
     }
 
-    result._x = out._x / out._w;
-    result._y = out._y / out._w;
-    result._z = out._z / out._w;
-
+    result = out.toVector3D();
     return true;
 }
 

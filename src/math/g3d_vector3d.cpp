@@ -24,95 +24,95 @@
 namespace Glee3D {
 
 Vector3D::Vector3D() {
-    _x = 0.0;
-    _y = 0.0;
-    _z = 0.0;
+    _data[0] = 0.0;
+    _data[1] = 0.0;
+    _data[2] = 0.0;
 }
 
 Vector3D::Vector3D(double x, double y, double z) {
-    _x = x;
-    _y = y;
-    _z = z;
+    _data[0] = x;
+    _data[1] = y;
+    _data[2] = z;
 }
 
 double Vector3D::length() const {
-    return sqrt(_x * _x + _y * _y + _z *_z);
+    return sqrt(_data[0] * _data[0] + _data[1] * _data[1] + _data[2] *_data[2]);
 }
 
 Vector3D& Vector3D::normalize() {
     double _length = length();
     if(_length > 0) {
-        _x /= _length;
-        _y /= _length;
-        _z /= _length;
+        _data[0] /= _length;
+        _data[1] /= _length;
+        _data[2] /= _length;
     }
     return *this;
 }
 
 Vector3D Vector3D::crossProduct(const Vector3D& other) const {
     Vector3D result;
-    result._x = this->_y * other._z - this->_z * other._y;
-    result._y = this->_z * other._x - this->_x * other._z;
-    result._z = this->_x * other._y - this->_y * other._x;
+    result._data[0] = this->_data[1] * other._data[2] - this->_data[2] * other._data[1];
+    result._data[1] = this->_data[2] * other._data[0] - this->_data[0] * other._data[2];
+    result._data[2] = this->_data[0] * other._data[1] - this->_data[1] * other._data[0];
     return result;
 }
 
 double Vector3D::scalarProduct(const Vector3D& other) const {
-    return this->_x * other._x + this->_y * other._y + this->_z * other._z;
+    return this->_data[0] * other._data[0] + this->_data[1] * other._data[1] + this->_data[2] * other._data[2];
 }
 
 Vector3D& Vector3D::operator= (const Vector3D& other) {
   if(this != &other) {
-      _x = other._x;
-      _y = other._y;
-      _z = other._z;
+      _data[0] = other._data[0];
+      _data[1] = other._data[1];
+      _data[2] = other._data[2];
   }
   return *this;
 }
 
 Vector3D Vector3D::operator* (double scalar) const {
     Vector3D result;
-    result._x = this->_x * scalar;
-    result._y = this->_y * scalar;
-    result._z = this->_z * scalar;
+    result._data[0] = this->_data[0] * scalar;
+    result._data[1] = this->_data[1] * scalar;
+    result._data[2] = this->_data[2] * scalar;
     return result;
 }
 
 Vector3D Vector3D::operator+ (const Vector3D& other) const {
     Vector3D result;
-    result._x = this->_x + other._x;
-    result._y = this->_y + other._y;
-    result._z = this->_z + other._z;
+    result._data[0] = this->_data[0] + other._data[0];
+    result._data[1] = this->_data[1] + other._data[1];
+    result._data[2] = this->_data[2] + other._data[2];
     return result;
 }
 
 Vector3D& Vector3D::operator+= (const Vector3D& other) {
-    this->_x += other._x;
-    this->_y += other._y;
-    this->_z += other._z;
+    this->_data[0] += other._data[0];
+    this->_data[1] += other._data[1];
+    this->_data[2] += other._data[2];
     return *this;
 }
 
 Vector3D Vector3D::operator- (const Vector3D& other) const {
     Vector3D result;
-    result._x = this->_x - other._x;
-    result._y = this->_y - other._y;
-    result._z = this->_z - other._z;
+    result._data[0] = this->_data[0] - other._data[0];
+    result._data[1] = this->_data[1] - other._data[1];
+    result._data[2] = this->_data[2] - other._data[2];
     return result;
 }
 
 Vector3D Vector3D::operator- () const {
     Vector3D result;
-    result._x = -this->_x;
-    result._y = -this->_y;
-    result._z = -this->_z;
+    result._data[0] = -this->_data[0];
+    result._data[1] = -this->_data[1];
+    result._data[2] = -this->_data[2];
     return result;
 }
 
 Vector3D& Vector3D::operator-= (const Vector3D& other) {
-    _x -= other._x;
-    _y -= other._y;
-    _z -= other._z;
+    _data[0] -= other._data[0];
+    _data[1] -= other._data[1];
+    _data[2] -= other._data[2];
     return *this;
 }
 
@@ -123,9 +123,9 @@ QString Vector3D::className() {
 QJsonObject Vector3D::serialize() {
     QJsonObject jsonObject;
     jsonObject["class"] = className();
-    jsonObject["x"] = (double)_x;
-    jsonObject["y"] = (double)_y;
-    jsonObject["z"] = (double)_z;
+    jsonObject["x"] = (double)_data[0];
+    jsonObject["y"] = (double)_data[1];
+    jsonObject["z"] = (double)_data[2];
     return jsonObject;
 }
 
@@ -139,9 +139,9 @@ bool Vector3D::deserialize(QJsonObject jsonObject) {
     && jsonObject.contains("y")
     && jsonObject.contains("z")) {
         if(jsonObject["class"] == className()) {
-            _x = (double)jsonObject["x"].toDouble();
-            _y = (double)jsonObject["y"].toDouble();
-            _z = (double)jsonObject["z"].toDouble();
+            _data[0] = (double)jsonObject["x"].toDouble();
+            _data[1] = (double)jsonObject["y"].toDouble();
+            _data[2] = (double)jsonObject["z"].toDouble();
             _deserializationError = Serializable::NoError;
             return true;
         } else {
@@ -152,6 +152,34 @@ bool Vector3D::deserialize(QJsonObject jsonObject) {
         _deserializationError = Serializable::MissingElements;
         return false;
     }
+}
+
+double *Vector3D::data() {
+    return _data;
+}
+
+double Vector3D::x() {
+    return _data[0];
+}
+
+double Vector3D::y() {
+    return _data[1];
+}
+
+double Vector3D::z() {
+    return _data[2];
+}
+
+void Vector3D::setX(double x) {
+    _data[0] = x;
+}
+
+void Vector3D::setY(double y) {
+    _data[1] = y;
+}
+
+void Vector3D::setZ(double z) {
+    _data[2] = z;
 }
 
 } // namespace Glee3D

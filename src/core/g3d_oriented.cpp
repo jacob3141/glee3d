@@ -45,31 +45,31 @@ namespace Glee3D {
         // Rotate identity with the current rotation values
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        glRotated(_rotation._x, 1.0, 0.0, 0.0);
-        glRotated(_rotation._y, 0.0, 1.0, 0.0);
-        glRotated(_rotation._z, 0.0, 0.0, 1.0);
+        glRotated(_rotation.x(), 1.0, 0.0, 0.0);
+        glRotated(_rotation.y(), 0.0, 1.0, 0.0);
+        glRotated(_rotation.z(), 0.0, 0.0, 1.0);
 
         // Apply new rotation
-        glRotated(delta._x, 1.0, 0.0, 0.0);
-        glRotated(delta._y, 0.0, 1.0, 0.0);
-        glRotated(delta._z, 0.0, 0.0, 1.0);
+        glRotated(delta.x(), 1.0, 0.0, 0.0);
+        glRotated(delta.y(), 0.0, 1.0, 0.0);
+        glRotated(delta.z(), 0.0, 0.0, 1.0);
 
         // Extract results back into our rotation values
         float m[16];
         glGetFloatv(GL_MODELVIEW_MATRIX , m);
 
-        _rotation._y = asin(m[8]) * 180.0 / M_PI;
-        if( _rotation._y < 90.0 ) {
-            if( _rotation._y > -90.0 ) {
-                _rotation._x = atan2(-m[9], m[10]) * 180.0 / M_PI;
-                _rotation._z = atan2(-m[4], m[0]) * 180.0 / M_PI;
+        _rotation.setY(asin(m[8]) * 180.0 / M_PI);
+        if( _rotation.y() < 90.0 ) {
+            if( _rotation.y() > -90.0 ) {
+                _rotation.setX(atan2(-m[9], m[10]) * 180.0 / M_PI);
+                _rotation.setZ(atan2(-m[4], m[0]) * 180.0 / M_PI);
             } else {
-                _rotation._x = -atan2(m[1], m[5]) * 180.0 / M_PI;
-                _rotation._z = 0;
+                _rotation.setX(-atan2(m[1], m[5]) * 180.0 / M_PI);
+                _rotation.setZ(0.0);
             }
         } else {
-            _rotation._x = atan2(m[1], m[5])*180.0 / M_PI;
-            _rotation._z = 0;
+            _rotation.setX(atan2(m[1], m[5])*180.0 / M_PI);
+            _rotation.setZ(0.0);
         }
 
         // Restore modelview matrix state
@@ -88,32 +88,32 @@ namespace Glee3D {
     Vector3D Oriented::frontVector() {
         // TODO: This method is broken and needs a rewrite.
         Vector3D result;
-        double rot_x = _rotation._x * 2 * M_PI / 360.0;
-        double rot_y = _rotation._y * 2 * M_PI / 360.0;
+        double rot_x = _rotation.x() * 2 * M_PI / 360.0;
+        double rot_y = _rotation.y() * 2 * M_PI / 360.0;
 
-        result._x = sin(rot_y);
-        result._y = - sin(rot_x) * cos(rot_y);
-        result._z = cos(rot_x) * cos(rot_y);
+        result.setX(sin(rot_y));
+        result.setY(- sin(rot_x) * cos(rot_y));
+        result.setZ(cos(rot_x) * cos(rot_y));
         return result;
     }
 
     Vector3D Oriented::upVector() {
         // TODO: This method is broken and needs a rewrite.
         Vector3D result;
-        double rot_x = _rotation._x * 2 * M_PI / 360.0;
-        double rot_y = _rotation._y * 2 * M_PI / 360.0;
-        double rot_z = _rotation._z * 2 * M_PI / 360.0;
+        double rot_x = _rotation.x() * 2 * M_PI / 360.0;
+        double rot_y = _rotation.y() * 2 * M_PI / 360.0;
+        double rot_z = _rotation.z() * 2 * M_PI / 360.0;
 
-        result._x = - cos(rot_y) * sin(rot_z);
-        result._y = - sin(rot_z) * sin(rot_y) * sin(rot_x) + cos(rot_x) * cos(rot_z);
-        result._z =   cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x);
+        result.setX(- cos(rot_y) * sin(rot_z));
+        result.setY(- sin(rot_z) * sin(rot_y) * sin(rot_x) + cos(rot_x) * cos(rot_z));
+        result.setZ(cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x));
         return result;
     }
 
     void Oriented::applyRotation() {
-        glRotated(_rotation._x, 1.0, 0.0, 0.0);
-        glRotated(_rotation._y, 0.0, 1.0, 0.0);
-        glRotated(_rotation._z, 0.0, 0.0, 1.0);
+        glRotated(_rotation.x(), 1.0, 0.0, 0.0);
+        glRotated(_rotation.y(), 0.0, 1.0, 0.0);
+        glRotated(_rotation.z(), 0.0, 0.0, 1.0);
     }
 
 } // namespace Glee3D
