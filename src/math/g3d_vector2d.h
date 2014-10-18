@@ -54,7 +54,7 @@ public:
     QJsonObject serialize();
     bool deserialize(QJsonObject jsonObject);
 
-    double *data();
+    double *glDataPointer();
 
     double x();
     double y();

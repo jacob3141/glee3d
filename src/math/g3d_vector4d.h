@@ -38,6 +38,11 @@ namespace Glee3D {
   */
 class Vector4D : public Serializable {
 public:
+    enum ConversionMode {
+        DivideByW,
+        IgnoreW
+    };
+
     Vector4D();
     Vector4D(double x, double y, double z, double w);
     Vector4D(Vector3D v3d, double w = 1.0);
@@ -53,13 +58,13 @@ public:
     Vector4D operator- () const ;
     Vector4D& operator-= (const Vector4D& other);
 
-    Vector3D toVector3D(bool divideByW = true);
+    Vector3D toVector3D(ConversionMode conversionMode = DivideByW);
 
     QString className();
     QJsonObject serialize();
     bool deserialize(QJsonObject jsonObject);
 
-    double *data();
+    double *glDataPointer();
 
     double x();
     double y();

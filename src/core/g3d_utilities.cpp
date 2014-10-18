@@ -50,7 +50,7 @@ Matrix4x4 Utilities::frustum(
     double near,
     double far) {
     Matrix4x4 perspectiveMatrix;
-    double *data = perspectiveMatrix.data();
+    double *data = perspectiveMatrix.glDataPointer();
     data[0]  = 2.0 * near / (right - left);
     data[5]  = 2.0 * near / (top - bottom);
     data[8]  = (right + left) / (right - left);
@@ -70,7 +70,7 @@ Matrix4x4 Utilities::ortho(
     double near,
     double far) {
     Matrix4x4 perspectiveMatrix;
-    double *data = perspectiveMatrix.data();
+    double *data = perspectiveMatrix.glDataPointer();
     data[0]  = 2.0 / (right - left);
     data[5]  = 2.0 / (top - bottom);
     data[10] = -2.0 / (far - near);
@@ -124,6 +124,10 @@ bool Utilities::unproject(Vector3D window,
 
     result = out.toVector3D();
     return true;
+}
+
+double Utilities::limitDegrees(double value) {
+    return value > 360.0 ? value - 360.0 : (value < 0.0 ? value + 360.0 : value);
 }
 
 } // namespace Glee3D

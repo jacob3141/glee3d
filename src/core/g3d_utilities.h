@@ -94,6 +94,8 @@ public:
                           Matrix4x4 projectionMatrix,
                           const int viewport[4],
                           Vector3D &result);
+
+    static double limitDegrees(double value);
 };
 
 } // namespace Glee3D

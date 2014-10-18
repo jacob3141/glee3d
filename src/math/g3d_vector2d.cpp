@@ -155,7 +155,7 @@ bool Vector2D::deserialize(QJsonObject jsonObject) {
     }
 }
 
-double *Vector2D::data() {
+double *Vector2D::glDataPointer() {
     return _data;
 }
 

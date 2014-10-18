@@ -88,7 +88,7 @@ public:
      * this is unsafe to do and should be avoided only if you know what you're doing
      * and/or you provide your own error checking code.
      */
-    double *data();
+    double *glDataPointer();
 
     /**
      * Sets the x axis in a right-handed coordinate system.
@@ -130,8 +130,8 @@ public:
     void setTranslation(Vector3D translation);
 
     /**
-     * Creates a rotation matrix with the given values and multiplies
-     * it on this matrix.
+     * Creates a rotation matrix calculated from a base. That means that
+     * it will rotate relative to the identity.
      * @attention Please understand that consecutive operations will be
      * processed in reverse order, ie. the action you apply last will be
      * executed first. If you have a translation T and a rotation R and
@@ -146,7 +146,14 @@ public:
                             Vector3D yAxis,
                             Vector3D zAxis);
 
-    Matrix4x4& withRotation(double angle, Vector3D around);
+    /**
+     * Creates a rotation matrix calculated from a rotational axis and
+     * an angle.
+     * @param angle The rotation angle in degrees.
+     * @param axis The rotational axis.
+     * @return
+     */
+    Matrix4x4& withRotation(double angle, Vector3D axis);
 
     /**
      * Creates a translation matrix with the given value and multiplies

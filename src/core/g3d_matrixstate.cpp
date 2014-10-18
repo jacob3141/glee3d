@@ -50,19 +50,19 @@ namespace Glee3D {
 
     void MatrixState::save(int dataType) {
         if(dataType & Modelview) {
-            glGetDoublev(GL_MODELVIEW_MATRIX, _modelviewMatrix.data());
+            glGetDoublev(GL_MODELVIEW_MATRIX, _modelviewMatrix.glDataPointer());
         }
 
         if(dataType & Projection) {
-            glGetDoublev(GL_PROJECTION_MATRIX, _projectionMatrix.data());
+            glGetDoublev(GL_PROJECTION_MATRIX, _projectionMatrix.glDataPointer());
         }
 
         if(dataType & Texture) {
-            glGetDoublev(GL_TEXTURE_MATRIX, _textureMatrix.data());
+            glGetDoublev(GL_TEXTURE_MATRIX, _textureMatrix.glDataPointer());
         }
 
         if(dataType & Color) {
-            glGetDoublev(GL_COLOR_MATRIX, _colorMatrix.data());
+            glGetDoublev(GL_COLOR_MATRIX, _colorMatrix.glDataPointer());
         }
 
         if(dataType & Mode) {
@@ -76,22 +76,22 @@ namespace Glee3D {
 
         if(dataType & Modelview) {
             glMatrixMode(GL_MODELVIEW);
-            glLoadMatrixd(_modelviewMatrix.data());
+            glLoadMatrixd(_modelviewMatrix.glDataPointer());
         }
 
         if(dataType & Projection) {
             glMatrixMode(GL_PROJECTION);
-            glLoadMatrixd(_projectionMatrix.data());
+            glLoadMatrixd(_projectionMatrix.glDataPointer());
         }
 
         if(dataType & Texture) {
             glMatrixMode(GL_TEXTURE);
-            glLoadMatrixd(_textureMatrix.data());
+            glLoadMatrixd(_textureMatrix.glDataPointer());
         }
 
         if(dataType & Color) {
             glMatrixMode(GL_COLOR);
-            glLoadMatrixd(_colorMatrix.data());
+            glLoadMatrixd(_colorMatrix.glDataPointer());
         }
 
         if(dataType & Mode) {

@@ -190,7 +190,7 @@ void Matrix4x4::setValue(int row, int column, double value) {
     _data[column * 4 + row] = value;
 }
 
-double *Matrix4x4::data() {
+double *Matrix4x4::glDataPointer() {
     return _data;
 }
 
@@ -240,34 +240,34 @@ Matrix4x4& Matrix4x4::withRotation(Vector3D xAxis,
     return (*this) = multiplicate(rotationMatrix);
 }
 
-Matrix4x4& Matrix4x4::withRotation(double angle, Vector3D around) {
+Matrix4x4& Matrix4x4::withRotation(double angle, Vector3D axis) {
     double angleInRadians = angle * M_PI / 180.0;
 
     double s = sin(angleInRadians);
     double c = cos(angleInRadians);
 
-    around.normalize();
+    axis.normalize();
 
-    double xy = around.x() * around.y();
-    double yz = around.y() * around.z();
-    double zx = around.z() * around.x();
+    double xy = axis.x() * axis.y();
+    double yz = axis.y() * axis.z();
+    double zx = axis.z() * axis.x();
 
-    double xs = around.x() * s;
-    double ys = around.y() * s;
-    double zs = around.z() * s;
+    double xs = axis.x() * s;
+    double ys = axis.y() * s;
+    double zs = axis.z() * s;
 
     Matrix4x4 rotationMatrix;
-    rotationMatrix._data[0] = ((1.0 - c) * around.x() * around.x()) + c;
+    rotationMatrix._data[0] = ((1.0 - c) * axis.x() * axis.x()) + c;
     rotationMatrix._data[1] = ((1.0 - c) * xy) + zs;
     rotationMatrix._data[2] = ((1.0 - c) * zx) - ys;
 
     rotationMatrix._data[4] = ((1.0 - c) * xy) - zs;
-    rotationMatrix._data[5] = ((1.0 - c) * around.y() * around.y()) + c;
+    rotationMatrix._data[5] = ((1.0 - c) * axis.y() * axis.y()) + c;
     rotationMatrix._data[6] = ((1.0 - c) * yz) + xs;
 
     rotationMatrix._data[8] = ((1.0 - c) * zx) + ys;
     rotationMatrix._data[9] = ((1.0 - c) * yz) - xs;
-    rotationMatrix._data[10] = ((1.0 - c) * around.z() * around.z()) + c;
+    rotationMatrix._data[10] = ((1.0 - c) * axis.z() * axis.z()) + c;
 
     return (*this) = multiplicate(rotationMatrix);
 }

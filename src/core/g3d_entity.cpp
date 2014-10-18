@@ -55,8 +55,9 @@ namespace Glee3D {
     void Entity::render(RenderMode renderMode) {
         MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
         glMatrixMode(GL_MODELVIEW);
-        applyTranslation();
-        applyRotation();
+
+        glMultMatrixd(translationMatrix().glDataPointer());
+        glMultMatrixd(rotationMatrix().glDataPointer());
 
         Q_UNUSED(renderMode);
         if(!_visible)
@@ -88,11 +89,11 @@ namespace Glee3D {
     }
 
     void Entity::moveForward(double units) {
-        _position += (frontVector() * units);
+        _position += (front() * units);
     }
 
     void Entity::moveBackward(double units) {
-        _position += (- frontVector() * units);
+        _position += (- front() * units);
     }
 
     bool Entity::collides(const Line3D& line) {

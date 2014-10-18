@@ -164,7 +164,7 @@ bool Vector3D::deserialize(QJsonObject jsonObject) {
     }
 }
 
-double *Vector3D::data() {
+double *Vector3D::glDataPointer() {
     return _data;
 }
 

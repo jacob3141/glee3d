@@ -23,6 +23,7 @@
 
 // Own includes
 #include "math/g3d_vector3d.h"
+#include "math/g3d_matrix4x4.h"
 
 /**
  * @namespace Glee3D
@@ -56,7 +57,7 @@ namespace Glee3D {
           */
         void move(Vector3D delta);
 
-        void applyTranslation();
+        Matrix4x4 translationMatrix();
 
     protected:
         /** Position for this widget. */

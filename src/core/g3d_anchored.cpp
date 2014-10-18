@@ -41,7 +41,7 @@ namespace Glee3D {
         _position += delta;
     }
 
-    void Anchored::applyTranslation() {
-        glTranslated(_position.x(), _position.y(), _position.z());
+    Matrix4x4 Anchored::translationMatrix() {
+        return Matrix4x4().withTranslation(_position);
     }
 } // namespace Glee3D

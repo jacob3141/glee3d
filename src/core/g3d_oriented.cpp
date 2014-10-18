@@ -21,6 +21,8 @@
 // Own includes
 #include "g3d_oriented.h"
 #include "g3d_matrixstate.h"
+#include "g3d_utilities.h"
+#include "math/g3d_vector4d.h"
 
 // Qt includes
 #include <QGLWidget>
@@ -38,82 +40,69 @@ namespace Glee3D {
     }
 
     void Oriented::rotate(Vector3D delta) {
-        // Rescue the modelview matrix, so we can restore it after we're done
-        MatrixState matrixState;
-        matrixState.save();
+        _rotation += delta;
+        _rotation.setX(Utilities::limitDegrees(_rotation.x()));
+        _rotation.setY(Utilities::limitDegrees(_rotation.y()));
+        _rotation.setZ(Utilities::limitDegrees(_rotation.z()));
+    }
 
-        // Rotate identity with the current rotation values
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        glRotated(_rotation.x(), 1.0, 0.0, 0.0);
-        glRotated(_rotation.y(), 0.0, 1.0, 0.0);
-        glRotated(_rotation.z(), 0.0, 0.0, 1.0);
+    void Oriented::rotateAroundXAxis(double delta) {
+        _rotation.setX(Utilities::limitDegrees(_rotation.x() + delta));
+    }
 
-        // Apply new rotation
-        glRotated(delta.x(), 1.0, 0.0, 0.0);
-        glRotated(delta.y(), 0.0, 1.0, 0.0);
-        glRotated(delta.z(), 0.0, 0.0, 1.0);
+    void Oriented::rotateAroundYAxis(double delta) {
+        _rotation.setY(Utilities::limitDegrees(_rotation.y() + delta));
+    }
 
-        // Extract results back into our rotation values
-        float m[16];
-        glGetFloatv(GL_MODELVIEW_MATRIX , m);
+    void Oriented::rotateAroundZAxis(double delta) {
+        _rotation.setZ(Utilities::limitDegrees(_rotation.z() + delta));
+    }
 
-        _rotation.setY(asin(m[8]) * 180.0 / M_PI);
-        if( _rotation.y() < 90.0 ) {
-            if( _rotation.y() > -90.0 ) {
-                _rotation.setX(atan2(-m[9], m[10]) * 180.0 / M_PI);
-                _rotation.setZ(atan2(-m[4], m[0]) * 180.0 / M_PI);
-            } else {
-                _rotation.setX(-atan2(m[1], m[5]) * 180.0 / M_PI);
-                _rotation.setZ(0.0);
-            }
-        } else {
-            _rotation.setX(atan2(m[1], m[5])*180.0 / M_PI);
-            _rotation.setZ(0.0);
-        }
+    void Oriented::setRotationAroundXAxis(double rotationAroundXAxis) {
+        _rotation.setX(Utilities::limitDegrees(rotationAroundXAxis));
+    }
 
-        // Restore modelview matrix state
-        matrixState.restore();
+    void Oriented::setRotationAroundYAxis(double rotationAroundYAxis) {
+        _rotation.setY(Utilities::limitDegrees(rotationAroundYAxis));
+    }
+
+    void Oriented::setRotationAroundZAxis(double rotationAroundZAxis) {
+        _rotation.setZ(Utilities::limitDegrees(rotationAroundZAxis));
     }
 
     Vector3D Oriented::rotation() {
         return _rotation;
     }
 
-    Vector3D Oriented::sideVector() {
-        // TODO: This method is broken and needs a rewrite.
-        return Vector3D();
+    double Oriented::rotationAroundXAxis() {
+        return _rotation.x();
     }
 
-    Vector3D Oriented::frontVector() {
-        // TODO: This method is broken and needs a rewrite.
-        Vector3D result;
-        double rot_x = _rotation.x() * 2 * M_PI / 360.0;
-        double rot_y = _rotation.y() * 2 * M_PI / 360.0;
-
-        result.setX(sin(rot_y));
-        result.setY(- sin(rot_x) * cos(rot_y));
-        result.setZ(cos(rot_x) * cos(rot_y));
-        return result;
+    double Oriented::rotationAroundYAxis() {
+        return _rotation.y();
     }
 
-    Vector3D Oriented::upVector() {
-        // TODO: This method is broken and needs a rewrite.
-        Vector3D result;
-        double rot_x = _rotation.x() * 2 * M_PI / 360.0;
-        double rot_y = _rotation.y() * 2 * M_PI / 360.0;
-        double rot_z = _rotation.z() * 2 * M_PI / 360.0;
-
-        result.setX(- cos(rot_y) * sin(rot_z));
-        result.setY(- sin(rot_z) * sin(rot_y) * sin(rot_x) + cos(rot_x) * cos(rot_z));
-        result.setZ(cos(rot_x) * sin(rot_y) * sin(rot_z) + cos(rot_z) * sin(rot_x));
-        return result;
+    double Oriented::rotationAroundZAxis() {
+        return _rotation.z();
     }
 
-    void Oriented::applyRotation() {
-        glRotated(_rotation.x(), 1.0, 0.0, 0.0);
-        glRotated(_rotation.y(), 0.0, 1.0, 0.0);
-        glRotated(_rotation.z(), 0.0, 0.0, 1.0);
+    Vector3D Oriented::side() {
+        return rotationMatrix().multiplicate(Vector4D(1.0, 0.0, 0.0, 1.0)).toVector3D();
+    }
+
+    Vector3D Oriented::up() {
+        return rotationMatrix().multiplicate(Vector4D(0.0, 1.0, 0.0, 1.0)).toVector3D();
+    }
+
+    Vector3D Oriented::front() {
+        return rotationMatrix().multiplicate(Vector4D(0.0, 0.0, 1.0, 1.0)).toVector3D();
+    }
+
+    Matrix4x4 Oriented::rotationMatrix() {
+        return Matrix4x4()
+            .withRotation(_rotation.x(), Vector3D(1.0, 0.0, 0.0))
+            .withRotation(_rotation.y(), Vector3D(0.0, 1.0, 0.0))
+            .withRotation(_rotation.z(), Vector3D(0.0, 0.0, 1.0));
     }
 
 } // namespace Glee3D

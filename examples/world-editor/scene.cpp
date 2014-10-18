@@ -106,7 +106,7 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
     }
 
     foreach(Glee3D::Entity *e, _entities) {
-        e->rotate(Glee3D::Vector3D(0.2, 0.2, 0.2));
+        e->rotate(Glee3D::Vector3D(0.0, 0.0, 5.0));
     }
 
     if(keyStatusMap[Qt::Key_Space]) {

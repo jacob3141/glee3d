@@ -129,11 +129,11 @@ Vector4D& Vector4D::operator-= (const Vector4D& other) {
 }
 
 
-Vector3D Vector4D::toVector3D(bool divideByW) {
-    if(divideByW) {
-        return Vector3D(_data[0] / _data[3], _data[1] / _data[3], _data[2] / _data[3]);
-    } else {
-        return Vector3D(_data[0], _data[1], _data[2]);
+Vector3D Vector4D::toVector3D(ConversionMode conversionMode) {
+    switch (conversionMode) {
+    default:
+    case DivideByW: return Vector3D(_data[0] / _data[3], _data[1] / _data[3], _data[2] / _data[3]);
+    case IgnoreW:   return Vector3D(_data[0], _data[1], _data[2]);
     }
 }
 
@@ -178,7 +178,7 @@ bool Vector4D::deserialize(QJsonObject jsonObject) {
     }
 }
 
-double *Vector4D::data() {
+double *Vector4D::glDataPointer() {
     return _data;
 }
 

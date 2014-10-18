@@ -242,7 +242,7 @@ namespace Glee3D {
     void Terrain::render(RenderMode renderMode) {
         MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
         glMatrixMode(GL_MODELVIEW);
-        applyTranslation();
+        glMultMatrixd(translationMatrix().glDataPointer());
 
         Q_UNUSED(renderMode);
         material()->activate();
