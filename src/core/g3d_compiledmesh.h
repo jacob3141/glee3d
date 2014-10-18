@@ -72,9 +72,9 @@ namespace Glee3D {
 
     private:
         int _count;
-        GLfloat *_normals;
-        GLfloat *_vertices;
-        GLfloat *_texCoords;
+        double *_normals;
+        double *_vertices;
+        double *_texCoords;
         GLuint   _normalsVBOHandle;
         GLuint   _verticesVBOHandle;
         GLuint   _texCoordsVBOHandle;

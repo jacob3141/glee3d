@@ -43,22 +43,22 @@ namespace Glee3D {
 
     void LightSource::activate(int glLight) {
         glDisable(glLight);
-        GLfloat ambientLight[] = { _ambientLight._red,
-                                   _ambientLight._green,
-                                   _ambientLight._blue,
-                                   _ambientLight._alpha };
+        GLfloat ambientLight[] = { (GLfloat)_ambientLight._red,
+                                   (GLfloat)_ambientLight._green,
+                                   (GLfloat)_ambientLight._blue,
+                                   (GLfloat)_ambientLight._alpha };
         glLightfv(glLight, GL_AMBIENT, ambientLight);
 
-        GLfloat diffuseLight[] = { _diffuseLight._red,
-                                   _diffuseLight._green,
-                                   _diffuseLight._blue,
-                                   _diffuseLight._alpha };
+        GLfloat diffuseLight[] = { (GLfloat)_diffuseLight._red,
+                                   (GLfloat)_diffuseLight._green,
+                                   (GLfloat)_diffuseLight._blue,
+                                   (GLfloat)_diffuseLight._alpha };
         glLightfv(glLight, GL_DIFFUSE, diffuseLight);
 
-        GLfloat specularLight[] = { _specularLight._red,
-                                    _specularLight._green,
-                                    _specularLight._blue,
-                                    _specularLight._alpha };
+        GLfloat specularLight[] = { (GLfloat)_specularLight._red,
+                                    (GLfloat)_specularLight._green,
+                                    (GLfloat)_specularLight._blue,
+                                    (GLfloat)_specularLight._alpha };
         glLightfv(glLight, GL_SPECULAR, specularLight);
 
         GLfloat position[] = { (GLfloat)_position.x(),

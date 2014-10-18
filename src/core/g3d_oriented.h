@@ -78,7 +78,7 @@ namespace Glee3D {
 
     protected:
         /** This property holds the rotation for the x, y and z axis in degrees. */
-        Vector3D _rotation;
+        Vector3D _rotationAnglesAroundAxis;
     };
 
 } // namespace Glee3D

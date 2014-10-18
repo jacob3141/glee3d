@@ -31,7 +31,7 @@ namespace Glee3D {
           Oriented(),
           Logging("Camera") {
         _near = 0.1;
-        _far = 100000.0;
+        _far = 1e20;
         _fieldOfView = 45.0;
         _aspectRatio = 0.75;
 

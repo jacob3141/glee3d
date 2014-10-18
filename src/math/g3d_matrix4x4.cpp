@@ -240,6 +240,23 @@ Matrix4x4& Matrix4x4::withRotation(Vector3D xAxis,
     return (*this) = multiplicate(rotationMatrix);
 }
 
+Matrix4x4& Matrix4x4::withRotation(double angleAroundXAxis,
+                        double angleAroundYAxis,
+                        double angleAroundZAxis) {
+    return (*this)
+        .withRotation(angleAroundXAxis, Vector3D(1.0, 0.0, 0.0))
+        .withRotation(angleAroundYAxis, Vector3D(0.0, 1.0, 0.0))
+        .withRotation(angleAroundZAxis, Vector3D(0.0, 0.0, 1.0));
+}
+
+
+Matrix4x4& Matrix4x4::withRotation(Vector3D anglesAroundAxis) {
+    return (*this)
+        .withRotation(anglesAroundAxis.x(),
+                      anglesAroundAxis.y(),
+                      anglesAroundAxis.z());
+}
+
 Matrix4x4& Matrix4x4::withRotation(double angle, Vector3D axis) {
     double angleInRadians = angle * M_PI / 180.0;
 

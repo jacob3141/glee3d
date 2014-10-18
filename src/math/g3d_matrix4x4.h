@@ -146,6 +146,13 @@ public:
                             Vector3D yAxis,
                             Vector3D zAxis);
 
+
+    Matrix4x4& withRotation(double angleAroundXAxis,
+                            double angleAroundYAxis,
+                            double angleAroundZAxis);
+
+    Matrix4x4& withRotation(Vector3D anglesAroundAxis);
+
     /**
      * Creates a rotation matrix calculated from a rotational axis and
      * an angle.

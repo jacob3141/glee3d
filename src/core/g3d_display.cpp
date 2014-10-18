@@ -124,9 +124,9 @@ namespace Glee3D {
         MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
         Vector3D point;
 
-        GLdouble x = (GLdouble)displayPoint.x();
-        GLdouble y = (GLdouble)(viewport[3] - displayPoint.y());
-        GLdouble z;
+        double x = (double)displayPoint.x();
+        double y = (double)(viewport[3] - displayPoint.y());
+        double z;
         // Access the depth component.
         glReadPixels((int)x, (int)y, 1, 1, GL_DEPTH_COMPONENT, GL_DOUBLE, &z);
 
@@ -175,9 +175,8 @@ namespace Glee3D {
                 if(s) {
                     MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
                     glMatrixMode(GL_MODELVIEW);
-                    glTranslated(_activeCamera->position().x(),
-                                 _activeCamera->position().y(),
-                                 _activeCamera->position().z());
+                    glMultMatrixd(_activeCamera->translationMatrix().glDataPointer());
+                    glMultMatrixd(_activeCamera->rotationMatrix().glDataPointer());
                     s->render();
                 }
 

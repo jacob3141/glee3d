@@ -36,12 +36,12 @@ WorldEditor::WorldEditor(QWidget *parent) :
     _display->activeCamera()->setLookAt(Glee3D::Vector3D(0.0, 0.0, 0.0));
 
     Glee3D::TextureStore& textureStore = Glee3D::TextureStore::instance();
-    textureStore.loadTexture(*_display, "../../skybox/sky/xneg.png", "skybox-xneg");
-    textureStore.loadTexture(*_display, "../../skybox/sky/xpos.png", "skybox-xpos");
-    textureStore.loadTexture(*_display, "../../skybox/sky/yneg.png", "skybox-yneg");
-    textureStore.loadTexture(*_display, "../../skybox/sky/ypos.png", "skybox-ypos");
-    textureStore.loadTexture(*_display, "../../skybox/sky/zneg.png", "skybox-zneg");
-    textureStore.loadTexture(*_display, "../../skybox/sky/zpos.png", "skybox-zpos");
+    textureStore.loadTexture(*_display, "../../skybox/gray/xneg.png", "skybox-xneg");
+    textureStore.loadTexture(*_display, "../../skybox/gray/xpos.png", "skybox-xpos");
+    textureStore.loadTexture(*_display, "../../skybox/gray/yneg.png", "skybox-yneg");
+    textureStore.loadTexture(*_display, "../../skybox/gray/ypos.png", "skybox-ypos");
+    textureStore.loadTexture(*_display, "../../skybox/gray/zneg.png", "skybox-zneg");
+    textureStore.loadTexture(*_display, "../../skybox/gray/zpos.png", "skybox-zpos");
 
     textureStore.loadTexture(*_display, "../../../../assets/textures/blank.png", "blank");
 

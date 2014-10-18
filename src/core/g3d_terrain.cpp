@@ -70,13 +70,13 @@ namespace Glee3D {
                 int pixelValue = image.pixel(x, y);
                 switch(heightEncoding) {
                     case RedComponent:
-                        _terrain[QPair<int, int>(x,y)] = (float)qRed(pixelValue) - 128.0;
+                        _terrain[QPair<int, int>(x,y)] = (double)qRed(pixelValue) - 128.0;
                         break;
                     case GreenComponent:
-                        _terrain[QPair<int, int>(x,y)] = (float)qGreen(pixelValue) - 128.0;
+                        _terrain[QPair<int, int>(x,y)] = (double)qGreen(pixelValue) - 128.0;
                         break;
                     case BlueComponent:
-                        _terrain[QPair<int, int>(x,y)] = (float)qBlue(pixelValue) - 128.0;
+                        _terrain[QPair<int, int>(x,y)] = (double)qBlue(pixelValue) - 128.0;
                         break;
                 }
 
@@ -101,10 +101,10 @@ namespace Glee3D {
                                             0,
                                             _terrain[QPair<int, int>(x, y + 1)] -
                                             _terrain[QPair<int, int>(x, y)],
-                                            (float)(y + 1) * 10.0 - (float)y * 10.0);
+                                            (double)(y + 1) * 10.0 - (double)y * 10.0);
 
                 Vector3D v2 = Vector3D(
-                                            (float)(x + 1) * 10.0 - (float)x * 10.0,
+                                            (double)(x + 1) * 10.0 - (double)x * 10.0,
                                             _terrain[QPair<int, int>(x + 1, y)] -
                                             _terrain[QPair<int, int>(x, y)],
                                             0);
@@ -147,9 +147,9 @@ namespace Glee3D {
         }
 
         // Translate calculated data into vertex buffer arrays
-        _vertexBuffer = new GLfloat[(_width - 1) * (_height - 1) * 4 * 3];
-        _textureCoordinatesBuffer = new GLfloat[(_width - 1) * (_height - 1) * 4 * 2];
-        _normalsBuffer = new GLfloat[(_width - 1) * (_height - 1) * 4 * 3];
+        _vertexBuffer = new double[(_width - 1) * (_height - 1) * 4 * 3];
+        _textureCoordinatesBuffer = new double[(_width - 1) * (_height - 1) * 4 * 2];
+        _normalsBuffer = new double[(_width - 1) * (_height - 1) * 4 * 3];
 
         #define vtx(i, c) ((i) * 3 + (c))
         #define tex(i, c) ((i) * 2 + (c))
@@ -168,50 +168,50 @@ namespace Glee3D {
                 Vector3D n3 = _normals[p3];
                 Vector3D n4 = _normals[p4];
 
-                float tileID = 0; //_tileIDs[p1];
+                double tileID = 0; //_tileIDs[p1];
 
                 //
-                _vertexBuffer[vtx(i, 0)] = (GLfloat)(x * _scale);
-                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p1] * _scale / 10.0);
-                _vertexBuffer[vtx(i, 2)] = (GLfloat)(y * _scale);
-                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID;
+                _vertexBuffer[vtx(i, 0)] = (double)(x * _scale);
+                _vertexBuffer[vtx(i, 1)] = (double)(_terrain[p1] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (double)(y * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (double)tileID;
                 _textureCoordinatesBuffer[tex(i, 1)] = 0.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n1.x();
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n1.y();
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n1.z();
+                _normalsBuffer[nml(i, 0)] = (double)n1.x();
+                _normalsBuffer[nml(i, 1)] = (double)n1.y();
+                _normalsBuffer[nml(i, 2)] = (double)n1.z();
                 i++;
 
                 //
-                _vertexBuffer[vtx(i, 0)] = (GLfloat)(x * _scale);
-                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p2] * _scale / 10.0);
-                _vertexBuffer[vtx(i, 2)] = (GLfloat)((y + 1) * _scale);
-                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID;
+                _vertexBuffer[vtx(i, 0)] = (double)(x * _scale);
+                _vertexBuffer[vtx(i, 1)] = (double)(_terrain[p2] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (double)((y + 1) * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (double)tileID;
                 _textureCoordinatesBuffer[tex(i, 1)] = 1.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n2.x();
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n2.y();
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n2.z();
+                _normalsBuffer[nml(i, 0)] = (double)n2.x();
+                _normalsBuffer[nml(i, 1)] = (double)n2.y();
+                _normalsBuffer[nml(i, 2)] = (double)n2.z();
                 i++;
 
                 //
-                _vertexBuffer[vtx(i, 0)] = (GLfloat)((x + 1) * _scale);
-                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p3] * _scale / 10.0);
-                _vertexBuffer[vtx(i, 2)] = (GLfloat)((y + 1) * _scale);
-                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID + _tilingOffset;
+                _vertexBuffer[vtx(i, 0)] = (double)((x + 1) * _scale);
+                _vertexBuffer[vtx(i, 1)] = (double)(_terrain[p3] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (double)((y + 1) * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (double)tileID + _tilingOffset;
                 _textureCoordinatesBuffer[tex(i, 1)] = 1.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n3.x();
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n3.y();
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n3.z();
+                _normalsBuffer[nml(i, 0)] = (double)n3.x();
+                _normalsBuffer[nml(i, 1)] = (double)n3.y();
+                _normalsBuffer[nml(i, 2)] = (double)n3.z();
                 i++;
 
                 //
-                _vertexBuffer[vtx(i, 0)] = (GLfloat)((x + 1) * _scale);
-                _vertexBuffer[vtx(i, 1)] = (GLfloat)(_terrain[p4] * _scale / 10.0);
-                _vertexBuffer[vtx(i, 2)] = (GLfloat)(y * _scale);
-                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (float)tileID + _tilingOffset;
+                _vertexBuffer[vtx(i, 0)] = (double)((x + 1) * _scale);
+                _vertexBuffer[vtx(i, 1)] = (double)(_terrain[p4] * _scale / 10.0);
+                _vertexBuffer[vtx(i, 2)] = (double)(y * _scale);
+                _textureCoordinatesBuffer[tex(i, 0)] = _tilingOffset * (double)tileID + _tilingOffset;
                 _textureCoordinatesBuffer[tex(i, 1)] = 0.0f;
-                _normalsBuffer[nml(i, 0)] = (GLfloat)n4.x();
-                _normalsBuffer[nml(i, 1)] = (GLfloat)n4.y();
-                _normalsBuffer[nml(i, 2)] = (GLfloat)n4.z();
+                _normalsBuffer[nml(i, 0)] = (double)n4.x();
+                _normalsBuffer[nml(i, 1)] = (double)n4.y();
+                _normalsBuffer[nml(i, 2)] = (double)n4.z();
                 i++;
             }
         }
@@ -219,15 +219,15 @@ namespace Glee3D {
         return Ok;
     }
 
-    void Terrain::setTilingOffset(float tilingOffset) {
+    void Terrain::setTilingOffset(double tilingOffset) {
         _tilingOffset = tilingOffset;
     }
 
-    void Terrain::setScale(float scale) {
+    void Terrain::setScale(double scale) {
         _scale = scale;
     }
 
-    float Terrain::scale() {
+    double Terrain::scale() {
         return _scale;
     }
 
@@ -247,9 +247,9 @@ namespace Glee3D {
         Q_UNUSED(renderMode);
         material()->activate();
 
-        glVertexPointer(3, GL_FLOAT, 0, _vertexBuffer);
-        glTexCoordPointer(2, GL_FLOAT, 0, _textureCoordinatesBuffer);
-        glNormalPointer(GL_FLOAT, 0, _normalsBuffer);
+        glVertexPointer(3, GL_DOUBLE, 0, _vertexBuffer);
+        glTexCoordPointer(2, GL_DOUBLE, 0, _textureCoordinatesBuffer);
+        glNormalPointer(GL_DOUBLE, 0, _normalsBuffer);
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);

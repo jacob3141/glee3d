@@ -145,15 +145,15 @@ void FrameBuffer::copy(int width, int height) {
 
     // Create a fullscreen quad. Pass it a z parameter of 1.0 to ensure it is
     // always on top of the target.
-    const GLfloat vertices[] = {
+    const double vertices[] = {
         0.0f,            0.0f,             1.0f,
-        (GLfloat)_width, 0.0f,             1.0f,
-        (GLfloat)_width, (GLfloat)_height, 1.0f,
-        0.0f,            (GLfloat)_height, 1.0f
+        (double)_width, 0.0f,             1.0f,
+        (double)_width, (double)_height, 1.0f,
+        0.0f,            (double)_height, 1.0f
     };
 
     // All vertices have to face upwards from the target.
-    const GLfloat normals[] = {
+    const double normals[] = {
         0.0f, 0.0f, 1.0f,
         0.0f, 0.0f, 1.0f,
         0.0f, 0.0f, 1.0f,
@@ -161,7 +161,7 @@ void FrameBuffer::copy(int width, int height) {
     };
 
     // Set the texture coordinates.
-    const GLfloat textureCoordinates[] = {
+    const double textureCoordinates[] = {
         0.0f, 0.0f,
         1.0f, 0.0f,
         1.0f, 1.0f,
@@ -182,9 +182,9 @@ void FrameBuffer::copy(int width, int height) {
     glMaterialfv(GL_FRONT, GL_EMISSION, emission);
 
     // Draw the quad.
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinates);
-    glNormalPointer(GL_FLOAT, 0, normals);
+    glVertexPointer(3, GL_DOUBLE, 0, vertices);
+    glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinates);
+    glNormalPointer(GL_DOUBLE, 0, normals);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);

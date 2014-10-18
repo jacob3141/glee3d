@@ -169,7 +169,7 @@ namespace Glee3D {
         if(_material) {
             jsonObject["material"]  = _material->serialize();
         }
-        jsonObject["rotation"]  = _rotation.serialize();
+        jsonObject["rotation"]  = _rotationAnglesAroundAxis.serialize();
 
         return jsonObject;
     }
@@ -212,8 +212,8 @@ namespace Glee3D {
                     }
                 }
 
-                if(!_rotation.deserialize(jsonObject["rotation"].toObject())) {
-                    _deserializationError = _rotation.deserializationError();
+                if(!_rotationAnglesAroundAxis.deserialize(jsonObject["rotation"].toObject())) {
+                    _deserializationError = _rotationAnglesAroundAxis.deserializationError();
                     return false;
                 }
 

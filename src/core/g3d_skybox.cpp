@@ -45,17 +45,17 @@ namespace Glee3D {
         glDisable(GL_CULL_FACE);
         glDisable(GL_BLEND);
 
-        double k = 10000.0f;
+        double k = 1000000.0f;
 
         _materials[BackX]->activate();
-        const GLfloat vertexDataBackX[] = {
+        const double vertexDataBackX[] = {
             (float)-k, (float) k, (float)-k,
             (float)-k, (float) k, (float) k,
             (float)-k, (float)-k, (float) k,
             (float)-k, (float)-k, (float)-k,
         };
 
-        const GLfloat textureCoordinatesBackX[] = {
+        const double textureCoordinatesBackX[] = {
             0.0f, 1.0f,
             1.0f, 1.0f,
             1.0f, 0.0f,
@@ -64,19 +64,19 @@ namespace Glee3D {
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexDataBackX);
-        glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesBackX);
+        glVertexPointer(3, GL_DOUBLE, 0, vertexDataBackX);
+        glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinatesBackX);
         glDrawArrays(GL_QUADS, 0, 4);
 
         _materials[FrontX]->activate();
-        const GLfloat vertexDataFrontX[] = {
+        const double vertexDataFrontX[] = {
             (float) k, (float)-k, (float)-k,
             (float) k, (float)-k, (float) k,
             (float) k, (float) k, (float) k,
             (float) k, (float) k, (float)-k
         };
 
-        const GLfloat textureCoordinatesFrontX[] = {
+        const double textureCoordinatesFrontX[] = {
             1.0f, 0.0f,
             0.0f, 0.0f,
             0.0f, 1.0f,
@@ -85,19 +85,19 @@ namespace Glee3D {
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexDataFrontX);
-        glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesFrontX);
+        glVertexPointer(3, GL_DOUBLE, 0, vertexDataFrontX);
+        glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinatesFrontX);
         glDrawArrays(GL_QUADS, 0, 4);
 
         _materials[BackY]->activate();
-        const GLfloat vertexDataBackY[] = {
+        const double vertexDataBackY[] = {
             (float) k, (float)-k, (float)-k,
             (float) k, (float)-k, (float) k,
             (float)-k, (float)-k, (float) k,
             (float)-k, (float)-k, (float)-k
         };
 
-        const GLfloat textureCoordinatesBackY[] = {
+        const double textureCoordinatesBackY[] = {
             0.0f, 1.0f,
             1.0f, 1.0f,
             1.0f, 0.0f,
@@ -106,19 +106,19 @@ namespace Glee3D {
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexDataBackY);
-        glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesBackY);
+        glVertexPointer(3, GL_DOUBLE, 0, vertexDataBackY);
+        glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinatesBackY);
         glDrawArrays(GL_QUADS, 0, 4);
 
         _materials[FrontY]->activate();
-        const GLfloat vertexDataFrontY[] = {
+        const double vertexDataFrontY[] = {
             (float) k, (float) k, (float)-k,
             (float) k, (float) k, (float) k,
             (float)-k, (float) k, (float) k,
             (float)-k, (float) k, (float)-k
         };
 
-        const GLfloat textureCoordinatesFrontY[] = {
+        const double textureCoordinatesFrontY[] = {
             1.0f, 1.0f,
             1.0f, 0.0f,
             0.0f, 0.0f,
@@ -127,19 +127,19 @@ namespace Glee3D {
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexDataFrontY);
-        glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesFrontY);
+        glVertexPointer(3, GL_DOUBLE, 0, vertexDataFrontY);
+        glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinatesFrontY);
         glDrawArrays(GL_QUADS, 0, 4);
 
         _materials[BackZ]->activate();
-        const GLfloat vertexDataBackZ[] = {
+        const double vertexDataBackZ[] = {
             (float) k, (float)-k, (float)-k,
             (float) k, (float) k, (float)-k,
             (float)-k, (float) k, (float)-k,
             (float)-k, (float)-k, (float)-k
         };
 
-        const GLfloat textureCoordinatesBackZ[] = {
+        const double textureCoordinatesBackZ[] = {
             0.0f, 0.0f,
             0.0f, 1.0f,
             1.0f, 1.0f,
@@ -148,19 +148,19 @@ namespace Glee3D {
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexDataBackZ);
-        glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesBackZ);
+        glVertexPointer(3, GL_DOUBLE, 0, vertexDataBackZ);
+        glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinatesBackZ);
         glDrawArrays(GL_QUADS, 0, 4);
 
         _materials[FrontZ]->activate();
-        const GLfloat vertexDataFrontZ[] = {
+        const double vertexDataFrontZ[] = {
             (float)-k, (float)-k, (float) k,
             (float)-k, (float) k, (float) k,
             (float) k, (float) k, (float) k,
             (float) k, (float)-k, (float) k
         };
 
-        const GLfloat textureCoordinatesFrontZ[] = {
+        const double textureCoordinatesFrontZ[] = {
             0.0f, 0.0f,
             0.0f, 1.0f,
             1.0f, 1.0f,
@@ -169,8 +169,8 @@ namespace Glee3D {
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexDataFrontZ);
-        glTexCoordPointer(2, GL_FLOAT, 0, textureCoordinatesFrontZ);
+        glVertexPointer(3, GL_DOUBLE, 0, vertexDataFrontZ);
+        glTexCoordPointer(2, GL_DOUBLE, 0, textureCoordinatesFrontZ);
         glDrawArrays(GL_QUADS, 0, 4);
 
         glDisableClientState(GL_VERTEX_ARRAY);

@@ -25,6 +25,7 @@
 #include "core/g3d_skybox.h"
 #include "core/g3d_terrain.h"
 #include "math/g3d_vector2d.h"
+#include "math/g3d_matrix4x4.h"
 #include "objects/g3d_cube.h"
 
 #include "scene.h"
@@ -52,49 +53,52 @@ Scene::Scene()
     globalLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     insert(globalLight);
 
-    Glee3D::Terrain *terrain = new Glee3D::Terrain();
-    terrain->setScale(10.0);
-    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::CopperPolished));
-    terrain->setTilingOffset(1.0);
-    terrain->generate("../../heightmaps/heightmap.png");
-    terrain->material()->setTextureId("blank");
-    terrain->setPosition(Glee3D::Vector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
-    insert(terrain);
+//    Glee3D::Terrain *terrain = new Glee3D::Terrain();
+//    terrain->setScale(100.0);
+//    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::CopperPolished));
+//    terrain->setTilingOffset(1.0);
+//    terrain->generate("../../heightmaps/heightmap.png");
+//    terrain->material()->setTextureId("brushed-aluminium-1");
+//    terrain->setPosition(Glee3D::Vector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
+//    insert(terrain);
 
     Glee3D::Cube *cube = new Glee3D::Cube();
     cube->generate(50.0);
     cube->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::SilverPolished));
     cube->material()->setTextureId("brushed-aluminium-1");
-    cube->setPosition(Glee3D::Vector3D(0.0, 200.0, 0.0));
+    cube->setPosition(Glee3D::Vector3D(0.0, 0.0, 0.0));
     insert(cube);
 
-    Glee3D::Cube *cube2 = new Glee3D::Cube();
-    cube2->generate(20.0);
-    cube2->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::SilverPolished));
-    cube2->material()->setTextureId("brushed-aluminium-2");
-    cube2->setPosition(Glee3D::Vector3D(100.0, 0.0, 0.0));
-    cube->subordinate(cube2);
+//    Glee3D::Matrix4x4 r = Glee3D::Matrix4x4().withRotation(0.0, 0.0, 60.0);
+//    Glee3D::Vector3D v = Glee3D::Vector3D(100.0, 100.0, 100.0);
+//    for(int i = 0; i < 100; i++) {
+//        Glee3D::Cube *cube2 = new Glee3D::Cube();
+//        cube2->generate(40.0);
+//        cube2->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::SilverPolished));
+//        cube2->material()->setTextureId("brushed-aluminium-2");
+//        v = r.multiplicate(v).toVector3D();
+//        cube2->setPosition(v);
+//        cube2->setRotation(v);
+//        cube2->material()->setEmission(Glee3D::RgbaColor(1.0 - 100.0 / i, 1.0 - 100.0 / i, 1.0 - 100.0 / i, 1.0));
+//        insert(cube2);
+//        cube->subordinate(cube2);
+//        cube = cube2;
+//    }
 
-    Glee3D::Cube *cube3 = new Glee3D::Cube();
-    cube3->generate(20.0);
-    cube3->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::SilverPolished));
-    cube3->material()->setTextureId("brushed-aluminium-3");
-    cube3->setPosition(Glee3D::Vector3D(0.0, 50.0, 0.0));
-    cube2->subordinate(cube3);
 }
 
 void Scene::hover(Glee3D::Line3D ray, Glee3D::Vector3D point) {
     bool somethingSelected = false;
-    foreach(Glee3D::Entity *e, _entities) {
-        if(e->collides(ray)) {
-            //o->setSelected(true);
-            e->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));
-            somethingSelected = true;
-        } else {
-            //o->setSelected(false);
-            e->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
-        }
-    }
+//    foreach(Glee3D::Entity *e, _entities) {
+//        if(e->collides(ray)) {
+//            //o->setSelected(true);
+//            e->material()->setEmission(Glee3D::RgbaColor(0.0, 0.2, 1.0, 1.0));
+//            somethingSelected = true;
+//        } else {
+//            //o->setSelected(false);
+//            e->material()->setEmission(Glee3D::RgbaColor(0.0, 0.0, 0.0, 1.0));
+//        }
+//    }
     if(somethingSelected) {
 
     }
@@ -106,7 +110,7 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
     }
 
     foreach(Glee3D::Entity *e, _entities) {
-        e->rotate(Glee3D::Vector3D(0.0, 0.0, 5.0));
+        e->rotate(Glee3D::Vector3D(1.0, 0.0, 0.0));
     }
 
     if(keyStatusMap[Qt::Key_Space]) {
@@ -137,5 +141,5 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
         activeCamera->move(Glee3D::Vector3D(0.1 * activeCamera->position().y(), 0.0, 0.0));
     }
 
-    activeCamera->setLookAt(activeCamera->position() + Glee3D::Vector3D(0, -2, -1));
+    //activeCamera->setLookAt(activeCamera->position() + Glee3D::Vector3D(0, -2, -1));
 }

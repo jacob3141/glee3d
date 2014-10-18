@@ -117,15 +117,15 @@ namespace Glee3D {
 
         // Each triangle has three normals, of which each has three
         // coordinate values.
-        _normals = new GLfloat[_count * 3];
+        _normals = new double[_count * 3];
 
         // Each triangle has three vertices, of which each has three
         // coordinate values.
-        _vertices = new GLfloat[_count * 3];
+        _vertices = new double[_count * 3];
 
         // Each triangle has three vertices, of which each has two
         // coordinate values.
-        _texCoords = new GLfloat[_count * 2];
+        _texCoords = new double[_count * 2];
     }
 
     void CompiledMesh::postCompile() {
@@ -136,11 +136,11 @@ namespace Glee3D {
 
         // Upload vertex data to graphics card
         glBindBuffer(GL_ARRAY_BUFFER, _normalsVBOHandle);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _count * 3, _normals, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(double) * _count * 3, _normals, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, _verticesVBOHandle);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _count * 3, _vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(double) * _count * 3, _vertices, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, _texCoordsVBOHandle);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * _count * 2, _texCoords, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(double) * _count * 2, _texCoords, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         // Free memory
@@ -151,11 +151,11 @@ namespace Glee3D {
 
     void CompiledMesh::render() {
         glBindBuffer(GL_ARRAY_BUFFER, _verticesVBOHandle);
-        glVertexPointer(3, GL_FLOAT, 0, 0L);
+        glVertexPointer(3, GL_DOUBLE, 0, 0L);
         glBindBuffer(GL_ARRAY_BUFFER, _texCoordsVBOHandle);
-        glTexCoordPointer(2, GL_FLOAT, 0, 0);
+        glTexCoordPointer(2, GL_DOUBLE, 0, 0);
         glBindBuffer(GL_ARRAY_BUFFER, _normalsVBOHandle);
-        glNormalPointer(GL_FLOAT, 0, 0L);
+        glNormalPointer(GL_DOUBLE, 0, 0L);
 
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);

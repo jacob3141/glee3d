@@ -63,10 +63,10 @@ namespace Glee3D {
                         Encoding heightEncoding = RedComponent,
                         Encoding textureEncoding = GreenComponent);
 
-        void setTilingOffset(float tilingOffset);
-        void setScale(float scale);
+        void setTilingOffset(double tilingOffset);
+        void setScale(double scale);
 
-        float scale();
+        double scale();
         int width();
         int height();
 
@@ -82,17 +82,17 @@ namespace Glee3D {
         void allocateMemory();
         void freeMemory();
 
-        float _scale;
-        QHash<QPair<int, int>, float> _terrain;
+        double _scale;
+        QHash<QPair<int, int>, double> _terrain;
         QHash<QPair<int, int>, int> _tileIDs;
         QHash<QPair<int, int>, Vector3D> _normals;
-        float _tilingOffset;
+        double _tilingOffset;
         int _width;
         int _height;
 
-        GLfloat *_vertexBuffer;
-        GLfloat *_textureCoordinatesBuffer;
-        GLfloat *_normalsBuffer;
+        double *_vertexBuffer;
+        double *_textureCoordinatesBuffer;
+        double *_normalsBuffer;
     };
 } // namespace Glee3D
 

@@ -29,61 +29,61 @@
 
 namespace Glee3D {
     Oriented::Oriented() {
-        _rotation = Vector3D(0.0, 0.0, 0.0);
+        _rotationAnglesAroundAxis = Vector3D(0.0, 0.0, 0.0);
     }
 
     Oriented::~Oriented() {
     }
 
     void Oriented::setRotation(Vector3D value) {
-        _rotation = value;
+        _rotationAnglesAroundAxis = value;
     }
 
     void Oriented::rotate(Vector3D delta) {
-        _rotation += delta;
-        _rotation.setX(Utilities::limitDegrees(_rotation.x()));
-        _rotation.setY(Utilities::limitDegrees(_rotation.y()));
-        _rotation.setZ(Utilities::limitDegrees(_rotation.z()));
+        _rotationAnglesAroundAxis += delta;
+        _rotationAnglesAroundAxis.setX(Utilities::limitDegrees(_rotationAnglesAroundAxis.x()));
+        _rotationAnglesAroundAxis.setY(Utilities::limitDegrees(_rotationAnglesAroundAxis.y()));
+        _rotationAnglesAroundAxis.setZ(Utilities::limitDegrees(_rotationAnglesAroundAxis.z()));
     }
 
     void Oriented::rotateAroundXAxis(double delta) {
-        _rotation.setX(Utilities::limitDegrees(_rotation.x() + delta));
+        _rotationAnglesAroundAxis.setX(Utilities::limitDegrees(_rotationAnglesAroundAxis.x() + delta));
     }
 
     void Oriented::rotateAroundYAxis(double delta) {
-        _rotation.setY(Utilities::limitDegrees(_rotation.y() + delta));
+        _rotationAnglesAroundAxis.setY(Utilities::limitDegrees(_rotationAnglesAroundAxis.y() + delta));
     }
 
     void Oriented::rotateAroundZAxis(double delta) {
-        _rotation.setZ(Utilities::limitDegrees(_rotation.z() + delta));
+        _rotationAnglesAroundAxis.setZ(Utilities::limitDegrees(_rotationAnglesAroundAxis.z() + delta));
     }
 
     void Oriented::setRotationAroundXAxis(double rotationAroundXAxis) {
-        _rotation.setX(Utilities::limitDegrees(rotationAroundXAxis));
+        _rotationAnglesAroundAxis.setX(Utilities::limitDegrees(rotationAroundXAxis));
     }
 
     void Oriented::setRotationAroundYAxis(double rotationAroundYAxis) {
-        _rotation.setY(Utilities::limitDegrees(rotationAroundYAxis));
+        _rotationAnglesAroundAxis.setY(Utilities::limitDegrees(rotationAroundYAxis));
     }
 
     void Oriented::setRotationAroundZAxis(double rotationAroundZAxis) {
-        _rotation.setZ(Utilities::limitDegrees(rotationAroundZAxis));
+        _rotationAnglesAroundAxis.setZ(Utilities::limitDegrees(rotationAroundZAxis));
     }
 
     Vector3D Oriented::rotation() {
-        return _rotation;
+        return _rotationAnglesAroundAxis;
     }
 
     double Oriented::rotationAroundXAxis() {
-        return _rotation.x();
+        return _rotationAnglesAroundAxis.x();
     }
 
     double Oriented::rotationAroundYAxis() {
-        return _rotation.y();
+        return _rotationAnglesAroundAxis.y();
     }
 
     double Oriented::rotationAroundZAxis() {
-        return _rotation.z();
+        return _rotationAnglesAroundAxis.z();
     }
 
     Vector3D Oriented::side() {
@@ -100,9 +100,7 @@ namespace Glee3D {
 
     Matrix4x4 Oriented::rotationMatrix() {
         return Matrix4x4()
-            .withRotation(_rotation.x(), Vector3D(1.0, 0.0, 0.0))
-            .withRotation(_rotation.y(), Vector3D(0.0, 1.0, 0.0))
-            .withRotation(_rotation.z(), Vector3D(0.0, 0.0, 1.0));
+            .withRotation(_rotationAnglesAroundAxis);
     }
 
 } // namespace Glee3D
