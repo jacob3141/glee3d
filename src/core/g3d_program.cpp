@@ -82,11 +82,11 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
         switch(shaderType) {
             case Vertex: {
                 _vertexShaderSource = shaderSource;
-                _glVertexShader = glCreateShaderObjectARB(GL_VERTEX_SHADER);
+                _glVertexShader = glCreateShader(GL_VERTEX_SHADER);
 
                 QByteArray programBytes = _vertexShaderSource.toUtf8();
                 const GLint programSize = (const GLint)programBytes.size();
-                const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
+                const GLchar* programData =  (const GLchar*)programBytes.data();
 
                 glShaderSource(_glVertexShader, 1, &programData, &programSize);
                 glCompileShader(_glVertexShader);
@@ -100,11 +100,11 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
 
             case Fragment: {
                 _fragmentShaderSource = shaderSource;
-                _glFragmentShader = glCreateShaderObjectARB(GL_FRAGMENT_SHADER);
+                _glFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
                 QByteArray programBytes = _fragmentShaderSource.toUtf8();
                 const GLint programSize = (const GLint)programBytes.size();
-                const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
+                const GLchar* programData =  (const GLchar*)programBytes.data();
 
                 glShaderSource(_glFragmentShader, 1, &programData, &programSize);
                 glCompileShader(_glFragmentShader);
@@ -128,15 +128,15 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
 bool Program::link() {
     GLint success;
     GLchar errorInfo[256];
-    _glProgram = glCreateProgramObjectARB();
+    _glProgram = glCreateProgram();
 
     // REVIEW: Does a values >= 0 really mean the shader is valid? Probably be
     // more verbose on that here.
     if(_glVertexShader) {
-        glAttachObjectARB(_glProgram, _glVertexShader);
+        glAttachShader(_glProgram, _glVertexShader);
     }
     if(_glFragmentShader) {
-        glAttachObjectARB(_glProgram, _glFragmentShader);
+        glAttachShader(_glProgram, _glFragmentShader);
     }
     glLinkProgram(_glProgram);
     glGetProgramiv(_glProgram, GL_LINK_STATUS, &success);

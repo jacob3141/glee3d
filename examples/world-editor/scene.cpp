@@ -84,7 +84,6 @@ Scene::Scene()
 //        cube->subordinate(cube2);
 //        cube = cube2;
 //    }
-
 }
 
 void Scene::hover(Glee3D::Line3D ray, Glee3D::Vector3D point) {
