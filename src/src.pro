@@ -49,7 +49,6 @@ HEADERS += \
     core/g3d_display.h \
     core/g3d_material.h \
     core/g3d_mesh.h \
-    core/g3d_matrixstate.h \
     core/g3d_oriented.h \
     core/g3d_program.h \
     core/g3d_renderable.h \
@@ -82,7 +81,6 @@ SOURCES += \
     core/g3d_framebuffer.cpp \
     core/g3d_lightsource.cpp \
     core/g3d_material.cpp \
-    core/g3d_matrixstate.cpp \
     core/g3d_mesh.cpp \
     core/g3d_oriented.cpp \
     core/g3d_program.cpp \

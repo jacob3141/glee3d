@@ -21,7 +21,6 @@
 // Own includes
 #include "g3d_display.h"
 #include "g3d_skybox.h"
-#include "g3d_matrixstate.h"
 #include "g3d_texturestore.h"
 #include "g3d_utilities.h"
 
@@ -173,19 +172,19 @@ namespace Glee3D {
         if(_scene) {
             _scene->lockScene();
             if(_activeCamera) {
+                Matrix4x4 cameraProjectionMatrix = _activeCamera->projectionMatrix();
+                Matrix4x4 cameraModelViewMatrix = _activeCamera->modelviewMatrix();
+
                 glMatrixMode(GL_PROJECTION);
-                glLoadMatrixd(_activeCamera->projectionMatrix().glDataPointer());
-                glMatrixMode(GL_MODELVIEW);
-                glLoadMatrixd(_activeCamera->modelviewMatrix().glDataPointer());
+                glLoadMatrixd(cameraProjectionMatrix.glDataPointer());
 
                 SkyBox *s = _scene->skyBox();
                 if(s) {
-                    MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
-                    glMatrixMode(GL_MODELVIEW);
-                    glMultMatrixd(_activeCamera->translationMatrix().glDataPointer());
-                    glMultMatrixd(_activeCamera->rotationMatrix().glDataPointer());
                     s->render();
                 }
+
+                glMatrixMode(GL_MODELVIEW);
+                glLoadMatrixd(cameraModelViewMatrix.glDataPointer());
 
                 QSet<LightSource*> lightSources = _scene->lightSources();
                 int i = 0;
@@ -204,6 +203,8 @@ namespace Glee3D {
                 // Render terrains.
                 QSet<Terrain*> terrains = _scene->terrains();
                 foreach(Terrain *terrain, terrains) {
+                    glMatrixMode(GL_MODELVIEW);
+                    glLoadMatrixd(terrain->translationMatrix().multiplicate(cameraModelViewMatrix).glDataPointer());
                     terrain->render();
                 }
 
@@ -211,6 +212,12 @@ namespace Glee3D {
                 QSet<Entity*> objects = _scene->entities();
                 foreach(Entity *object, objects) {
                     // Tell the object to render itself
+                    glMatrixMode(GL_MODELVIEW);
+                    glLoadMatrixd(
+                        object->rotationMatrix()
+                        .multiplicate(object->translationMatrix())
+                        .multiplicate(cameraModelViewMatrix)
+                        .glDataPointer());
                     object->render();
                 }
             }
@@ -223,7 +230,13 @@ namespace Glee3D {
             effect->apply(_frameBuffer);
         }
 
-        _frameBuffer->copy(_frameBuffer->width(), _frameBuffer->height());
+        glMatrixMode(GL_PROJECTION);
+        glLoadMatrixd(Utilities::ortho(0, _frameBuffer->width(), 0, _frameBuffer->height(), -10, 10).glDataPointer());
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadMatrixd(Matrix4x4().withTranslation(Vector3D(0, 0, -6)).glDataPointer());
+
+        _frameBuffer->copy();
         swapBuffers();
     }
 

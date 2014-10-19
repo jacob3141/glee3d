@@ -22,12 +22,11 @@
 #define G3D_FRAMEBUFFER_H
 
 // Own includes
-#include "g3d_matrixstate.h"
 #include "g3d_rgbacolor.h"
 #include "g3d_logging.h"
 
 // Qt includes
-#include <QRect>
+#include <QGLWidget>
 
 namespace Glee3D {
 /**
@@ -80,7 +79,7 @@ public:
     void bindTexture();
 
     /** Blits the contents of the framebuffer to the current target. */
-    void copy(int width, int height);
+    void copy();
 
     /** Clears the framebuffer object. */
     void clear();
@@ -106,7 +105,6 @@ private:
     GLsizei _height;
 
     RgbaColor _clearColor;
-    MatrixState _previousMatrixState;
 
     GLuint _texture;
     GLuint _depthBuffer;

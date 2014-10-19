@@ -20,7 +20,7 @@
 
 // Own includes
 #include "g3d_framebuffer.h"
-#include "g3d_matrixstate.h"
+#include "g3d_utilities.h"
 
 // Standard includes
 #include <iostream>
@@ -110,7 +110,6 @@ FrameBuffer::FrameBuffer(int width, int height, int properties)
 }
 
 void FrameBuffer::target() {
-    _previousMatrixState.save();
     glBindFramebuffer(GL_FRAMEBUFFER, _frameBufferObject);
 
     if(_properties & DepthBuffer) {
@@ -120,26 +119,14 @@ void FrameBuffer::target() {
 
 void FrameBuffer::release() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    _previousMatrixState.restore();
 }
 
 void FrameBuffer::bindTexture() {
     glBindTexture(GL_TEXTURE_2D, _texture);
 }
 
-void FrameBuffer::copy(int width, int height) {
-    MatrixState matrixState;
-    matrixState.save();
-
+void FrameBuffer::copy() {
     glPushAttrib(GL_ENABLE_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, width, 0, height, -10, 10);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef(0, 0, -6.0);
-
     bindTexture();
     glDisable(GL_DEPTH_TEST);
 
@@ -195,7 +182,6 @@ void FrameBuffer::copy(int width, int height) {
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 
-    matrixState.restore();
     glPopAttrib();
 }
 

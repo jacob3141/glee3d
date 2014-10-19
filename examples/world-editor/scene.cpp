@@ -53,20 +53,20 @@ Scene::Scene()
     globalLight->setDiffuseLight(Glee3D::RgbaColor(1.0, 1.0, 1.0, 1.0));
     insert(globalLight);
 
-//    Glee3D::Terrain *terrain = new Glee3D::Terrain();
-//    terrain->setScale(100.0);
-//    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::CopperPolished));
-//    terrain->setTilingOffset(1.0);
-//    terrain->generate("../../heightmaps/heightmap.png");
-//    terrain->material()->setTextureId("brushed-aluminium-1");
-//    terrain->setPosition(Glee3D::Vector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
-//    insert(terrain);
+    Glee3D::Terrain *terrain = new Glee3D::Terrain();
+    terrain->setScale(10.0);
+    terrain->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::CopperPolished));
+    terrain->setTilingOffset(1.0);
+    terrain->generate("../../heightmaps/heightmap.png");
+    terrain->material()->setTextureId("blank");
+    terrain->setPosition(Glee3D::Vector3D(-terrain->width() * terrain->scale() / 2, 0.0, -terrain->height() * terrain->scale() / 2));
+    insert(terrain);
 
     Glee3D::Cube *cube = new Glee3D::Cube();
-    cube->generate(50.0);
+    cube->generate(1000.0);
     cube->setMaterial(Glee3D::Material::standardMaterial(Glee3D::Material::SilverPolished));
     cube->material()->setTextureId("brushed-aluminium-1");
-    cube->setPosition(Glee3D::Vector3D(0.0, 0.0, 0.0));
+    cube->setPosition(Glee3D::Vector3D(10.0, 50.0, 0.0));
     insert(cube);
 
 //    Glee3D::Matrix4x4 r = Glee3D::Matrix4x4().withRotation(0.0, 0.0, 60.0);
@@ -110,7 +110,7 @@ void Scene::processLogic(QMap<int, bool> keyStatusMap, Glee3D::Camera *activeCam
     }
 
     foreach(Glee3D::Entity *e, _entities) {
-        e->rotate(Glee3D::Vector3D(1.0, 0.0, 0.0));
+        e->rotate(Glee3D::Vector3D(1.0, 1.0, 1.0));
     }
 
     if(keyStatusMap[Qt::Key_Space]) {

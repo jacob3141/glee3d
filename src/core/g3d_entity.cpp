@@ -20,7 +20,6 @@
 
 // Own includes
 #include "g3d_entity.h"
-#include "g3d_matrixstate.h"
 
 // Qt includes
 #include <QGLWidget>
@@ -53,12 +52,6 @@ namespace Glee3D {
     }
 
     void Entity::render(RenderMode renderMode) {
-        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
-        glMatrixMode(GL_MODELVIEW);
-
-        glMultMatrixd(translationMatrix().glDataPointer());
-        glMultMatrixd(rotationMatrix().glDataPointer());
-
         Q_UNUSED(renderMode);
         if(!_visible)
             return;

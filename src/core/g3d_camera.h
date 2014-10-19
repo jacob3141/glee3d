@@ -23,7 +23,6 @@
 
 // Own includes
 #include "g3d_anchored.h"
-#include "g3d_matrixstate.h"
 #include "g3d_oriented.h"
 #include "g3d_logging.h"
 
