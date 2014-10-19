@@ -23,6 +23,7 @@
 #include "g3d_skybox.h"
 #include "g3d_texturestore.h"
 #include "g3d_utilities.h"
+#include "math/g3d_matrix4x4.h"
 
 // Standard includes
 #include <iostream>
@@ -176,15 +177,12 @@ namespace Glee3D {
                 Matrix4x4 cameraModelViewMatrix = _activeCamera->modelviewMatrix();
 
                 glMatrixMode(GL_PROJECTION);
-                glLoadMatrixd(cameraProjectionMatrix.glDataPointer());
+                glLoadMatrixf(cameraProjectionMatrix.asGlFloatPointer());
 
                 SkyBox *s = _scene->skyBox();
                 if(s) {
                     s->render();
                 }
-
-                glMatrixMode(GL_MODELVIEW);
-                glLoadMatrixd(cameraModelViewMatrix.glDataPointer());
 
                 QSet<LightSource*> lightSources = _scene->lightSources();
                 int i = 0;
@@ -204,7 +202,7 @@ namespace Glee3D {
                 QSet<Terrain*> terrains = _scene->terrains();
                 foreach(Terrain *terrain, terrains) {
                     glMatrixMode(GL_MODELVIEW);
-                    glLoadMatrixd(terrain->translationMatrix().multiplicate(cameraModelViewMatrix).glDataPointer());
+                    glLoadMatrixf(terrain->translationMatrix().multiplicate(cameraModelViewMatrix).asGlFloatPointer());
                     terrain->render();
                 }
 
@@ -213,11 +211,11 @@ namespace Glee3D {
                 foreach(Entity *object, objects) {
                     // Tell the object to render itself
                     glMatrixMode(GL_MODELVIEW);
-                    glLoadMatrixd(
+                    glLoadMatrixf(
                         object->rotationMatrix()
                         .multiplicate(object->translationMatrix())
                         .multiplicate(cameraModelViewMatrix)
-                        .glDataPointer());
+                        .asGlFloatPointer());
                     object->render();
                 }
             }
@@ -231,10 +229,10 @@ namespace Glee3D {
         }
 
         glMatrixMode(GL_PROJECTION);
-        glLoadMatrixd(Utilities::ortho(0, _frameBuffer->width(), 0, _frameBuffer->height(), -10, 10).glDataPointer());
+        glLoadMatrixf(Utilities::ortho(0, _frameBuffer->width(), 0, _frameBuffer->height(), -10, 10).asGlFloatPointer());
 
         glMatrixMode(GL_MODELVIEW);
-        glLoadMatrixd(Matrix4x4().withTranslation(Vector3D(0, 0, -6)).glDataPointer());
+        glLoadMatrixf(Matrix4x4().withTranslation(Vector3D(0, 0, -6)).asGlFloatPointer());
 
         _frameBuffer->copy();
         swapBuffers();

@@ -194,6 +194,20 @@ double *Matrix4x4::glDataPointer() {
     return _data;
 }
 
+GLdouble *Matrix4x4::asGlDoublePointer() {
+    for(int i = 0; i < 16; i++) {
+        _doubleData[i] = (GLdouble)_data[i];
+    }
+    return _doubleData;
+}
+
+GLfloat *Matrix4x4::asGlFloatPointer() {
+    for(int i = 0; i < 16; i++) {
+        _floatData[i] = (GLfloat)_data[i];
+    }
+    return _floatData;
+}
+
 void Matrix4x4::setXAxis(Vector3D axis) {
     setLeft(axis);
 }

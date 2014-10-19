@@ -27,6 +27,9 @@
 #include "io/g3d_serializable.h"
 #include "core/g3d_logging.h"
 
+// Qt includes
+#include <QGLFunctions>
+
 namespace Glee3D {
 
 class Matrix4x4 :
@@ -82,13 +85,15 @@ public:
     void setValue(int row, int column, double value);
 
     /**
-     * @returns a pointer to the internal matrix structure. The internal
-     * structure is compatible to the OpenGL matrices, ie. the data is aligned
-     * like in OpenGL and can be modified using GL functions. Please be aware that
+     * @returns a pointer to the internal matrix structure. Please be aware that
      * this is unsafe to do and should be avoided only if you know what you're doing
      * and/or you provide your own error checking code.
      */
     double *glDataPointer();
+
+    /** @returns a read-only version of the internal data for GL functions. */
+    GLdouble *asGlDoublePointer();
+    GLfloat *asGlFloatPointer();
 
     /**
      * Sets the x axis in a right-handed coordinate system.
@@ -186,6 +191,10 @@ private:
      *  3  7  11 15
      */
     double _data[16];
+
+    /** Used for conversion purposes. */
+    GLdouble _doubleData[16];
+    GLfloat  _floatData[16];
 };
 
 } // namespace Glee3D
