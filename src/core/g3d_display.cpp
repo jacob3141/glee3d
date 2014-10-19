@@ -94,20 +94,22 @@ namespace Glee3D {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];        
         glGetIntegerv(GL_VIEWPORT, viewport);
-        MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
+        Matrix4x4 modelviewMatrix = _activeCamera->modelviewMatrix();
+        Matrix4x4 projectionMatrix = _activeCamera->projectionMatrix();
+
         Vector3D frontPlanePoint, backPlanePoint;
 
         // Get the point at the front plane of the viewing frustrum.
         Utilities::unproject(Vector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 0.0),
-                cameraMatrixState.modelviewMatrix(),
-                cameraMatrixState.projectionMatrix(),
+                modelviewMatrix,
+                projectionMatrix,
                 viewport,
                 frontPlanePoint);
 
         // Get the point at the back plane of the viewing frustrum.
         Utilities::unproject(Vector3D(displayPoint.x(), (viewport[3] - displayPoint.y()), 1.0),
-                cameraMatrixState.modelviewMatrix(),
-                cameraMatrixState.projectionMatrix(),
+                modelviewMatrix,
+                projectionMatrix,
                 viewport,
                 backPlanePoint);
 
@@ -121,7 +123,8 @@ namespace Glee3D {
         // Retrieve viewport, model view matrix and projection matrix.
         int viewport[4];
         glGetIntegerv(GL_VIEWPORT, viewport);
-        MatrixState cameraMatrixState = _activeCamera->cameraMatrixState();
+        Matrix4x4 modelviewMatrix = _activeCamera->modelviewMatrix();
+        Matrix4x4 projectionMatrix = _activeCamera->projectionMatrix();
         Vector3D point;
 
         double x = (double)displayPoint.x();
@@ -132,8 +135,8 @@ namespace Glee3D {
 
         // Get the point at the front plane of the viewing frustrum.
         Utilities::unproject(Vector3D(x, y, z),
-                             cameraMatrixState.modelviewMatrix(),
-                             cameraMatrixState.projectionMatrix(),
+                             modelviewMatrix,
+                             projectionMatrix,
                              viewport,
                              point);
         return point;
@@ -170,7 +173,11 @@ namespace Glee3D {
         if(_scene) {
             _scene->lockScene();
             if(_activeCamera) {
-                _activeCamera->applyCameraMatrix();
+                glMatrixMode(GL_PROJECTION);
+                glLoadMatrixd(_activeCamera->projectionMatrix().glDataPointer());
+                glMatrixMode(GL_MODELVIEW);
+                glLoadMatrixd(_activeCamera->modelviewMatrix().glDataPointer());
+
                 SkyBox *s = _scene->skyBox();
                 if(s) {
                     MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);

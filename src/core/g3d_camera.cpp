@@ -38,19 +38,12 @@ namespace Glee3D {
         _lookAt = Vector3D(0.0, 0.0, 0.0);
     }
 
-    void Camera::applyCameraMatrix() {
-        // Generate camera matrices.
-        glMatrixMode(GL_PROJECTION);
-        glLoadMatrixd(Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far).glDataPointer());
-
-        glMatrixMode(GL_MODELVIEW);
-        glLoadMatrixd(Utilities::lookAt(_position, _lookAt, up()).glDataPointer());
+    Matrix4x4 Camera::projectionMatrix() {
+        return Utilities::perspective(_fieldOfView, _aspectRatio, _near, _far);
     }
 
-    MatrixState Camera::cameraMatrixState() {
-        MatrixState matrixState(MatrixState::AutomaticSave | MatrixState::AutomaticRestore);
-        applyCameraMatrix();
-        return MatrixState();
+    Matrix4x4 Camera::modelviewMatrix() {
+        return Utilities::lookAt(_position, _lookAt, up());
     }
 
     void Camera::setAspectRatio(int width, int height) {
