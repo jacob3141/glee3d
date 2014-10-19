@@ -88,8 +88,8 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
                 const GLint programSize = (const GLint)programBytes.size();
                 const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
 
-                glShaderSourceARB(_glVertexShader, 1, &programData, &programSize);
-                glCompileShaderARB(_glVertexShader);
+                glShaderSource(_glVertexShader, 1, &programData, &programSize);
+                glCompileShader(_glVertexShader);
                 glGetShaderiv(_glVertexShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
                     glGetShaderInfoLog(_glVertexShader, sizeof(errorInfo), 0, errorInfo);
@@ -106,8 +106,8 @@ bool Program::compile(QString shaderSource, ShaderType shaderType) {
                 const GLint programSize = (const GLint)programBytes.size();
                 const GLcharARB* programData =  (const GLcharARB*)programBytes.data();
 
-                glShaderSourceARB(_glFragmentShader, 1, &programData, &programSize);
-                glCompileShaderARB(_glFragmentShader);
+                glShaderSource(_glFragmentShader, 1, &programData, &programSize);
+                glCompileShader(_glFragmentShader);
                 glGetShaderiv(_glFragmentShader, GL_COMPILE_STATUS, &success);
                 if(!success) {
                     glGetShaderInfoLog(_glFragmentShader, sizeof(errorInfo), 0, errorInfo);
@@ -138,7 +138,7 @@ bool Program::link() {
     if(_glFragmentShader) {
         glAttachObjectARB(_glProgram, _glFragmentShader);
     }
-    glLinkProgramARB(_glProgram);
+    glLinkProgram(_glProgram);
     glGetProgramiv(_glProgram, GL_LINK_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(_glProgram, sizeof(errorInfo), 0, errorInfo);
@@ -151,6 +151,8 @@ bool Program::link() {
 
 void Program::insert() {
     glUseProgram(_glProgram);
+    _projectionMatrixUniformLocation = glUniformLocation("g3d_ProjectionMatrix");
+    _modelViewMatrixUniformLocation = glUniformLocation("g3d_ModelViewMatrix");
 }
 
 void Program::eject() {
@@ -165,20 +167,28 @@ QString Program::fragmentShaderSource() {
     return _fragmentShaderSource;
 }
 
-GLhandleARB Program::glProgram() {
+int Program::glProgram() {
     return _glProgram;
 }
 
-GLhandleARB Program::glVertexShader() {
+int Program::glVertexShader() {
     return _glVertexShader;
 }
 
-GLhandleARB Program::glFragmentShader() {
+int Program::glFragmentShader() {
     return _glFragmentShader;
 }
 
-GLhandleARB Program::glUniformLocation(QString name) {
+int Program::glUniformLocation(QString name) {
     return glGetUniformLocation(_glProgram, (const GLchar*)name.toStdString().c_str());
+}
+
+void Program::setModelViewMatrix(Matrix4x4 modelViewMatrix) {
+    glUniformMatrix4fv(_modelViewMatrixUniformLocation, 1, GL_FALSE, modelViewMatrix.asGlFloatPointer());
+}
+
+void Program::setProjectionMatrix(Matrix4x4 projectionMatrix) {
+    glUniformMatrix4fv(_projectionMatrixUniformLocation, 1, GL_FALSE, projectionMatrix.asGlFloatPointer());
 }
 
 } // namespace Glee3D

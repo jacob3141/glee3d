@@ -23,6 +23,7 @@
 
 // Own includes
 #include "g3d_logging.h"
+#include "math/g3d_matrix4x4.h"
 
 // Qt includes
 #include <QString>
@@ -84,21 +85,36 @@ public:
     QString fragmentShaderSource();
 
     /** @returns the OpenGL program handle. */
-    GLhandleARB glProgram();
+    int glProgram();
 
     /** @returns the OpenGL vertex shader handle. */
-    GLhandleARB glVertexShader();
+    int glVertexShader();
 
     /** @returns the OpenGL fragment shader handle. */
-    GLhandleARB glFragmentShader();
+    int glFragmentShader();
 
     /** @returns the OpenGL variable location for the given name. */
-    GLhandleARB glUniformLocation(QString name);
+    int glUniformLocation(QString name);
+
+    /**
+     * Sets the modelview matrix as a uniform. It will be available
+     * in the shader as the uniform mat4 g3d_ModelViewMatrix.
+     */
+    void setModelViewMatrix(Matrix4x4 modelViewMatrix);
+
+    /**
+     * Sets the projection matrix as a uniform. It will be available
+     * in the shader as the uniform mat4 g3d_ProjectionMatrix.
+     */
+    void setProjectionMatrix(Matrix4x4 projectionMatrix);
 
 private:
-    GLhandleARB _glProgram;
-    GLhandleARB _glVertexShader;
-    GLhandleARB _glFragmentShader;
+    int _glProgram;
+    int _glVertexShader;
+    int _glFragmentShader;
+
+    int _modelViewMatrixUniformLocation;
+    int _projectionMatrixUniformLocation;
 
     QString _vertexShaderSource;
     QString _fragmentShaderSource;

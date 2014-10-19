@@ -23,13 +23,16 @@ varying vec3 lightvec;
 varying vec3 normal;
 varying vec4 FrontColor;
 
+uniform mat4 g3d_ProjectionMatrix;
+uniform mat4 g3d_ModelViewMatrix;
+
 void main(void) {
     normal         = normalize(gl_NormalMatrix * gl_Normal);
-    v              = vec3(gl_ModelViewMatrix * gl_Vertex);
+    v              = vec3(g3d_ModelViewMatrix * gl_Vertex);
     lightvec       = normalize(gl_LightSource[0].position.xyz - v);
 
     gl_TexCoord[0] = gl_MultiTexCoord0;
     FrontColor     = gl_Color;
 
-    gl_Position    = gl_ModelViewProjectionMatrix * gl_Vertex;
+    gl_Position    = g3d_ProjectionMatrix * g3d_ModelViewMatrix * gl_Vertex;
 }
